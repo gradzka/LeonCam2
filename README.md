@@ -1,2 +1,2 @@
 # LeonCam2
-Web version of dekstop LeonCam app
+Web version of desktop LeonCam app
