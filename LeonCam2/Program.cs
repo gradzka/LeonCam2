@@ -1,27 +1,42 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using NLog;
+using NLog.Web;
+using System;
+
 namespace LeonCam2
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Hosting;
-
     public class Program
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private static readonly string ApplicationIsRunningInfo = "Application is running";
+        private static readonly string ApplicationExceptionError = "Application was stopped because of exception";
 
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            var logger = LogManager.GetCurrentClassLogger();
 
-            logger.Info(ApplicationIsRunningInfo);
-
-            host.Run();
+            try
+            {
+                logger.Info(ApplicationIsRunningInfo);
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, ApplicationExceptionError);
+                throw;
+            }
+            finally
+            {
+                LogManager.Shutdown();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            })
+            .UseNLog();
     }
 }
