@@ -1,31 +1,29 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+// Error.cshtml.cs by Gradzka & Kazimierczak
 
 namespace LeonCam2.Pages
 {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ErrorModel : PageModel
-    {
-        private readonly ILogger<ErrorModel> _logger;
+    using System.Diagnostics;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
 
-        public ErrorModel(ILogger<ErrorModel> logger)
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public class Error : PageModel
+    {
+        private readonly ILogger<Error> logger;
+
+        public Error(ILogger<Error> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
 
         public void OnGet()
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            this.RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier;
         }
     }
 }

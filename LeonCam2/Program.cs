@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using NLog;
-using NLog.Web;
-using System;
+// Program.cs by Gradzka & Kazimierczak
 
 namespace LeonCam2
 {
+    using System;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
+    using NLog;
+    using NLog.Web;
+
     public class Program
     {
         private static readonly string ApplicationIsRunningInfo = "Application is running";

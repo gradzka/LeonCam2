@@ -17,4 +17,8 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
 
+	<ItemGroup>
+		<AdditionalFiles Include="..\Solution Items\stylecop.json" />
+		<Compile Include="..\Solution Items\GlobalSuppressions.cs" />
+	</ItemGroup>
 </Project>

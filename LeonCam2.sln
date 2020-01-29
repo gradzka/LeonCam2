@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeonCam2", "LeonCam2\LeonCam2.csproj", "{382373D2-64CD-42D5-ADDA-D003914153BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonCam2.Tests", "LeonCam2.Tests\LeonCam2.Tests.csproj", "{266AAB5B-A50F-4B06-BD32-5C8081FB7E7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeonCam2.Tests", "LeonCam2.Tests\LeonCam2.Tests.csproj", "{266AAB5B-A50F-4B06-BD32-5C8081FB7E7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57614140-2B7C-4FDF-919A-A8AD225B8D4C}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\GlobalSuppressions.cs = Solution Items\GlobalSuppressions.cs
+		Solution Items\stylecop.json = Solution Items\stylecop.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
