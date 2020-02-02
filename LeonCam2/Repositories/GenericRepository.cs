@@ -5,9 +5,8 @@ namespace LeonCam2.Repositories
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Configuration;
+    using System.ComponentModel.DataAnnotations;
     using System.Data;
-    using System.Data.SqlClient;
     using System.Linq;
     using System.Reflection;
     using System.Text;
@@ -19,75 +18,45 @@ namespace LeonCam2.Repositories
     {
         private readonly string tableName;
 
-        protected GenericRepository(string tableName)
-        {
-            this.tableName = tableName;
-        }
+        private readonly IDbConnection connection;
 
-        private SqlConnection SqlConnection => new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+        protected GenericRepository(IDbConnection dbConnection)
+        {
+            this.tableName = typeof(T).Name;
+            this.connection = dbConnection;
+            this.CreateTable();
+        }
 
         private IEnumerable<PropertyInfo> GetProperties => typeof(T).GetProperties();
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            using (var connection = this.CreateConnection())
-            {
-                return await connection.QueryAsync<T>($"SELECT * FROM {this.tableName}");
-            }
+            return await this.connection.QueryAsync<T>($"SELECT * FROM {this.tableName}");
         }
 
         public async Task DeleteRowAsync(Guid id)
         {
-            using (var connection = this.CreateConnection())
-            {
-                await connection.ExecuteAsync($"DELETE FROM {this.tableName} WHERE Id=@Id", new { Id = id });
-            }
+            await this.connection.ExecuteAsync($"DELETE FROM {this.tableName} WHERE Id=@Id", new { Id = id });
         }
 
         public async Task<T> GetAsync(Guid id)
         {
-            using (var connection = this.CreateConnection())
-            {
-                var result = await connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {this.tableName} WHERE Id=@Id", new { Id = id });
-                if (result == null)
-                {
-                    throw new KeyNotFoundException($"{this.tableName} with id [{id}] could not be found.");
-                }
-
-                return result;
-            }
+            return await this.connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {this.tableName} WHERE Id=@Id", new { Id = id }) ?? throw new KeyNotFoundException($"{this.tableName} with id [{id}] could not be found.");
         }
 
         public async Task<int> SaveRangeAsync(IEnumerable<T> list)
         {
-            var inserted = 0;
-            var query = this.GenerateInsertQuery();
-            using (var connection = this.CreateConnection())
-            {
-                inserted += await connection.ExecuteAsync(query, list);
-            }
-
-            return inserted;
+            return await this.connection.ExecuteAsync(this.GenerateInsertQuery(), list);
         }
 
         public async Task InsertAsync(T t)
         {
-            var insertQuery = this.GenerateInsertQuery();
-
-            using (var connection = this.CreateConnection())
-            {
-                await connection.ExecuteAsync(insertQuery, t);
-            }
+            await this.connection.ExecuteAsync(this.GenerateInsertQuery(), t);
         }
 
         public async Task UpdateAsync(T t)
         {
-            var updateQuery = this.GenerateUpdateQuery();
-
-            using (var connection = this.CreateConnection())
-            {
-                await connection.ExecuteAsync(updateQuery, t);
-            }
+            await this.connection.ExecuteAsync(this.GenerateUpdateQuery(), t);
         }
 
         private static List<string> GenerateListOfProperties(IEnumerable<PropertyInfo> listOfProperties)
@@ -98,31 +67,19 @@ namespace LeonCam2.Repositories
                     select prop.Name).ToList();
         }
 
-        private IDbConnection CreateConnection()
-        {
-            var conn = this.SqlConnection;
-            conn.Open();
-            return conn;
-        }
-
         private string GenerateInsertQuery()
         {
-            var insertQuery = new StringBuilder($"INSERT INTO {this.tableName} ");
-
-            insertQuery.Append("(");
-
             var properties = GenerateListOfProperties(this.GetProperties);
+
+            var insertQuery = new StringBuilder($"INSERT INTO {this.tableName} ").Append("(");
+
             properties.ForEach(prop => { insertQuery.Append($"[{prop}],"); });
 
-            insertQuery
-                .Remove(insertQuery.Length - 1, 1)
-                .Append(") VALUES (");
+            insertQuery.Remove(insertQuery.Length - 1, 1).Append(") VALUES (");
 
             properties.ForEach(prop => { insertQuery.Append($"@{prop},"); });
 
-            insertQuery
-                .Remove(insertQuery.Length - 1, 1)
-                .Append(")");
+            insertQuery.Remove(insertQuery.Length - 1, 1).Append(")");
 
             return insertQuery.ToString();
         }
@@ -130,9 +87,8 @@ namespace LeonCam2.Repositories
         private string GenerateUpdateQuery()
         {
             var updateQuery = new StringBuilder($"UPDATE {this.tableName} SET ");
-            var properties = GenerateListOfProperties(this.GetProperties);
 
-            properties.ForEach(property =>
+            GenerateListOfProperties(this.GetProperties).ForEach(property =>
             {
                 if (!property.Equals("Id"))
                 {
@@ -144,6 +100,49 @@ namespace LeonCam2.Repositories
             updateQuery.Append(" WHERE Id=@Id");
 
             return updateQuery.ToString();
+        }
+
+        private void CreateTable()
+        {
+            var query = new StringBuilder($"CREATE TABLE {this.tableName} ").Append("(");
+
+            var properties = this.GetProperties.Where(x =>
+            {
+                var attributes = x.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                return attributes.Length <= 0 || (attributes[0] as DescriptionAttribute)?.Description != "ignore";
+            });
+
+            foreach (var property in properties)
+            {
+                var sqlType = this.ConvertToSQLType(property.PropertyType);
+
+                if ((RequiredAttribute)property.GetCustomAttributes(typeof(RequiredAttribute), false).FirstOrDefault() != null)
+                {
+                    sqlType += $" NOT NULL";
+                }
+
+                if (property.Name == "Id")
+                {
+                    sqlType += $" PRIMARY KEY AUTOINCREMENT";
+                }
+
+                query.Append($"{property.Name} {sqlType}, ");
+            }
+
+            query.Remove(query.Length - 2, 2).Append(")");
+
+            this.connection.Execute(query.ToString());
+        }
+
+        private string ConvertToSQLType(Type type)
+        {
+            return type.Name switch
+            {
+                "String" => "VARCHAR",
+                "DateTime" => "DATETIME",
+                "Int32" => "INTEGER",
+                _ => string.Empty,
+            };
         }
     }
 }
