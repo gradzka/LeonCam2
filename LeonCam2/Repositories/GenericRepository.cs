@@ -24,7 +24,7 @@ namespace LeonCam2.Repositories
             this.tableName = tableName;
         }
 
-        private SqlConnection SqlConnection => new SqlConnection(ConfigurationManager.ConnectionStrings["MainDb"].ConnectionString);
+        private SqlConnection SqlConnection => new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
         private IEnumerable<PropertyInfo> GetProperties => typeof(T).GetProperties();
 
