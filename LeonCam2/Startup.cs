@@ -2,6 +2,10 @@
 
 namespace LeonCam2
 {
+    using System.Configuration;
+    using System.Data;
+    using System.Data.SQLite;
+    using LeonCam2.Repositories;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -29,6 +33,10 @@ namespace LeonCam2
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
+
+            services.AddTransient<IDbConnection>((sp) => new SQLiteConnection(this.Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
