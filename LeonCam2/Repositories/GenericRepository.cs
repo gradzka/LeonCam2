@@ -24,10 +24,22 @@ namespace LeonCam2.Repositories
         {
             this.tableName = typeof(T).Name;
             this.connection = dbConnection;
-            this.CreateTable();
+
+            if (!this.CheckIfTableExists())
+            {
+                this.CreateTable();
+            }
+            else
+            {
+                this.CheckTableColumns();
+            }
         }
 
-        private IEnumerable<PropertyInfo> GetProperties => typeof(T).GetProperties();
+        private IEnumerable<PropertyInfo> Properties => typeof(T).GetProperties().Where(x =>
+        {
+            var attributes = x.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return attributes.Length <= 0 || (attributes[0] as DescriptionAttribute)?.Description != "ignore";
+        });
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -59,17 +71,9 @@ namespace LeonCam2.Repositories
             await this.connection.ExecuteAsync(this.GenerateUpdateQuery(), t);
         }
 
-        private static List<string> GenerateListOfProperties(IEnumerable<PropertyInfo> listOfProperties)
-        {
-            return (from prop in listOfProperties
-                    let attributes = prop.GetCustomAttributes(typeof(DescriptionAttribute), false)
-                    where attributes.Length <= 0 || (attributes[0] as DescriptionAttribute)?.Description != "ignore"
-                    select prop.Name).ToList();
-        }
-
         private string GenerateInsertQuery()
         {
-            var properties = GenerateListOfProperties(this.GetProperties);
+            var properties = this.Properties.Select(x => x.Name).ToList();
 
             var insertQuery = new StringBuilder($"INSERT INTO {this.tableName} ").Append("(");
 
@@ -88,7 +92,9 @@ namespace LeonCam2.Repositories
         {
             var updateQuery = new StringBuilder($"UPDATE {this.tableName} SET ");
 
-            GenerateListOfProperties(this.GetProperties).ForEach(property =>
+            var properties = this.Properties.Select(x => x.Name).ToList();
+
+            properties.ForEach(property =>
             {
                 if (!property.Equals("Id"))
                 {
@@ -106,13 +112,7 @@ namespace LeonCam2.Repositories
         {
             var query = new StringBuilder($"CREATE TABLE {this.tableName} ").Append("(");
 
-            var properties = this.GetProperties.Where(x =>
-            {
-                var attributes = x.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                return attributes.Length <= 0 || (attributes[0] as DescriptionAttribute)?.Description != "ignore";
-            });
-
-            foreach (var property in properties)
+            foreach (var property in this.Properties)
             {
                 var sqlType = this.ConvertToSQLType(property.PropertyType);
 
@@ -134,6 +134,24 @@ namespace LeonCam2.Repositories
             this.connection.Execute(query.ToString());
         }
 
+        private void CheckTableColumns()
+        {
+            var dbColumns = this.connection.Query<string>($"SELECT name FROM pragma_table_info(@name);", new { name = this.tableName });
+            var missingDbColumns = this.Properties.Where(x => !dbColumns.Contains(x.Name));
+
+            foreach (var dbColumn in missingDbColumns)
+            {
+                var sqlType = this.ConvertToSQLType(dbColumn.PropertyType);
+
+                if ((RequiredAttribute)dbColumn.GetCustomAttributes(typeof(RequiredAttribute), false).FirstOrDefault() != null)
+                {
+                    sqlType += $" NOT NULL";
+                }
+
+                this.connection.Execute($"ALTER TABLE {this.tableName} ADD {dbColumn.Name} {sqlType}");
+            }
+        }
+
         private string ConvertToSQLType(Type type)
         {
             return type.Name switch
@@ -143,6 +161,11 @@ namespace LeonCam2.Repositories
                 "Int32" => "INTEGER",
                 _ => string.Empty,
             };
+        }
+
+        private bool CheckIfTableExists()
+        {
+            return this.connection.QuerySingle<int>($"SELECT COUNT(1) FROM sqlite_master WHERE type = 'table' AND name = @name", new { name = this.tableName }) == 1;
         }
     }
 }
