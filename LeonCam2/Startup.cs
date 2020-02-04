@@ -2,9 +2,9 @@
 
 namespace LeonCam2
 {
-    using System.Configuration;
     using System.Data;
     using System.Data.SQLite;
+    using LeonCam2.Extensions;
     using LeonCam2.Repositories;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -34,7 +34,7 @@ namespace LeonCam2
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
 
-            services.AddTransient<IDbConnection>((sp) => new SQLiteConnection(this.Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IDbConnection>((_) => new SQLiteConnection(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUserRepository, UserRepository>();
         }
@@ -60,6 +60,8 @@ namespace LeonCam2
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
+
+            app.ConfigureCustomExceptionMiddleware();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
