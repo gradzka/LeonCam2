@@ -1,5 +1,5 @@
 # LeonCam2
-Web version of desktop LeonCam app
+Web version of desktop [LeonCam](https://github.com/kazimierczak-robert/LeonCam) app
 
 ## Swagger
 
