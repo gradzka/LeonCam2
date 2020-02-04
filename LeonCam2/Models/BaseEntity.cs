@@ -5,7 +5,7 @@ namespace LeonCam2.Models
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class BaseEntity
+    public abstract class BaseEntity
     {
         [Required]
         public int Id { get; set; }
