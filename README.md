@@ -7,3 +7,4 @@ Web version of desktop LeonCam app
   
 ## Attributions
 * [Code maze article how to document API with Swagger](https://code-maze.com/swagger-ui-asp-net-core-web-api/)
+* [Code maze article about global error handling](https://code-maze.com/global-error-handling-aspnetcore/)
