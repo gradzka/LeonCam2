@@ -8,3 +8,4 @@ Web version of desktop [LeonCam](https://github.com/kazimierczak-robert/LeonCam)
 ## Attributions
 * [Code maze article how to document API with Swagger](https://code-maze.com/swagger-ui-asp-net-core-web-api/)
 * [Code maze article about global error handling](https://code-maze.com/global-error-handling-aspnetcore/)
+* [Sign in/up panel](https://codepen.io/andytran/pen/RPBdgM)
