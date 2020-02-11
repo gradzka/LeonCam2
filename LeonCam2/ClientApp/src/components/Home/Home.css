@@ -12,7 +12,7 @@
     position: relative;
     max-width: 460px;
     width: 100%;
-    margin: 0 auto 100px;
+    margin: 0 auto 20px;
 }
 
     .card-container.active .card:first-child {
@@ -103,7 +103,7 @@
     }
 
 /* Card */
-.card {
+.card-container .card {
     position: relative;
     background: #ffffff;
     border-radius: 5px;
@@ -114,7 +114,7 @@
     border: none;
 }
 
-    .card:first-child {
+    .card-container .card:first-child {
         background: #fafafa;
         height: 10px;
         border-radius: 5px 5px 0 0;
@@ -122,7 +122,7 @@
         padding: 0;
     }
 
-    .card .title {
+    .card-container .card .title {
         position: relative;
         z-index: 1;
         border-left: 5px solid #f6d55c;
@@ -134,13 +134,13 @@
         text-transform: uppercase;
     }
 
-    .card .input-container {
+    .card-container .card .input-container {
         position: relative;
         margin: 0 60px 50px;
     }
 
         /*inputs input login panel*/
-        .card .input-container input {
+        .card-container .card .input-container input {
             outline: none;
             z-index: 1;
             position: relative;
@@ -153,23 +153,23 @@
             font-weight: 400;
         }
 
-            .card .input-container input:focus ~ label {
+            .card-container .card .input-container input:focus ~ label {
                 color: #CECECE;
                 -webkit-transform: translate(-12%, -50%) scale(0.75);
                 transform: translate(-12%, -50%) scale(0.75);
             }
 
-            .card .input-container input:focus ~ .bar:before, .card .input-container input:focus ~ .bar:after {
+            .card-container .card .input-container input:focus ~ .bar:before, .card-container .card .input-container input:focus ~ .bar:after {
                 width: 50%;
             }
 
-            .card .input-container input:valid ~ label {
+            .card-container .card .input-container input:valid ~ label {
                 color: #acb0b0;
                 -webkit-transform: translate(-12%, -50%) scale(0.75);
                 transform: translate(-12%, -50%) scale(0.75);
             }
 
-        .card .input-container label {
+        .card-container .card .input-container label {
             position: absolute;
             top: 0;
             left: 0;
@@ -181,7 +181,7 @@
             transition: 0.2s ease;
         }
 
-        .card .input-container .bar {
+        .card-container .card .input-container .bar {
             position: absolute;
             left: 0;
             bottom: 0;
@@ -191,7 +191,7 @@
         }
 
             /*line colour in out effect*/
-            .card .input-container .bar:before, .card .input-container .bar:after {
+            .card-container .card .input-container .bar:before, .card-container .card .input-container .bar:after {
                 content: "";
                 position: absolute;
                 background: #45B6FF;
@@ -201,27 +201,27 @@
                 transition: 0.2s ease;
             }
 
-            .card .input-container .bar:before {
+            .card-container .card .input-container .bar:before {
                 left: 50%;
             }
 
-            .card .input-container .bar:after {
+            .card-container .card .input-container .bar:after {
                 right: 50%;
             }
 
-    .card .button-container {
+    .card-container .card .button-container {
         margin: 0 60px;
         text-align: center;
     }
 
-        .card .button-container button {
+        .card-container .card .button-container button {
             outline: 0;
             cursor: pointer;
             position: relative;
             display: inline-block;
             background: #379FE2;
             width: 100%;
-            border: 3px solid #379FE2;
+            border: 3px solid #3598D9;
             padding: 20px 0;
             font-size: 32px;
             font-weight: 600;
@@ -233,7 +233,7 @@
             border-radius: 6px;
         }
 
-            .card .button-container button span {
+            .card-container .card .button-container button span {
                 position: relative;
                 z-index: 1;
                 color: #f4f4f4;
@@ -241,7 +241,7 @@
                 transition: 0.3s ease;
             }
 
-            .card .button-container button:before {
+            .card-container .card .button-container button:before {
                 content: "";
                 position: absolute;
                 top: 50%;
@@ -256,26 +256,32 @@
                 transition: 0.3s ease;
             }
 
-            .card .button-container button:hover, .card .button-container button:active, .card .button-container button:focus {
-                border-color: #40B4FF;
+            .card-container .card .button-container button:hover,
+            .card-container .card .button-container button:active,
+            .card-container .card .button-container button:focus {
+                border-color: #3EADF6;
                 background: #40B4FF;
             }
 
-                .card .button-container button:hover span, .card .button-container button:active span, .card .button-container button:focus span {
+                .card-container .card .button-container button:hover span,
+                .card-container .card .button-container button:active span,
+                .card-container .card .button-container button:focus span {
                     color: #fff;
                 }
 
-                .card .button-container button:active span, .card .button-container button:focus span {
+                .card-container .card .button-container button:active span,
+                .card-container .card .button-container button:focus span {
                     color: #fff;
                 }
 
-                .card .button-container button:active:before, .card .button-container button:focus:before {
+                .card-container .card .button-container button:active:before,
+                .card-container .card .button-container button:focus:before {
                     opacity: 1;
                     -webkit-transform: scale(10);
                     transform: scale(10);
                 }
 
-    .card .footer {
+    .card-container .card .footer {
         margin: 40px 0 0;
         color: #d3d3d3;
         font-size: 24px;
@@ -283,19 +289,19 @@
         text-align: center;
     }
 
-        .card .footer a {
+        .card-container .card .footer a {
             color: inherit;
             text-decoration: none;
             -webkit-transition: 0.3s ease;
             transition: 0.3s ease;
         }
 
-            .card .footer a:hover {
+            .card-container .card .footer a:hover {
                 color: #bababa;
             }
 
     /*hidden shape of card-alt*/
-    .card.alt {
+    .card-container .card.alt {
         position: absolute;
         top: 40px;
         right: -70px;
@@ -311,7 +317,7 @@
 
 
         /*border of sign up button*/
-        .card.alt .toggle {
+        .card-container .card.alt .toggle {
             position: relative;
             background: 0;
             width: 180px;
@@ -335,12 +341,15 @@
         }
 
             /*login panel: font color and border hover in sign up button*/
-            .card.alt .toggle:hover {
+            .card-container:not(.active) .card.alt .toggle:hover,
+            .card-container:not(.active) .card.alt .toggle:active,
+            .card-container:not(.active) .card.alt .toggle:focus
+            {
                 color: #b6b6b6;
                 border: 3px solid #b6b6b6;
             }
 
-            .card.alt .toggle:before {
+            .card-container .card.alt .toggle:before {
                 content: "";
                 display: inline-block;
                 font: normal normal normal 14px/1 FontAwesome;
@@ -352,90 +361,97 @@
                 transform: translate(0, 0);
             }
 
-        .card.alt .title,
-        .card.alt .input-container,
-        .card.alt .button-container {
-            left: 100px;
-            opacity: 0;
-            visibility: hidden;
-        }
+    .card-container .card.alt .title,
+    .card-container .card.alt .input-container,
+    .card-container .card.alt .button-container {
+        left: 100px;
+        opacity: 0;
+        visibility: hidden;
+    }
 
-        .card.alt .title {
-            position: relative;
-            /*vertical line*/
-            border-color: #f6d55c;
-            /*title colour*/
+    .card-container .card.alt .title {
+        position: relative;
+        /*vertical line*/
+        border-color: #f6d55c;
+        /*title colour*/
+        color: #f4f4f4;
+    }
+
+        .card-container .card.alt .title .close {
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            right: 60px;
+            display: inline;
             color: #f4f4f4;
+            font-size: 58px;
+            font-weight: 400;
         }
 
-            .card.alt .title .close {
-                cursor: pointer;
-                position: absolute;
-                top: 0;
-                right: 60px;
-                display: inline;
-                color: #f4f4f4;
-                font-size: 58px;
-                font-weight: 400;
+            .card-container .card.alt .title .close:before {
+                content: "\00d7";
             }
 
-                .card.alt .title .close:before {
-                    content: "\00d7";
-                }
+    .card-container .card.alt .input-container input {
+        color: #ffffff;
+    }
 
-        .card.alt .input-container input {
+        .card-container .card.alt .input-container input:focus ~ label {
             color: #ffffff;
         }
 
-            .card.alt .input-container input:focus ~ label {
-                color: #ffffff;
-            }
-
             /*focused line input registration panel*/
-            .card.alt .input-container input:focus ~ .bar:before, .card.alt .input-container input:focus ~ .bar:after {
-                background: #45B6FF;
-            }
+        .card-container .card.alt .input-container input:focus ~ .bar:before,
+        .card-container .card.alt .input-container input:focus ~ .bar:after {
+            background: #45B6FF;
+        }
 
             /*valid filled registration input*/
-            .card.alt .input-container input:valid ~ label {
-                color: #7BA2BB;
-            }
-
-
-        /*Colours of placeholders in card.alt*/
-        .card.alt .input-container label {
+        .card-container .card.alt .input-container input:valid ~ label {
             color: #7BA2BB;
         }
 
+
+        /*Colours of placeholders in card.alt*/
+    .card-container .card.alt .input-container label {
+        color: #7BA2BB;
+    }
+
         /*always: line colour input registration panel*/
-        .card.alt .input-container .bar {
-            background: #379FE2;
-        }
+    .card-container .card.alt .input-container .bar {
+        background: #379FE2;
+    }
 
         /*sign up button in registration panel*/
-        .card.alt .button-container button {
-            width: 100%;
-            background: #379FE2;
-            border-color: #379FE2;
-        }
+    .card-container .card.alt .button-container button {
+        width: 100%;
+        background: #379FE2;
+        border-color: #3598D9;
+    }
 
             /*font in register panel*/
-            .card.alt .button-container button span {
-                color: #f4f4f4;
-            }
+        .card-container .card.alt .button-container button span {
+            color: #f4f4f4;
+        }
 
             /*sign up button hover in registration panel*/
-            .card.alt .button-container button:hover {
-                background: #40B4FF;
-                border-color: #40B4FF;
-            }
+        .card-container .card.alt .button-container button:hover,
+        .card-container .card.alt .button-container button:active,
+        .card-container .card.alt .button-container button:focus {
+            background: #40B4FF;
+            border-color: #3EADF6;
+        }
 
             /*font hover in registration panel*/
-            .card.alt .button-container button:hover span {
+            .card-container .card.alt .button-container button:hover span,
+            .card-container .card.alt .button-container button:active span,
+            .card-container .card.alt .button-container button:focus span {
                 color: #fff;
-            }            
-
-            .card.alt .button-container button:active:before, .card.alt .button-container button:focus:before {
-                display: none;
             }
+
+        .card-container .card.alt .button-container button:hover:before,
+        .card-container .card.alt .button-container button:active:before,
+        .card-container .card.alt .button-container button:focus:before {
+            display: none;
+        }
 
