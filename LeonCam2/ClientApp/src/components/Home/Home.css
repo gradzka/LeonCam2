@@ -10,29 +10,30 @@
 /* Container */
 .card-container {
     position: relative;
-    max-width: 460px;
+    max-width: 370px;
+    min-width: 340px;
     width: 100%;
-    margin: 0 auto 20px;
+    margin: 0 auto 16px;
 }
 
     .card-container.active .card:first-child {
         background: #f2f2f2;
-        margin: 0 15px;
+        margin: 0 12px;
     }
 
     .card-container.active .card:nth-child(2) {
         background: #fafafa;
-        margin: 0 10px;
+        margin: 0 8px;
     }
 
     .card-container.active .card.alt {
-        top: 20px;
+        top: 16px;
         right: 0;
         width: 100%;
         min-width: 100%;
         height: auto;
         border-radius: 5px;
-        padding: 60px 0 40px;
+        padding: 48px 0 32px;
         overflow: hidden;
     }
 
@@ -73,28 +74,18 @@
         }
 
         .card-container.active .card.alt .title {
-            -webkit-transition-delay: 0.3s;
-            transition-delay: 0.3s;
+            -webkit-transition-delay: 0.1s;
+            transition-delay: 0.1s;
         }
 
         .card-container.active .card.alt .input-container {
-            -webkit-transition-delay: 0.4s;
-            transition-delay: 0.4s;
+            -webkit-transition-delay: 0.2s;
+            transition-delay: 0.2s;
         }
 
-            .card-container.active .card.alt .input-container:nth-child(2) {
-                -webkit-transition-delay: 0.5s;
-                transition-delay: 0.5s;
-            }
-
-            .card-container.active .card.alt .input-container:nth-child(3) {
-                -webkit-transition-delay: 0.6s;
-                transition-delay: 0.6s;
-            }
-
         .card-container.active .card.alt .button-container {
-            -webkit-transition-delay: 0.7s;
-            transition-delay: 0.7s;
+            -webkit-transition-delay: 0.3s;
+            transition-delay: 0.3s;
         }
 
 /*Remove red border if input required*/
@@ -107,7 +98,7 @@
     position: relative;
     background: #ffffff;
     border-radius: 5px;
-    padding: 60px 0 40px 0;
+    padding: 48px 0 32px 0;
     box-sizing: border-box;
     -webkit-transition: 0.3s ease;
     transition: 0.3s ease;
@@ -116,9 +107,9 @@
 
     .card-container .card:first-child {
         background: #fafafa;
-        height: 10px;
+        height: 8px;
         border-radius: 5px 5px 0 0;
-        margin: 0 10px;
+        margin: 0 8px;
         padding: 0;
     }
 
@@ -126,17 +117,17 @@
         position: relative;
         z-index: 1;
         border-left: 5px solid #f6d55c;
-        margin: 0 0 35px;
-        padding: 10px 0 10px 50px;
+        margin: 0 0 28px;
+        padding: 8px 0 8px 40px;
         color: #032B45;
-        font-size: 32px;
+        font-size: 26px;
         font-weight: 600;
         text-transform: uppercase;
     }
 
     .card-container .card .input-container {
         position: relative;
-        margin: 0 60px 50px;
+        margin: 0 48px 40px;
     }
 
         /*inputs input login panel*/
@@ -146,10 +137,10 @@
             position: relative;
             background: none;
             width: 100%;
-            height: 60px;
+            height: 48px;
             border: 0;
             color: #032B45;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 400;
         }
 
@@ -174,9 +165,9 @@
             top: 0;
             left: 0;
             color: #acb0b0;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 300;
-            line-height: 60px;
+            line-height: 48px;
             -webkit-transition: 0.2s ease;
             transition: 0.2s ease;
         }
@@ -210,7 +201,7 @@
             }
 
     .card-container .card .button-container {
-        margin: 0 60px;
+        margin: 0 48px;
         text-align: center;
     }
 
@@ -222,10 +213,10 @@
             background: #379FE2;
             width: 100%;
             border: 3px solid #3598D9;
-            padding: 20px 0;
-            font-size: 32px;
+            padding: 16px 0;
+            font-size: 26px;
             font-weight: 600;
-            line-height: 1;
+            line-height: 0.8;
             text-transform: uppercase;
             overflow: hidden;
             -webkit-transition: 0.3s ease;
@@ -247,8 +238,8 @@
                 top: 50%;
                 left: 50%;
                 display: block;
-                width: 30px;
-                height: 30px;
+                width: 24px;
+                height: 24px;
                 border-radius: 100%;
                 margin: -15px 0 0 -15px;
                 opacity: 0;
@@ -282,9 +273,9 @@
                 }
 
     .card-container .card .footer {
-        margin: 40px 0 0;
+        margin: 32px 0 0;
         color: #d3d3d3;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 300;
         text-align: center;
     }
@@ -303,11 +294,9 @@
     /*hidden shape of card-alt*/
     .card-container .card.alt {
         position: absolute;
-        top: 40px;
-        right: -70px;
+        top: 0;
+        right: 0;
         z-index: 10;
-        width: 140px;
-        height: 140px;
         background: none;
         border-radius: 100%;
         padding: 0;
@@ -315,29 +304,40 @@
         transition: 0.3s ease;
     }
 
+    .card-container:not(.active) .card.alt,
+    .card-container:not(.active) .card.alt h1,
+    .card-container:not(.active) .card.alt form,
+    .card-container:not(.active) .card.alt form .input-container,
+    .card-container:not(.active) .card.alt form .button-container {
+        padding: 0px;
+        margin: 0px;
+        left: 0px;
+        right: 0px;
+    }
+
 
         /*border of sign up button*/
         .card-container .card.alt .toggle {
             position: relative;
             background: 0;
-            width: 180px;
-            height: 68px;
+            width: 144px;
+            height: 54px;
             border-radius: 100%;
             /*border and font colour*/
             border: 3px solid #CECECE;
             color: #CECECE;
-            font-size: 32px;
+            font-size: 26px;
             font-weight: 600;
-            line-height: 1;
-            padding: 20px 0;
+            line-height: 0.8;
+            padding: 16px 0;
             text-align: center;
             text-transform: uppercase;
             cursor: pointer;
             border-radius: 6px;
             transition: 0.3s ease;
             web-transition: 0.3s ease;
-            top: 20px;
-            right: 170px;
+            top: 52px;
+            right: -164px;
         }
 
             /*login panel: font color and border hover in sign up button*/
@@ -364,7 +364,7 @@
     .card-container .card.alt .title,
     .card-container .card.alt .input-container,
     .card-container .card.alt .button-container {
-        left: 100px;
+        left: 80px;
         opacity: 0;
         visibility: hidden;
     }
@@ -381,10 +381,10 @@
             cursor: pointer;
             position: absolute;
             top: 0;
-            right: 60px;
+            right: 48px;
             display: inline;
             color: #f4f4f4;
-            font-size: 58px;
+            font-size: 46px;
             font-weight: 400;
         }
 
