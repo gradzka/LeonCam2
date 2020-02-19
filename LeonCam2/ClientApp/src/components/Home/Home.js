@@ -14,6 +14,9 @@ export class Home extends Component {
         let container = document.getElementsByClassName("card-container")[0];
         container.classList.add('active');
 
+        let card_alt = document.getElementsByClassName("alt")[0];
+        card_alt.classList.remove('hidden');
+
         let toggle = document.getElementsByClassName("toggle")[0];
         toggle.innerHTML = "";
     }
@@ -22,8 +25,35 @@ export class Home extends Component {
         let container = document.getElementsByClassName("card-container")[0];
         container.classList.remove('active');
 
+        let card_alt = document.getElementsByClassName("alt")[0];
+        card_alt.classList.add('hidden');
+
         let toggle = document.getElementsByClassName("toggle")[0];
         toggle.innerHTML += "sign up";
+    }
+
+    openForgotPasswordButton(event) {
+        let container = document.getElementsByClassName("card-container")[0];
+        container.classList.add('active');
+        container.classList.add('bottom');
+
+        let card_alt = document.getElementsByClassName("alt")[1];
+        card_alt.classList.remove('hidden');
+
+        let toggle = document.getElementsByClassName("toggle")[1];
+        toggle.innerHTML = "";
+    }
+
+    closeForgotPasswordButton(event) {
+        let container = document.getElementsByClassName("card-container")[0];
+        container.classList.remove('active');
+        container.classList.remove('bottom');
+
+        let card_alt = document.getElementsByClassName("alt")[1];
+        card_alt.classList.add('hidden');
+
+        let toggle = document.getElementsByClassName("toggle")[1];
+        toggle.innerHTML += "Forgot your password?";
     }
 
     render() {
@@ -58,10 +88,10 @@ export class Home extends Component {
                                 <div className="button-container">
                                     <button><span>sign in</span></button>
                                 </div>
-                                <div className="footer"><a href="#">Forgot your password?</a></div>
+                                <div className="footer"></div>
                             </form>
                         </div>
-                        <div className="card alt">
+                        <div className="card alt hidden">
                             <div className="toggle" tabIndex="0" onClick={this.openRegisterButton}>sign up</div>
                             <h1 className="title">Register
                                 <div className="close" tabIndex="0" onClick={this.closeRegisterButton}></div>
@@ -84,6 +114,25 @@ export class Home extends Component {
                                 </div>
                                 <div className="button-container">
                                     <button><span>sign up</span></button>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="card alt hidden bottom">
+                            <div className="toggle" tabIndex="0" onClick={this.openForgotPasswordButton}>Forgot your password?</div>
+                            <h1 className="title">Forgot your password?
+                                <div className="close" tabIndex="0" onClick={this.closeForgotPasswordButton}></div>
+                            </h1>
+                            <form>
+                                <div style={{ height: 60 + "px" }}></div>
+
+                                <div className="input-container">
+                                    <input type="text" id="forgotmail" required="required" />
+                                    <label forhtml="regname">E-Mail</label>
+                                    <div className="bar"></div>
+                                </div>
+                                <div style={{ height: 70+"px" }}></div>
+                                <div className="button-container">
+                                    <button><span>Send password</span></button>
                                 </div>
                             </form>
                         </div>

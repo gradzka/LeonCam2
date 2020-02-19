@@ -95,18 +95,8 @@
             font-weight: 300;
             text-align: center;
             margin: 32px 0 0;
+            height: 38px;
         }
-
-            .card-container .card .footer a {
-                color: inherit;
-                text-decoration: none;
-                -webkit-transition: .3s ease;
-                transition: .3s ease;
-            }
-
-                .card-container .card .footer a:hover {
-                    color: #bababa;
-                }
 
         .card-container .card .input-container {
             position: relative;
@@ -284,6 +274,31 @@
         padding: 16px 0;
     }
 
+    .card-container .card.bottom {
+        top: 386px;
+    }
+
+    .card-container .card.bottom .toggle {
+        top: 0;
+        margin: 0 17%;
+        right: 0px;
+        width: 66%;
+        font-size: 20px;
+        font-weight: 300;
+        text-transform: none;
+        border: none;
+    }
+
+        .card-container.active .card.bottom.hidden .toggle {
+            opacity: 0;
+            visibility:hidden;
+        }
+
+        .card-container.active .card.bottom .toggle {
+            margin: 0;
+            width: 100%;
+        }
+
         .card-container .toggle:before {
             content: "";
             display: inline-block;
@@ -296,7 +311,7 @@
             transform: translate(0,0);
         }
 
-    .card-container.active .card.alt {
+    .card-container.active .card.alt:not(.hidden) {
         top: 16px;
         right: 0;
         width: 100%;
@@ -307,9 +322,9 @@
         padding: 48px 0 32px;
     }
 
-        .card-container.active .card.alt .title,
-        .card-container.active .card.alt .input-container,
-        .card-container.active .card.alt .button-container {
+        .card-container.active .card.alt:not(.hidden) .title,
+        .card-container.active .card.alt:not(.hidden) .input-container,
+        .card-container.active .card.alt:not(.hidden) .button-container {
             left: 0;
             opacity: 1;
             visibility: visible;
@@ -359,26 +374,33 @@
             content: "";
         }
 
-    .card-container:not(.active) .card.alt form {
+    .card-container .card.alt.hidden form {
         height: 0;
     }
 
-        .card-container:not(.active) .card.alt,
-        .card-container:not(.active) .card.alt h1,
-        .card-container:not(.active) .card.alt form,
-        .card-container:not(.active) .card.alt form .input-container,
-        .card-container:not(.active) .card.alt form .button-container {
-            left: 0;
-            right: 0;
-            margin: 0;
-            padding: 0;
-        }
+    .card-container .card.alt.hidden,
+    .card-container .card.alt.hidden h1,
+    .card-container .card.alt.hidden form,
+    .card-container .card.alt.hidden form .input-container,
+    .card-container .card.alt.hidden form .button-container {
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+    }
 
     .card-container:not(.active) .toggle:hover,
     .card-container:not(.active) .toggle:active,
     .card-container:not(.active) .toggle:focus {
         color: #b6b6b6;
         border: 3px solid #b6b6b6;
+    }
+
+    .card-container:not(.active) .card.bottom .toggle:hover,
+    .card-container:not(.active) .card.bottom .toggle:active,
+    .card-container:not(.active) .card.bottom .toggle:focus {
+        color: #b6b6b6;
+        border: none;
     }
 
 body {
