@@ -11,9 +11,6 @@ export class Home extends Component {
     }
 
     openRegisterButton(event) {
-        let container = document.getElementsByClassName("card-container")[0];
-        container.classList.add('active');
-
         let card_alt = document.getElementsByClassName("alt")[0];
         card_alt.classList.remove('hidden');
 
@@ -22,21 +19,14 @@ export class Home extends Component {
     }
 
     closeRegisterButton(event) {
-        let container = document.getElementsByClassName("card-container")[0];
-        container.classList.remove('active');
-
         let card_alt = document.getElementsByClassName("alt")[0];
         card_alt.classList.add('hidden');
 
         let toggle = document.getElementsByClassName("toggle")[0];
-        toggle.innerHTML += "sign up";
+        toggle.innerHTML = "Sign up";
     }
 
     openForgotPasswordButton(event) {
-        let container = document.getElementsByClassName("card-container")[0];
-        container.classList.add('active');
-        container.classList.add('bottom');
-
         let card_alt = document.getElementsByClassName("alt")[1];
         card_alt.classList.remove('hidden');
 
@@ -45,15 +35,11 @@ export class Home extends Component {
     }
 
     closeForgotPasswordButton(event) {
-        let container = document.getElementsByClassName("card-container")[0];
-        container.classList.remove('active');
-        container.classList.remove('bottom');
-
         let card_alt = document.getElementsByClassName("alt")[1];
         card_alt.classList.add('hidden');
 
         let toggle = document.getElementsByClassName("toggle")[1];
-        toggle.innerHTML += "Forgot your password?";
+        toggle.innerHTML = "Forgot password?";
     }
 
     render() {
@@ -71,28 +57,8 @@ export class Home extends Component {
                 </div>
                 <div className="col">
                     <div className="card-container col-sm-8">
-                        <div className="card"></div>
-                        <div className="card">
-                            <h1 className="title">Login</h1>
-                            <form>
-                                <div className="input-container">
-                                    <input type="text" id="name" required="required" />
-                                    <label forhtml="name">Username</label>
-                                    <div className="bar"></div>
-                                </div>
-                                <div className="input-container">
-                                    <input type="password" id="pass" required="required" />
-                                    <label forhtml="pass">Password</label>
-                                    <div className="bar"></div>
-                                </div>
-                                <div className="button-container">
-                                    <button><span>sign in</span></button>
-                                </div>
-                                <div className="footer"></div>
-                            </form>
-                        </div>
                         <div className="card alt hidden">
-                            <div className="toggle" tabIndex="0" onClick={this.openRegisterButton}>sign up</div>
+                            <div className="toggle" tabIndex="0" onClick={this.openRegisterButton}>SIGN UP</div>
                             <h1 className="title">Register
                                 <div className="close" tabIndex="0" onClick={this.closeRegisterButton}></div>
                             </h1>
@@ -118,22 +84,39 @@ export class Home extends Component {
                             </form>
                         </div>
                         <div className="card alt hidden bottom">
-                            <div className="toggle" tabIndex="0" onClick={this.openForgotPasswordButton}>Forgot your password?</div>
-                            <h1 className="title">Forgot your password?
+                            <div className="toggle" tabIndex="0" onClick={this.openForgotPasswordButton}>Forgot password?</div>
+                            <h1 className="title">Forgot<br/>password?
                                 <div className="close" tabIndex="0" onClick={this.closeForgotPasswordButton}></div>
                             </h1>
                             <form>
-                                <div style={{ height: 60 + "px" }}></div>
-
                                 <div className="input-container">
                                     <input type="text" id="forgotmail" required="required" />
                                     <label forhtml="regname">E-Mail</label>
                                     <div className="bar"></div>
                                 </div>
-                                <div style={{ height: 70+"px" }}></div>
                                 <div className="button-container">
-                                    <button><span>Send password</span></button>
+                                    <button><span>Send link</span></button>
                                 </div>
+                            </form>
+                        </div>
+                        <div className="card first"></div>
+                        <div className="card">
+                            <h1 className="title">Login</h1>
+                            <form>
+                                <div className="input-container">
+                                    <input type="text" id="name" required="required" />
+                                    <label forhtml="name">Username</label>
+                                    <div className="bar"></div>
+                                </div>
+                                <div className="input-container">
+                                    <input type="password" id="pass" required="required" />
+                                    <label forhtml="pass">Password</label>
+                                    <div className="bar"></div>
+                                </div>
+                                <div className="button-container">
+                                    <button><span>Sign in</span></button>
+                                </div>
+                                <div className="footer"></div>
                             </form>
                         </div>
                     </div>
