@@ -1,4 +1,16 @@
 /* Provide sufficient contrast against white background */
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    padding-bottom: 6rem;
+    min-height: 100%;
+    position: relative;
+}
+
 a {
   color: #0366d6;
 }
