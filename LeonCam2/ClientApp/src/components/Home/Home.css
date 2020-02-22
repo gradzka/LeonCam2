@@ -3,7 +3,7 @@
     max-width: 370px;
     min-width: 340px;
     width: 100%;
-    margin: 0 auto 16px;
+    margin: 0 auto;
 }
 
     .card-container .card {
@@ -192,7 +192,7 @@
             box-shadow: none;
             position: absolute;
             top: 16px;
-            right: 4%;
+            right: 0;
             z-index: 10;
             background: none;
             border-radius: 5px;
@@ -200,8 +200,8 @@
             transition: .3s ease;
             height: auto;
             overflow: hidden;
-            width: 92%;
-            min-width: 92%;
+            width: 100%;
+            min-width: 100%;
             min-height: 100%;
             padding: 48px 0 32px;
         }
@@ -369,7 +369,7 @@
         }
 
         .card-container .card.alt.hidden.bottom .toggle {
-            left:4%;
+            left: 0;
             right: 0;
             top: 386px;
             margin: 0 17%;
@@ -388,7 +388,7 @@
         .card-container .card.alt.bottom .button-container{
             position: absolute;
             bottom: 32px;
-            width: 72%;
+            width: 74%;
         }
 
 body {
