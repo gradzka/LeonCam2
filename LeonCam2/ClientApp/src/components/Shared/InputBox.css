@@ -1,0 +1,112 @@
+﻿.input-container {
+    position: relative;
+    margin: 0 43px 36px;
+}
+
+    .input-container .bar {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background: #379FE2;
+        width: 100%;
+        height: 1px;
+    }
+
+        .input-container .bar:after {
+            right: 50%;
+        }
+
+        .input-container .bar:before {
+            left: 50%;
+        }
+
+        .input-container .bar:before,
+        .input-container .bar:after {
+            content: "";
+            position: absolute;
+            background: #45B6FF;
+            width: 0;
+            height: 2px;
+            -webkit-transition: .2s ease;
+            transition: .2s ease;
+        }
+
+    .input-container input {
+        outline: none;
+        z-index: 1;
+        position: relative;
+        background: none;
+        width: 100%;
+        height: 43px;
+        border: 0;
+        color: #032B45;
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+        .input-container input:focus ~ .bar:before,
+        .input-container input:focus ~ .bar:after {
+            width: 50%;
+        }
+
+        .input-container input:focus ~ label {
+            color: #CECECE;
+            -webkit-transform: translate(-12%,-50%) scale(0.75);
+            transform: translate(-12%,-50%) scale(0.75);
+        }
+
+        .input-container input:required {
+            box-shadow: none;
+        }
+
+        .input-container input:valid ~ label {
+            color: #acb0b0;
+            -webkit-transform: translate(-12%,-50%) scale(0.75);
+            transform: translate(-12%,-50%) scale(0.75);
+        }
+
+    .input-container label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #acb0b0;
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 43px;
+        -webkit-transition: .2s ease;
+        transition: .2s ease;
+    }
+
+.input-container.alt input,
+.input-container.alt input:focus ~ label {
+    color: #fff;
+}
+
+.input-container.alt .bar {
+    background: #379FE2;
+}
+
+.input-container.alt input:focus ~ .bar:before,
+.input-container.alt input:focus ~ .bar:after {
+    background: #45B6FF;
+}
+
+.input-container.alt input:valid ~ label,
+.input-container.alt label {
+    color: #7BA2BB;
+}
+
+.input-container.alt
+{
+    left: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+.password-container {
+    display: block ruby;
+}
+
+    .password-container input[type="password"] {
+        width: 90%;
+    }

@@ -1,87 +1,53 @@
 import React, { Component } from 'react';
 import './Home.css';
+import { InputBox } from '../Shared/InputBox';
 
 export class Home extends Component {
     static displayName = Home.name;
 
     constructor(props) {
         super(props);
-
-        //this.login = this.login.bind(this);
+        this.removeCard = this.removeCard.bind(this);
     }
 
-    openRegisterButton(event) {
-        let card_alt = document.getElementsByClassName("alt")[0];
+    putCardOn(event) {
+        let card_alt = event.target.parentNode;
         card_alt.classList.remove('hidden');
 
-        let toggle = document.getElementsByClassName("toggle")[0];
-        toggle.innerHTML = "";
+        event.target.innerHTML = "";
     }
 
-    closeRegisterButton(event) {
-        let card_alt = document.getElementsByClassName("alt")[0];
+    removeCard(innerHTML, event) {
+        let card_alt = event.target.parentNode.parentNode;
         card_alt.classList.add('hidden');
 
-        let toggle = document.getElementsByClassName("toggle")[0];
-        toggle.innerHTML = "Sign up";
-    }
-
-    openForgotPasswordButton(event) {
-        let card_alt = document.getElementsByClassName("alt")[1];
-        card_alt.classList.remove('hidden');
-
-        let toggle = document.getElementsByClassName("toggle")[1];
-        toggle.innerHTML = "";
-    }
-
-    closeForgotPasswordButton(event) {
-        let card_alt = document.getElementsByClassName("alt")[1];
-        card_alt.classList.add('hidden');
-
-        let toggle = document.getElementsByClassName("toggle")[1];
-        toggle.innerHTML = "Forgot password?";
+        card_alt.childNodes[0].innerHTML = innerHTML;
     }
 
     render() {
         return (
             <div className="card-container">
                 <div className="card alt hidden">
-                    <div className="toggle" tabIndex="0" onClick={this.openRegisterButton}>SIGN UP</div>
+                    <div className="toggle" tabIndex="0" onClick={this.putCardOn}>Register</div>
                     <h1 className="title">Register
-                                <div className="close" tabIndex="0" onClick={this.closeRegisterButton}></div>
+                        <div className="close" tabIndex="0" onClick={this.removeCard.bind(this, 'Register')}></div>
                     </h1>
                     <form>
-                        <div className="input-container">
-                            <input type="text" id="regname" required="required" />
-                            <label forhtml="regname">Username</label>
-                            <div className="bar"></div>
-                        </div>
-                        <div className="input-container">
-                            <input type="password" id="regpass" required="required" />
-                            <label forhtml="regpass">Password</label>
-                            <div className="bar"></div>
-                        </div>
-                        <div className="input-container">
-                            <input type="password" id="reregpass" required="required" />
-                            <label forhtml="reregpass">Repeat Password</label>
-                            <div className="bar"></div>
-                        </div>
+                        <InputBox type="text" id="regname" placeholder="Username" className="alt" />
+                        <InputBox type="password" id="regpass" placeholder="Password" className="alt" />
+                        <InputBox type="password" id="reregpass" placeholder="Repeat Password" className="alt" />
                         <div className="button-container">
-                            <button><span>sign up</span></button>
+                            <button><span>Sign up</span></button>
                         </div>
                     </form>
                 </div>
                 <div className="card alt hidden bottom">
-                    <div className="toggle" tabIndex="0" onClick={this.openForgotPasswordButton}>Forgot password?</div>
+                    <div className="toggle" tabIndex="0" onClick={this.putCardOn}>Forgot password?</div>
                     <h1 className="title">Forgot<br />password?
-                                <div className="close" tabIndex="0" onClick={this.closeForgotPasswordButton}></div>
+                        <div className="close" tabIndex="0" onClick={this.removeCard.bind(this, 'Forgot password?')}></div>
                     </h1>
                     <form>
-                        <div className="input-container">
-                            <input type="text" id="forgotmail" required="required" />
-                            <label forhtml="regname">E-Mail</label>
-                            <div className="bar"></div>
-                        </div>
+                        <InputBox type="text" id="forgotmail" placeholder="E-Mail" className="alt" />
                         <div className="button-container">
                             <button><span>Send link</span></button>
                         </div>
@@ -91,16 +57,8 @@ export class Home extends Component {
                 <div className="card">
                     <h1 className="title">Login</h1>
                     <form>
-                        <div className="input-container">
-                            <input type="text" id="name" required="required" />
-                            <label forhtml="name">Username</label>
-                            <div className="bar"></div>
-                        </div>
-                        <div className="input-container">
-                            <input type="password" id="pass" required="required" />
-                            <label forhtml="pass">Password</label>
-                            <div className="bar"></div>
-                        </div>
+                        <InputBox type="text" id="name" placeholder="Username"/>
+                        <InputBox type="password" id="pass" placeholder="Password" />
                         <div className="button-container">
                             <button><span>Sign in</span></button>
                         </div>
