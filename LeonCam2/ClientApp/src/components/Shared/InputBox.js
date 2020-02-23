@@ -7,16 +7,22 @@ export class InputBox extends Component {
         super(props);
     }
 
-    toggleEye(event) {
-        event.target.classList.toggle("fa-eye-slash");
-        event.target.classList.toggle("fa-eye");
-        event.target.parentNode.parentNode.childNodes[0].type = event.target.parentNode.parentNode.childNodes[0].type === 'text' ? 'password' : 'text';
+    showPassword(event) {
+        event.target.classList.remove("fa-eye-slash");
+        event.target.classList.add("fa-eye");
+        event.target.parentNode.parentNode.childNodes[0].type = 'text'; 
+    }
+
+    hidePassword(event) {
+        event.target.classList.remove("fa-eye");
+        event.target.classList.add("fa-eye-slash");
+        event.target.parentNode.parentNode.childNodes[0].type = 'password'; 
     }
 
     render() {
         const isInputPasswordType = this.props.type === "password";
         let eye = isInputPasswordType ? <div className="input-group-addon">
-            <span className="fa fa-eye-slash" aria-hidden="true" onMouseDown={this.toggleEye} onMouseUp={this.toggleEye} />
+            <span className="fa fa-eye-slash" aria-hidden="true" onMouseDown={this.showPassword} onMouseUp={this.hidePassword} />
         </div> : null;
 
         return (
