@@ -7,19 +7,21 @@ export class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.removeCard = this.removeCard.bind(this);
+        this.popCard = this.popCard.bind(this);
     }
 
-    putCardOn(event) {
+    pushCard(event) {
         let card_alt = event.target.parentNode;
         card_alt.classList.remove('hidden');
+        Array.from(card_alt.getElementsByClassName('input-container')).forEach(element => element.classList.remove('hidden'));
 
         event.target.innerHTML = "";
     }
 
-    removeCard(innerHTML, event) {
+    popCard(innerHTML, event) {
         let card_alt = event.target.parentNode.parentNode;
         card_alt.classList.add('hidden');
+        Array.from(card_alt.getElementsByClassName('input-container')).forEach(element => element.classList.add('hidden'));
 
         card_alt.childNodes[0].innerHTML = innerHTML;
     }
@@ -28,26 +30,26 @@ export class Home extends Component {
         return (
             <div className="card-container">
                 <div className="card alt hidden">
-                    <div className="toggle" tabIndex="0" onClick={this.putCardOn}>Register</div>
+                    <div className="toggle" tabIndex="0" onClick={this.pushCard}>Register</div>
                     <h1 className="title">Register
-                        <div className="close" tabIndex="0" onClick={this.removeCard.bind(this, 'Register')}></div>
+                        <div className="close" tabIndex="0" onClick={this.popCard.bind(this, 'Register')}></div>
                     </h1>
                     <form>
-                        <InputBox type="text" id="regname" placeholder="Username" className="alt" />
-                        <InputBox type="password" id="regpass" placeholder="Password" className="alt" />
-                        <InputBox type="password" id="reregpass" placeholder="Repeat Password" className="alt" />
+                        <InputBox type="text" id="regname" placeholder="Username" className="alt hidden" />
+                        <InputBox type="password" id="regpass" placeholder="Password" className="alt hidden" />
+                        <InputBox type="password" id="reregpass" placeholder="Repeat Password" className="alt hidden" />
                         <div className="button-container">
                             <button><span>Sign up</span></button>
                         </div>
                     </form>
                 </div>
                 <div className="card alt hidden bottom">
-                    <div className="toggle" tabIndex="0" onClick={this.putCardOn}>Forgot password?</div>
+                    <div className="toggle" tabIndex="0" onClick={this.pushCard}>Forgot password?</div>
                     <h1 className="title">Forgot<br />password?
-                        <div className="close" tabIndex="0" onClick={this.removeCard.bind(this, 'Forgot password?')}></div>
+                        <div className="close" tabIndex="0" onClick={this.popCard.bind(this, 'Forgot password?')}></div>
                     </h1>
                     <form>
-                        <InputBox type="text" id="forgotmail" placeholder="E-Mail" className="alt" />
+                        <InputBox type="text" id="forgotmail" placeholder="E-Mail" className="alt hidden" />
                         <div className="button-container">
                             <button><span>Send link</span></button>
                         </div>

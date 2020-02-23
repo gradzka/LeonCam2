@@ -187,7 +187,6 @@
                 min-height: unset;
             }
                 .card-container .card.alt.hidden .title,
-                .card-container .card.alt.hidden .input-container,
                 .card-container .card.alt.hidden .button-container {
                     opacity: 0;
                     visibility: hidden;
@@ -217,7 +216,6 @@
                     .card-container .card.alt.hidden,
                     .card-container .card.alt.hidden h1,
                     .card-container .card.alt.hidden form,
-                    .card-container .card.alt.hidden form .input-container,
                     .card-container .card.alt.hidden form .button-container {
                         left: 0;
                         right: 0;
@@ -226,7 +224,6 @@
                     }
 
             .card-container .card.alt:not(.hidden) .title,
-            .card-container .card.alt:not(.hidden) .input-container,
             .card-container .card.alt:not(.hidden) .button-container {
                 transition: .3s ease;
                 -webkit-transition: .3s ease;
@@ -235,11 +232,6 @@
             .card-container .card.alt:not(.hidden) .button-container {
                 transition-delay: .3s;
                 -webkit-transition-delay: .3s;
-            }
-
-            .card-container .card.alt:not(.hidden) .input-container {
-                transition-delay: .2s;
-                -webkit-transition-delay: .2s;
             }
 
             .card-container .card.alt:not(.hidden) .title {
@@ -281,10 +273,6 @@
             font-weight: 500;
             text-transform: none;
             border: none;
-        }
-
-        .card-container .card.alt.bottom .input-container {
-            margin-top: 15%;
         }
 
         .card-container .card.alt.bottom .button-container{
