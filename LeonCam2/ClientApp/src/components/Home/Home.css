@@ -1,7 +1,7 @@
 ﻿.card-container {
     position: relative;
-    max-width: 370px;
-    min-width: 340px;
+    max-width: 340px;
+    min-width: 310px;
     width: 100%;
     margin: 0 auto;
 }
@@ -14,12 +14,12 @@
         -webkit-transition: .3s ease;
         transition: .3s ease;
         border: none;
-        padding: 48px 0 32px;
+        padding: 43px 0 29px;
     }
 
         .card-container .card .button-container {
             text-align: center;
-            margin: 0 48px;
+            margin: 0 43px;
         }
 
             .card-container .card .button-container button {
@@ -30,7 +30,7 @@
                 background: #379FE2;
                 width: 100%;
                 border: 3px solid #3598D9;
-                font-size: 26px;
+                font-size: 23px;
                 font-weight: 600;
                 line-height: 0.8;
                 text-transform: uppercase;
@@ -38,7 +38,7 @@
                 -webkit-transition: .3s ease;
                 transition: .3s ease;
                 border-radius: 6px;
-                padding: 16px 0;
+                padding: 14px 0;
             }
 
                 .card-container .card .button-container button span {
@@ -62,13 +62,13 @@
                     top: 50%;
                     left: 50%;
                     display: block;
-                    width: 24px;
-                    height: 24px;
+                    width: 22px;
+                    height: 22px;
                     border-radius: 100%;
                     opacity: 0;
                     -webkit-transition: .3s ease;
                     transition: .3s ease;
-                    margin: -15px 0 0 -15px;
+                    margin: -14px 0 0 -14px;
                 }
 
                 .card-container .card .button-container button:hover span,
@@ -88,16 +88,16 @@
 
         .card-container .card .footer {
             color: #d3d3d3;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 300;
             text-align: center;
-            margin: 32px 0 0;
-            height: 38px;
+            margin: 29px 0 0;
+            height: 34px;
         }
 
         .card-container .card .input-container {
             position: relative;
-            margin: 0 48px 40px;
+            margin: 0 43px 36px;
         }
 
             .card-container .card .input-container .bar {
@@ -134,10 +134,10 @@
                 position: relative;
                 background: none;
                 width: 100%;
-                height: 48px;
+                height: 43px;
                 border: 0;
                 color: #032B45;
-                font-size: 20px;
+                font-size: 18px;
                 font-weight: 400;
             }
 
@@ -167,9 +167,9 @@
                 top: 0;
                 left: 0;
                 color: #acb0b0;
-                font-size: 20px;
+                font-size: 18px;
                 font-weight: 300;
-                line-height: 48px;
+                line-height: 43px;
                 -webkit-transition: .2s ease;
                 transition: .2s ease;
             }
@@ -179,11 +179,11 @@
             z-index: 1;
             border-left: 5px solid #f6d55c;
             color: #032B45;
-            font-size: 26px;
+            font-size: 23px;
             font-weight: 600;
             text-transform: uppercase;
-            margin: 0 0 28px;
-            padding: 8px 0 8px 40px;
+            margin: 0 0 24px;
+            padding: 8px 0 7px 36px;
         }
 
         .card-container .card.alt {
@@ -191,7 +191,7 @@
             -moz-box-shadow: none;
             box-shadow: none;
             position: absolute;
-            top: 16px;
+            top: 14px;
             right: 0;
             z-index: 10;
             background: none;
@@ -203,7 +203,7 @@
             width: 100%;
             min-width: 100%;
             min-height: 100%;
-            padding: 48px 0 32px;
+            padding: 43px 0 29px;
         }
 
             .card-container .card.alt .input-container .bar {
@@ -229,10 +229,10 @@
                     cursor: pointer;
                     position: absolute;
                     top: 0;
-                    right: 48px;
+                    right: 43px;
                     display: inline;
                     color: #f4f4f4;
-                    font-size: 46px;
+                    font-size: 41px;
                     font-weight: 400;
                 }
 
@@ -250,7 +250,7 @@
 
             .card-container .card.alt .toggle {
                 color: #CECECE;
-                font-size: 26px;
+                font-size: 23px;
                 font-weight: 600;
                 line-height: 0.8;
                 text-align: center;
@@ -267,7 +267,7 @@
                 width: 100%;
                 height: 100%;
                 box-shadow: none;
-                padding: 16px 0;
+                padding: 14px 0;
             }
 
             .card-container .card.alt.hidden {
@@ -295,8 +295,8 @@
                 .card-container .card.alt.hidden .toggle {
                     background: 0;
                     position: relative;
-                    top: 52px;
-                    right: -164px;
+                    top: 47px;
+                    right: -154px;
                     border: 3px solid #CECECE;
                     width: 144px;
                 }
@@ -352,31 +352,31 @@
 
             .card-container .card.alt:not(.hidden) ~ .card:not(.alt) {
                 background: #fafafa;
-                margin: 0 8px;
+                margin: 0 7px;
             }
 
             .card-container .card.alt:not(.hidden) ~ .card.first {
                 background: #f2f2f2;
-                margin: 0 12px;
+                margin: 0 11px;
             }
 
         .card-container .card.first {
             background: #fafafa;
-            height: 8px;
+            height: 7px;
             border-radius: 5px 5px 0 0;
-            margin: 0 8px;
+            margin: 0 7px;
             padding: 0;
         }
 
         .card-container .card.alt.hidden.bottom .toggle {
             left: 0;
             right: 0;
-            top: 386px;
+            top: 347px;
             margin: 0 17%;
             right: 0px;
             width: 66%;
             font-size: 20px;
-            font-weight: 300;
+            font-weight: 500;
             text-transform: none;
             border: none;
         }
@@ -387,7 +387,7 @@
 
         .card-container .card.alt.bottom .button-container{
             position: absolute;
-            bottom: 32px;
+            bottom: 29px;
             width: 74%;
         }
 
@@ -395,7 +395,7 @@ body {
     background: #e9e9e9;
     color: #666;
     font-family: RobotoDraft, Roboto, sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png);
