@@ -2,7 +2,14 @@
   white-space: normal;
   text-align: center;
   word-break: break-all;
+
+  width: 20%;
+  margin-left: 40%;
 }
+
+    a.navbar-brand b {
+        color: #f4f4f4;
+    }
 
 html {
   font-size: 14px;
