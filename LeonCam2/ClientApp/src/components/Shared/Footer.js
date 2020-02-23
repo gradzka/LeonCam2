@@ -32,7 +32,7 @@ export class Footer extends Component {
                     </li>
                     <li className="divider" />
                     <li>
-                        <span>Design by Kuzayova</span>
+                        <span>Graphics by Kuzayova</span>
                         <a href="https://www.facebook.com/kuzayova">
                             <i className="fa fa-facebook-f" />
                         </a>
