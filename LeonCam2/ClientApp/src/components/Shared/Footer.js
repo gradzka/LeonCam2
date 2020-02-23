@@ -20,7 +20,7 @@ export class Footer extends Component {
                     <li>
                         <span>See source code</span>
                         <a href="https://github.com/gradzka/LeonCam2">
-                            <i class="fa fa-github" />
+                            <i className="fa fa-github" />
                         </a>
                     </li>
                     <li className="divider" />
@@ -34,10 +34,10 @@ export class Footer extends Component {
                     <li>
                         <span>Design by Kuzayova</span>
                         <a href="https://www.facebook.com/kuzayova">
-                            <i class="fa fa-facebook-f" />
+                            <i className="fa fa-facebook-f" />
                         </a>
                         <a href="https://www.instagram.com/kuzayova.art">
-                            <i class="fa fa-instagram" />
+                            <i className="fa fa-instagram" />
                         </a>
                     </li>
                 </ul>
