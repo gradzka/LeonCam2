@@ -107,7 +107,7 @@
     display: block ruby;
 }
 
-    .password-container input[type="password"] {
+    .password-container input {
         width: 90%;
     }
 
@@ -127,3 +127,29 @@
     transition-delay: .2s;
     -webkit-transition-delay: .2s;
 }
+
+.password-container span {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 1.25rem;
+    color: #b6b6b6;
+    transition: .3s ease;
+    -webkit-transition: .3s ease;
+}
+
+    .password-container span:active,
+    .password-container span:focus,
+    .password-container span:hover {
+        color: #CECECE;
+    }
+
+.password-container.alt span {
+    color: #7BA2BB;
+}
+
+    .password-container.alt span:active,
+    .password-container.alt span:focus,
+    .password-container.alt span:hover {
+        color: #8ABBDA;
+    }
