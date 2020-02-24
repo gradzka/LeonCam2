@@ -128,7 +128,7 @@
     -webkit-transition-delay: .2s;
 }
 
-.password-container span {
+.password-container span.fa {
     background: none;
     border: none;
     outline: none;
@@ -138,18 +138,23 @@
     -webkit-transition: .3s ease;
 }
 
-    .password-container span:active,
-    .password-container span:focus,
-    .password-container span:hover {
+    .password-container span.fa:active,
+    .password-container span.fa:focus,
+    .password-container span.fa:hover {
         color: #CECECE;
     }
 
-.password-container.alt span {
+.password-container.alt span.fa {
     color: #7BA2BB;
 }
 
-    .password-container.alt span:active,
-    .password-container.alt span:focus,
-    .password-container.alt span:hover {
+    .password-container.alt span.fa:active,
+    .password-container.alt span.fa:focus,
+    .password-container.alt span.fa:hover {
         color: #8ABBDA;
     }
+
+.password-container label span.badge.badge-warning {
+    visibility: hidden;
+    background-color: #f6d55c;
+}
