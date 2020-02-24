@@ -33,7 +33,6 @@
                 font-size: 23px;
                 font-weight: 600;
                 line-height: 0.8;
-                text-transform: uppercase;
                 overflow: hidden;
                 -webkit-transition: .3s ease;
                 transition: .3s ease;
@@ -100,7 +99,6 @@
             color: #032B45;
             font-size: 23px;
             font-weight: 600;
-            text-transform: uppercase;
             margin: 0 0 24px;
             padding: 8px 0 7px 36px;
         }
@@ -157,7 +155,6 @@
                 font-weight: 600;
                 line-height: 0.8;
                 text-align: center;
-                text-transform: uppercase;
                 cursor: pointer;
                 border-radius: 6px;
                 transition: .3s ease;
