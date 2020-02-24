@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import { InputBox } from '../Shared/InputBox';
+import { PasswordBox } from '../Shared/PasswordBox';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -35,9 +36,9 @@ export class Home extends Component {
                         <div className="close" tabIndex="0" onClick={this.popCard.bind(this, 'Register')}></div>
                     </h1>
                     <form>
-                        <InputBox type="text" id="regname" placeholder="Username" className="alt hidden" />
-                        <InputBox type="password" id="regpass" placeholder="Password" className="alt hidden" />
-                        <InputBox type="password" id="reregpass" placeholder="Repeat Password" className="alt hidden" />
+                        <InputBox id="regname" placeholder="Username" className="alt hidden" />
+                        <PasswordBox id="regpass" placeholder="Password" className="alt hidden" />
+                        <PasswordBox id="reregpass" placeholder="Repeat Password" className="alt hidden" />
                         <div className="button-container">
                             <button><span>Sign up</span></button>
                         </div>
@@ -49,7 +50,7 @@ export class Home extends Component {
                         <div className="close" tabIndex="0" onClick={this.popCard.bind(this, 'Forgot password?')}></div>
                     </h1>
                     <form>
-                        <InputBox type="text" id="forgotmail" placeholder="E-Mail" className="alt hidden" />
+                        <InputBox id="forgotmail" placeholder="E-Mail" className="alt hidden" />
                         <div className="button-container">
                             <button><span>Send link</span></button>
                         </div>
@@ -59,8 +60,8 @@ export class Home extends Component {
                 <div className="card">
                     <h1 className="title">Login</h1>
                     <form>
-                        <InputBox type="text" id="name" placeholder="Username"/>
-                        <InputBox type="password" id="pass" placeholder="Password" />
+                        <InputBox id="name" placeholder="Username"/>
+                        <PasswordBox id="pass" placeholder="Password" />
                         <div className="button-container">
                             <button><span>Sign in</span></button>
                         </div>
