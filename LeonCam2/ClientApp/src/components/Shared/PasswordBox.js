@@ -45,7 +45,7 @@ export class PasswordBox extends Component {
                     <span id="capsLk" className="badge badge-warning">CapsLk</span>
                 </label>
                 <div className="input-group-addon">
-                    <span className="fa fa-eye-slash" aria-hidden="true" onMouseDown={this.showPassword} onMouseUp={this.hidePassword} />
+                    <span className="fa fa-eye-slash" aria-hidden="true" onMouseDown={this.showPassword} onMouseUp={this.hidePassword} onMouseOut={this.hidePassword}/>
                 </div>
                 <div className="bar"></div>
             </div>
