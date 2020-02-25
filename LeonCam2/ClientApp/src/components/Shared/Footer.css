@@ -21,6 +21,10 @@
         list-style: none;
     }
 
+        footer ul li a {
+            text-decoration: underline;
+        }
+
         footer ul li a i::before {
             display: inline-block;
             font-size: 1.5rem;
@@ -33,7 +37,6 @@
 
         footer ul li a:hover, footer ul li a:focus {
             color: #9DD6FC;
-            text-decoration: none;
         }
 
         footer ul li.divider {

@@ -65,7 +65,6 @@ export class Home extends Component {
                         <div className="button-container">
                             <button><span>Sign in</span></button>
                         </div>
-                        <div className="footer"></div>
                     </form>
                 </div>
             </div>

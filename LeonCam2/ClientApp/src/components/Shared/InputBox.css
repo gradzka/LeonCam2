@@ -40,8 +40,8 @@
         height: 43px;
         border: 0;
         color: #032B45;
-        font-size: 18px;
-        font-weight: 400;
+        font-size: 16px;
+        font-weight: 300;
     }
 
         .input-container input:focus ~ .bar:before,
@@ -70,7 +70,7 @@
         top: 0;
         left: 0;
         color: #acb0b0;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 300;
         line-height: 43px;
         -webkit-transition: .2s ease;
