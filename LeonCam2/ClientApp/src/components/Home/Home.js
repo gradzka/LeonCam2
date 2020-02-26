@@ -37,7 +37,7 @@ export class Home extends Component {
                     </h1>
                     <form>
                         <InputBox id="regname" placeholder="Username" className="alt hidden" />
-                        <PasswordBox id="regpass" placeholder="Password" className="alt hidden" />
+                        <PasswordBox id="regpass" placeholder="Password" className="alt hidden" withPasswordStrength={true} />
                         <PasswordBox id="reregpass" placeholder="Repeat Password" className="alt hidden" />
                         <div className="button-container">
                             <button><span>Sign up</span></button>
