@@ -1,7 +1,7 @@
 ﻿.card-container {
     position: relative;
     max-width: 340px;
-    min-width: 310px;
+    min-width: 280px;
     width: 100%;
     margin: 0 auto;
 }
@@ -174,7 +174,6 @@
             .card-container .card.alt.hidden {
                 box-shadow: none;
                 overflow: unset;
-                position: absolute;
                 top: 0;
                 z-index: 8;
                 background: none;
@@ -195,9 +194,10 @@
                     background: 0;
                     position: relative;
                     top: 53px;
-                    right: -188px;
+                    right: 42px;
                     border: 1px solid #0574BB;
                     width: 110px;
+                    align-self: end
                 }
 
                     .card-container .card.alt.hidden .toggle:hover,
@@ -262,12 +262,12 @@
 
         .card-container .card.alt.hidden.bottom .toggle {
             top: 245px;
-            width: 35%;
+            width: 120px;
             font-size: 13px;
             font-weight: 600;
             text-transform: none;
             border: none;
-            right: -180px;
+            text-align: end;
         }
 
         .card-container .card.alt.bottom .button-container{
