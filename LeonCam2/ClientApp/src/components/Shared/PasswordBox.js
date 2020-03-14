@@ -6,6 +6,7 @@ export class PasswordBox extends Component {
 
     constructor(props) {
         super(props);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -53,21 +54,28 @@ export class PasswordBox extends Component {
                 strengths++;
             }
 
-            if (strengths == 5) {
+            if (strengths === 5) {
                 bar.classList.add('very-strong');
             }
-            else if (strengths == 4) {
+            else if (strengths === 4) {
                 bar.classList.add('strong');
             }
-            else if (strengths == 3) {
+            else if (strengths === 3) {
                 bar.classList.add('normal');
             }
-            else if (strengths == 2) {
+            else if (strengths === 2) {
                 bar.classList.add('weak');
             }
             else {
                 bar.classList.add('very-weak');
             }
+        }
+    }
+
+    handleChange(event) {
+        if (typeof this.props.onChange === "function") {
+            const text = event.target.value;
+            this.props.onChange(this.props.id, text);
         }
     }
 
@@ -110,7 +118,7 @@ export class PasswordBox extends Component {
 
         return (
             <div className={"input-container password-container " + (this.props.className === undefined ? '' : this.props.className)}>
-                <input type="password" id={this.props.id} required="required" onKeyDown={this.toggleCapsLkWarning} onBlur={this.hideCapsLkWarning} />
+                <input type="password" id={this.props.id} required="required" onKeyDown={this.toggleCapsLkWarning} onBlur={this.hideCapsLkWarning} value={this.props.value} onChange={this.handleChange}/>
                 <label forhtml={this.props.id}>
                     {this.props.placeholder} 
                     <span id="capsLk" className="badge badge-warning">CapsLk</span>

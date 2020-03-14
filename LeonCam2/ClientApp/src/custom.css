@@ -13,6 +13,7 @@ body {
 
 a {
   color: #0366d6;
+  cursor: pointer;
 }
 
 code {
@@ -23,4 +24,17 @@ code {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+
+.popover-error {
+    border-color: #d9534f;
+}
+
+.popover-error .popover-body {
+    color: #d9534f;
+}
+
+.popover-error .arrow:before {
+    border-top-color: #d9534f;
 }
