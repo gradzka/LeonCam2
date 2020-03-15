@@ -10,14 +10,13 @@ export class Login extends Component {
         this.state = {
             name: '',
             pass: '',
-            error: '',
-            isError: false,
+            popoverMessage: '',
+            popoverIsOpen: false,
             isSubmitting: false
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.hidePopover = this.hidePopover.bind(this);
-
     }
 
     handleInputChange(inputId, value) {
@@ -28,14 +27,14 @@ export class Login extends Component {
 
     hidePopover() {
         this.setState({
-            isError: false
+            popoverIsOpen: false
         });
     }
 
     login(event) {
         this.setState({
             isSubmitting: true,
-            isError: false
+            popoverIsOpen: false
         });
         authenticationService.login(this.state.name, this.state.pass).then(
             user => {
@@ -47,8 +46,8 @@ export class Login extends Component {
             error => {
                 this.setState({
                     isSubmitting: false,
-                    error: error.message,
-                    isError: document.activeElement === document.getElementById('signIn')
+                    popoverMessage: error.message === "Unexpected error" ? "Sign-In Error" : error.message,
+                    popoverIsOpen: document.activeElement === document.getElementById('signIn')
                 });
             }
         )
@@ -66,8 +65,8 @@ export class Login extends Component {
                         <button id='signIn' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Sign in</span></button>
                     </div>
 
-                    <Popover className="popover-error" placement='top' isOpen={this.state.isError} target='signIn'>
-                        <PopoverBody>{this.state.error}</PopoverBody>
+                    <Popover className="popover-error" placement='top' isOpen={this.state.popoverIsOpen} target='signIn'>
+                        <PopoverBody>{this.state.popoverMessage}</PopoverBody>
                     </Popover>
                 </form>
             </div>

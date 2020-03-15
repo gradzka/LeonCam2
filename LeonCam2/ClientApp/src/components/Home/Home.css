@@ -240,6 +240,7 @@
             .card-container .card.alt:not(.hidden) .toggle {
                 -webkit-transition: 0 .3s ease;
                 transition: transform .3s ease, 0 .3s ease;
+                cursor: default;
             }
 
             .card-container .card.alt:not(.hidden) ~ .card:not(.alt) {

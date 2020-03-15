@@ -18,7 +18,7 @@ export function handleResponse(response) {
             return data;
         }
         catch (error) {
-            return Promise.reject(new Error("Sign-In Error"));
+            return Promise.reject(new Error("Unexpected error"));
         }
     });
 }

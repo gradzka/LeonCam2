@@ -6,6 +6,7 @@ const currentUser = new BehaviorSubject(JSON.parse(localStorage.getItem('current
 export const authenticationService = {
     login,
     logout,
+    forgotPassword,
     currentUser: currentUser.asObservable(),
     get currentUserValue() {
         return currentUser.value
@@ -28,6 +29,18 @@ function login(username, password) {
 
             return user;
         });
+}
+
+function forgotPassword(username) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+    };
+
+    return fetch(`users/forgotpassword`, requestOptions)
+        .then(handleResponse)
+        .then(data => { return data; });
 }
 
 function logout() {
