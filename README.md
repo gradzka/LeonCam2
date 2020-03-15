@@ -8,3 +8,8 @@ Web version of desktop [LeonCam](https://github.com/kazimierczak-robert/LeonCam)
 ## Attributions
 * [Code maze article how to document API with Swagger](https://code-maze.com/swagger-ui-asp-net-core-web-api/)
 * [Code maze article about global error handling](https://code-maze.com/global-error-handling-aspnetcore/)
+* [Sign in/up panel](https://codepen.io/andytran/pen/RPBdgM)
+* [CSS Formatter and Optimiser](https://www.codebeautifier.com)
+* [Font Awesome 5 React component](https://github.com/FortAwesome/react-fontawesome)
+* [React (without Redux) - JWT Authentication Tutorial & Example](https://jasonwatmore.com/post/2019/04/06/react-jwt-authentication-tutorial-example)
+* [Access child's state in React](https://stackoverflow.com/a/27875018)

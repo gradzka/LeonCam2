@@ -1,0 +1,75 @@
+﻿footer {
+    color: #7BA2BB;
+    line-height: 1.5;
+    min-width: 360px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin-top: 100px;
+    text-align: center;
+    font-family: RobotoDraft, Roboto, sans-serif;
+    font-size: 12px;
+}
+
+    footer a {
+        text-decoration: none;
+        color: #7BA2BB;
+    }
+
+    footer ul {
+        list-style: none;
+    }
+
+        footer ul li a {
+            text-decoration: underline;
+        }
+
+        footer ul li a i::before {
+            display: inline-block;
+            font-size: 1.5rem;
+        }
+
+        footer ul li a i:hover, footer ul li a i:focus {
+            color: #9DD6FC;
+            font-size: 1.5rem;
+        }
+
+        footer ul li a:hover, footer ul li a:focus {
+            color: #9DD6FC;
+        }
+
+        footer ul li.divider {
+            width: 1px;
+            background: #7BA2BB;
+            margin: .3rem .5rem;
+        }
+
+        footer ul li:not(.divider) {
+            align-self: center;
+            margin: 0 .2rem;
+        }
+
+        footer ul:first-child {
+            padding-top: .5rem;
+            flex-wrap: wrap;
+            background: rgba(1,17,27,.6);
+            margin-bottom: 0;
+            color: #f4f4f4;
+            vertical-align: middle;
+        }
+
+        footer ul:nth-child(2) {
+            display: flex;
+            justify-content: center;
+            padding-bottom: .5rem;
+            background: rgba(1,17,27,.6);
+            font-size: 10px;
+            margin-bottom: 0;
+        }
+
+            footer ul:nth-child(2) li > * {
+                display: inline-block;
+                vertical-align: middle;
+                margin: .15rem;
+            }
