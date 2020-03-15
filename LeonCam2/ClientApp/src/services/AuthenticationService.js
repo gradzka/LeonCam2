@@ -6,6 +6,7 @@ const currentUser = new BehaviorSubject(JSON.parse(localStorage.getItem('current
 export const authenticationService = {
     login,
     logout,
+    register,
     forgotPassword,
     currentUser: currentUser.asObservable(),
     get currentUserValue() {
@@ -29,6 +30,18 @@ function login(username, password) {
 
             return user;
         });
+}
+
+function register(username, password, repassword) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, repassword })
+    };
+
+    return fetch(`users/register`, requestOptions)
+        .then(handleResponse)
+        .then(data => { return data; });
 }
 
 function forgotPassword(username) {

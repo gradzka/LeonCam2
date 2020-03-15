@@ -18,7 +18,7 @@ export class InputBox extends Component {
     render() {
         return (
             <div className={"input-container " + (this.props.className === undefined ? '' : this.props.className)}>
-                <input type="text" id={this.props.id} required="required" value={this.props.value} onChange={this.handleChange} />
+                <input type={this.props.type} id={this.props.id} required="required" value={this.props.value} onChange={this.handleChange} />
                 <label forhtml={this.props.id}>{this.props.placeholder}</label>
                 <div className="bar"></div>
             </div>

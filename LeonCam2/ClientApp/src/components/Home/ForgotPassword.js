@@ -67,7 +67,7 @@ export class ForgotPassword extends Component {
                         <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Forgot password?')}></div>
                 </h1>
                 <form onSubmit={this.forgotpassword.bind(this)}>
-                    <InputBox id="forgotmail" placeholder="E-Mail" className="alt hidden" value={this.state["forgotmail"]} onChange={this.handleInputChange} />
+                    <InputBox id="forgotmail" type="email" placeholder="E-Mail" className="alt hidden" value={this.state["forgotmail"]} onChange={this.handleInputChange} />
                     <div className="button-container">
                         <button id='sendLink' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Send link</span></button>
                     </div>
