@@ -7,9 +7,12 @@ namespace LeonCam2.Repositories
 
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
+        private readonly IDbConnection dbConnection;
+
         public UserRepository(IDbConnection dbConnection)
             : base(dbConnection)
         {
+            this.dbConnection = dbConnection;
         }
     }
 }

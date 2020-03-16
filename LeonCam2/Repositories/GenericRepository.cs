@@ -102,7 +102,7 @@ namespace LeonCam2.Repositories
                 }
             });
 
-            updateQuery.Remove(updateQuery.Length - 1, 1); // remove last comma
+            updateQuery.Remove(updateQuery.Length - 1, 1); //// Remove last comma
             updateQuery.Append(" WHERE Id=@Id");
 
             return updateQuery.ToString();

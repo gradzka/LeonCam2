@@ -6,6 +6,7 @@ namespace LeonCam2
     using System.Data.SQLite;
     using LeonCam2.Extensions;
     using LeonCam2.Repositories;
+    using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -37,6 +38,8 @@ namespace LeonCam2
             services.AddTransient<IDbConnection>((_) => new SQLiteConnection(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
