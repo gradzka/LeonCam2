@@ -4,7 +4,13 @@ Web version of desktop [LeonCam](https://github.com/kazimierczak-robert/LeonCam)
 ## Swagger
 
 **LeonCam2 API** is documented using Swagger. To see swagger.json (document describing endpoints), navigate to `<address>:<port>/swagger/v1/swagger.json`. If you want to explore API via Swagger UI, navigate to `<address>:<port>/swagger`
-  
+
+## Technologies
+
+* ASP.NET Core Web API 3.1,
+* SQLite3,
+* React v16.13.1
+
 ## Attributions
 * [Code maze article how to document API with Swagger](https://code-maze.com/swagger-ui-asp-net-core-web-api/)
 * [Code maze article about global error handling](https://code-maze.com/global-error-handling-aspnetcore/)
