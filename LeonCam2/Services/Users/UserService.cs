@@ -40,7 +40,7 @@ namespace LeonCam2.Services.Users
 
             var user = await this.userRepository.GetByUsernameAsync(loginModel.Username);
 
-            if (user?.Password == $"{loginModel.Password}{loginModel.Username}{user.ModifiedDate}".GetSHA512Hash())
+            if (user?.Password == $"{loginModel.Password}{loginModel.Username}{user?.ModifiedDate}".GetSHA512Hash())
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
