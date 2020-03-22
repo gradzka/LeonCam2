@@ -23,7 +23,7 @@ export class Home extends Component {
                 <Register/>
                 <ForgotPassword />
                 <div className="card first"></div>
-                <Login />
+                <Login location={this.props.location} history={this.props.history} />
             </div>
         );
     }
