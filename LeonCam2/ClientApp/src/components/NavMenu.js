@@ -31,7 +31,7 @@ export class NavMenu extends Component {
 
     logout() {
         authenticationService.logout();
-        browserHistory.push('/login');
+        browserHistory.push('/');
     }
 
     render() {

@@ -3,24 +3,32 @@
 namespace LeonCam2.Services.Users
 {
     using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Text;
     using System.Threading.Tasks;
     using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Logging;
+    using Microsoft.IdentityModel.Tokens;
 
     public class UserService : IUserService
     {
         private static readonly string UserIsRegisteredInfo = "User is registered...";
 
         private readonly ILogger<UserService> logger;
+        private readonly Settings settings;
         private readonly IUserRepository userRepository;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, ILogger<UserService> logger, IOptions<Settings> settings)
         {
             this.userRepository = userRepository;
             this.logger = logger;
+            this.settings = settings.Value;
         }
 
         public async Task<string> Login(LoginModel loginModel)
@@ -30,7 +38,29 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentNullException(nameof(loginModel));
             }
 
-            throw new NotImplementedException();
+            var user = await this.userRepository.GetByUsernameAsync(loginModel.Username);
+
+            if (user?.Password == $"{loginModel.Password}{loginModel.Username}{user.ModifiedDate}".GetSHA512Hash())
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
+
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                };
+
+                return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+            }
+            else
+            {
+                throw new InternalException("Inproper login data");
+            }
         }
 
         public async Task Register(RegisterModel registerModel)

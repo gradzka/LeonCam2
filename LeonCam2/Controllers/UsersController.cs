@@ -4,6 +4,7 @@ namespace LeonCam2.Controllers
 {
     using System;
     using System.Threading.Tasks;
+    using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace LeonCam2.Controllers
             this.logger = logger;
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             if (loginModel == null)
@@ -34,7 +35,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentNullException(nameof(loginModel));
             }
 
-            return this.Ok(await this.userService.Login(loginModel));
+            return this.Ok(new { token = await this.userService.Login(loginModel) });
         }
 
         [HttpPost("Register")]
