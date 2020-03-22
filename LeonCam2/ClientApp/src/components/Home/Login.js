@@ -46,7 +46,7 @@ export class Login extends Component {
             error => {
                 this.setState({
                     isSubmitting: false,
-                    popoverMessage: error.message === "Unexpected error" ? "Sign-In Error" : error.message,
+                    popoverMessage: error === "Unexpected error" ? "Sign-In Error" : error,
                     popoverIsOpen: document.activeElement === document.getElementById('signIn')
                 });
             }

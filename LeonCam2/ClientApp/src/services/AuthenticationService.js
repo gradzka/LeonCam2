@@ -32,11 +32,11 @@ function login(username, password) {
         });
 }
 
-function register(username, password, repassword) {
+function register(username, password, repeatedPassword) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, repassword })
+        body: JSON.stringify({ username, password, repeatedPassword })
     };
 
     return fetch(`users/register`, requestOptions)

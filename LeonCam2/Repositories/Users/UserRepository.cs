@@ -3,6 +3,8 @@
 namespace LeonCam2.Repositories
 {
     using System.Data;
+    using System.Threading.Tasks;
+    using Dapper;
     using LeonCam2.Models;
 
     public class UserRepository : GenericRepository<User>, IUserRepository
@@ -13,6 +15,11 @@ namespace LeonCam2.Repositories
             : base(dbConnection)
         {
             this.dbConnection = dbConnection;
+        }
+
+        public async Task<User> GetByUsernameAsync(string username)
+        {
+            return await this.dbConnection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {this.TableName} WHERE Username=@Username", new { Username = username });
         }
     }
 }

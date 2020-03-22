@@ -53,16 +53,20 @@ export class Register extends Component {
                 data => {
                     this.setState({
                         isSubmitting: false,
-                        popoverClass: 'popover-success',
+                        popoverClass: 'popover-success-reversed',
                         popoverMessage: 'Registered',
-                        popoverIsOpen: document.activeElement === document.getElementById('signUp')
+                        popoverIsOpen: document.activeElement === document.getElementById('signUp'),
+                        regpass: '',
+                        reregpass: ''
                     });
+
+                    document.getElementById('regpass').dispatchEvent(new Event("keyup"));
                 },
                 error => {
                     this.setState({
                         isSubmitting: false,
                         popoverClass: 'popover-error-reversed',
-                        popoverMessage: error.message === "Unexpected error" ? "Sign-Up Error" : error.message,
+                        popoverMessage: error === "Unexpected error" ? "Sign-Up Error" : error,
                         popoverIsOpen: document.activeElement === document.getElementById('signUp')
                     });
                 }

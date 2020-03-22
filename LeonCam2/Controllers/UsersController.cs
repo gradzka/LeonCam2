@@ -37,7 +37,7 @@ namespace LeonCam2.Controllers
             return this.Ok(await this.userService.Login(loginModel));
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
             this.logger.LogInformation(UserRegistrationStartedInfo);

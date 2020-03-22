@@ -40,7 +40,7 @@ export class ForgotPassword extends Component {
             data => {
                 this.setState({
                     isSubmitting: false,
-                    popoverClass: 'popover-success',
+                    popoverClass: 'popover-success-reversed',
                     popoverMessage: 'Sent',
                     popoverIsOpen: document.activeElement === document.getElementById('sendLink')
                 });
@@ -49,7 +49,7 @@ export class ForgotPassword extends Component {
                 this.setState({
                     isSubmitting: false,
                     popoverClass: 'popover-error-reversed',
-                    popoverMessage: error.message === "Unexpected error" ? "Forgot Password Error" : error.message,
+                    popoverMessage: error === "Unexpected error" ? "Forgot Password Error" : error,
                     popoverIsOpen: document.activeElement === document.getElementById('sendLink')
                 });
             }

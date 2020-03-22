@@ -38,6 +38,11 @@ namespace LeonCam2.Services.Users
             this.logger.LogInformation(UserIsRegisteredInfo);
             DateTime dateTimeNow = DateTime.Now;
 
+            if (this.userRepository.GetByUsernameAsync(registerModel.Username).Result != null)
+            {
+                throw new InternalException("Username is already used");
+            }
+
             string passwordData = $"{registerModel.Password}{registerModel.Username}{dateTimeNow}";
 
             User user = new User
