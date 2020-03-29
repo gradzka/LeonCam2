@@ -40,22 +40,47 @@ namespace LeonCam2.Services.Users
 
             var user = await this.userRepository.GetByUsernameAsync(loginModel.Username).ConfigureAwait(false);
 
-            if (user?.Password == $"{loginModel.Password}{loginModel.Username}{user?.ModifiedDate}".GetSHA512Hash())
+            if (user != null)
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
-
-                var tokenDescriptor = new SecurityTokenDescriptor
+                if (user.Password == $"{loginModel.Password}{loginModel.Username}{user.ModifiedDate}".GetSHA512Hash())
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
+                    if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.LoginAttemptCounter >= this.settings.MaxNumberOfLoginAttempts)
                     {
-                        new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                };
+                        user.LastLoginAttemptDate = DateTime.Now;
+                        await this.userRepository.UpdateAsync(user);
 
-                return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+                        throw new InternalException("Your account is locked - try again later");
+                    }
+                    else
+                    {
+                        user.LastLoginAttemptDate = DateTime.Now;
+                        user.LoginAttemptCounter = 0;
+                        await this.userRepository.UpdateAsync(user);
+                    }
+
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
+
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(new Claim[]
+                        {
+                        new Claim(ClaimTypes.Name, user.Id.ToString()),
+                        }),
+                        Expires = DateTime.UtcNow.AddDays(1),
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                    };
+
+                    return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+                }
+                else
+                {
+                    user.LastLoginAttemptDate = DateTime.Now;
+                    user.LoginAttemptCounter = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.LoginAttemptCounter + 1);
+                    await this.userRepository.UpdateAsync(user);
+
+                    throw new InternalException("Inproper login data");
+                }
             }
             else
             {

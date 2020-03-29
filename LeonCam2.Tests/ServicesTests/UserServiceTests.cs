@@ -45,8 +45,9 @@ namespace LeonCam2.Tests.ServicesTests
             var userRepository = new Mock<IUserRepository>();
             userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult(this.User));
             userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            Settings settings = new Settings() { JwtKey = JwtKey };
+            Settings settings = new Settings() { JwtKey = JwtKey, MaxNumberOfLoginAttempts = 1 };
             var options = new Mock<IOptions<Settings>>();
             options.Setup(x => x.Value).Returns(settings);
 
