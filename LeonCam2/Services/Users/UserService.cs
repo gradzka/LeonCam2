@@ -38,7 +38,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentNullException(nameof(loginModel));
             }
 
-            var user = await this.userRepository.GetByUsernameAsync(loginModel.Username);
+            var user = await this.userRepository.GetByUsernameAsync(loginModel.Username).ConfigureAwait(false);
 
             if (user?.Password == $"{loginModel.Password}{loginModel.Username}{user?.ModifiedDate}".GetSHA512Hash())
             {
@@ -89,7 +89,7 @@ namespace LeonCam2.Services.Users
 
             this.logger.LogDebug($"Registered user data: {user}");
 
-            await this.userRepository.InsertAsync(user);
+            await this.userRepository.InsertAsync(user).ConfigureAwait(false);
         }
 
         public async Task ResetPassword(string email)
