@@ -43,8 +43,8 @@ namespace LeonCam2.Tests.ServicesTests
         public async void Login_Test(LoginModel loginModel, TestsMethodResult testsMethodResult)
         {
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult<User>(this.User));
-            userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(this.User));
+            userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
 
             Settings settings = new Settings() { JwtKey = JwtKey };
             var options = new Mock<IOptions<Settings>>();
@@ -69,6 +69,41 @@ namespace LeonCam2.Tests.ServicesTests
             {
                 string token = await userService.Login(loginModel).ConfigureAwait(false);
                 Assert.True(!string.IsNullOrEmpty(token));
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(UserServiceTestsRegisterData))]
+        public async void Register_Test(RegisterModel registerModel, TestsMethodResult testsMethodResult)
+        {
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.InsertAsync(It.IsAny<User>()));
+
+            var userService = new UserService(
+                userRepository: userRepository.Object,
+                logger: new Mock<ILogger<UserService>>().Object,
+                settings: new Mock<IOptions<Settings>>().Object);
+
+            if (registerModel == null)
+            {
+                ArgumentNullException ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.Register(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+            else if (registerModel.Username == TestUser)
+            {
+                InternalException ex = await Assert.ThrowsAsync<InternalException>(async () => await userService.Register(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+            else if (!(bool)testsMethodResult.Result)
+            {
+                ArgumentException ex = await Assert.ThrowsAsync<ArgumentException>(async () => await userService.Register(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+            else
+            {
+                await userService.Register(registerModel).ConfigureAwait(false);
             }
         }
     }

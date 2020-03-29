@@ -65,6 +65,26 @@ namespace LeonCam2.Services.Users
 
         public async Task Register(RegisterModel registerModel)
         {
+            if (registerModel == null)
+            {
+                throw new ArgumentNullException(nameof(registerModel));
+            }
+
+            if (string.IsNullOrEmpty(registerModel.Username))
+            {
+                throw new ArgumentException("Username cannot be empty");
+            }
+
+            if (registerModel.Password != registerModel.RepeatedPassword)
+            {
+                throw new ArgumentException("Passwords must be the same");
+            }
+
+            if (string.IsNullOrEmpty(registerModel.Password))
+            {
+                throw new ArgumentException("Password cannot be empty");
+            }
+
             this.logger.LogInformation(UserIsRegisteredInfo);
             DateTime dateTimeNow = DateTime.Now;
 
