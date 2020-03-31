@@ -10,20 +10,29 @@ export class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            username: ''
+        }
 
         // Redirect to dashboard if user already logged in
         if (authenticationService.currentUserValue) {
             this.props.history.push('/dashboard');
         }
+
+        this.onUsernameChanged = this.onUsernameChanged.bind(this);
+    }
+
+    onUsernameChanged(value) {
+        this.setState({ username: value });
     }
 
     render() {
         return (
             <div className="card-container">
-                <Register/>
-                <ForgotPassword />
+                <Register />
+                <ForgotPassword username={this.state.username} />
                 <div className="card first"></div>
-                <Login location={this.props.location} history={this.props.history} />
+                <Login location={this.props.location} history={this.props.history} onUsernameChanged={this.onUsernameChanged}/>
             </div>
         );
     }

@@ -21,8 +21,12 @@ export class Login extends Component {
 
     handleInputChange(inputId, value) {
         this.setState({
-                [inputId]: value
-            });
+            [inputId]: value
+        });
+
+        if (inputId === 'username') {
+            this.props.onUsernameChanged(value);
+        }  
     }
 
     hidePopover() {

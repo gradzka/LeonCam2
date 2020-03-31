@@ -4,6 +4,7 @@ import { handleResponse } from '../authorization/ResponseHandler';
 const currentUser = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
 export const authenticationService = {
+    checkUsername,
     login,
     logout,
     register,
@@ -13,6 +14,18 @@ export const authenticationService = {
         return currentUser.value
     }
 };
+
+function checkUsername(username) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify( username )
+    };
+
+    return fetch(`users/checkUsername`, requestOptions)
+        .then(handleResponse)
+        .then(data => { return data; });
+}
 
 function login(username, password) {
     const requestOptions = {

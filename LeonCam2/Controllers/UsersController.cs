@@ -14,7 +14,9 @@ namespace LeonCam2.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private static readonly string CheckingUsernameStartedInfo = "Checking username started...";
         private static readonly string IsNullError = " is null";
+        private static readonly string UsernameIsCheckedInfo = "Username is checked";
         private static readonly string UserIsRegisteredInfo = "User is registered";
         private static readonly string UserRegistrationStartedInfo = "User registration started...";
 
@@ -27,6 +29,25 @@ namespace LeonCam2.Controllers
             this.logger = logger;
         }
 
+        [HttpPost("CheckUsername")]
+        public async Task<IActionResult> CheckUsername([FromBody] string username)
+        {
+            this.logger.LogInformation(CheckingUsernameStartedInfo);
+            this.logger.LogDebug($"Username: {username}");
+
+            if (string.IsNullOrEmpty(username))
+            {
+                this.logger.LogError($"{nameof(username)}{IsNullError}");
+                throw new ArgumentException(nameof(username));
+            }
+
+            bool result = await this.userService.CheckUsername(username).ConfigureAwait(false);
+
+            this.logger.LogInformation(UsernameIsCheckedInfo);
+
+            return this.Ok(result);
+        }
+
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
@@ -35,7 +56,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentNullException(nameof(loginModel));
             }
 
-            return this.Ok(new { token = await this.userService.Login(loginModel) });
+            return this.Ok(new { token = await this.userService.Login(loginModel).ConfigureAwait(false) });
         }
 
         [HttpPost("Register")]
@@ -50,7 +71,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentNullException(nameof(registerModel));
             }
 
-            await this.userService.Register(registerModel);
+            await this.userService.Register(registerModel).ConfigureAwait(false);
 
             this.logger.LogInformation(UserIsRegisteredInfo);
 
@@ -65,7 +86,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentException(nameof(eMail));
             }
 
-            await this.userService.ResetPassword(eMail);
+            await this.userService.ResetPassword(eMail).ConfigureAwait(false);
 
             return this.Ok();
         }

@@ -7,6 +7,8 @@ namespace LeonCam2.Services.Users
 
     public interface IUserService
     {
+        Task<bool> CheckUsername(string username);
+
         /// <summary>
         /// Login method.
         /// </summary>

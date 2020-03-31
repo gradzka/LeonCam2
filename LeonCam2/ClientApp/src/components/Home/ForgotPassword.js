@@ -8,15 +8,40 @@ export class ForgotPassword extends Component {
     constructor() {
         super();
         this.state = {
+            username: '',
             forgotmail: '',
             popoverMessage: '',
             popoverClass: '',
             popoverIsOpen: false,
+            checkUsernamePopoverIsOpen: false,
             isSubmitting: false
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.hidePopover = this.hidePopover.bind(this);
+    }
+
+    checkUsername(event) {
+        event.persist();
+
+        authenticationService.checkUsername(this.props.username).then(       
+            data => {
+                this.setState({
+                    popoverClass: 'popover-success-reversed',
+                    popoverMessage: 'Sent',
+                    checkUsernamePopoverIsOpen: document.activeElement === document.getElementById('sendLink')
+                });
+
+                pushCard(event);
+            },
+            error => {
+                this.setState({
+                    popoverClass: 'popover-error-reversed',
+                    popoverMessage: error === "Unexpected error" ? "Forgot Password Error" : error,
+                    checkUsernamePopoverIsOpen: document.activeElement === document.getElementById('sendLink')
+                });
+            }
+        )
     }
 
     handleInputChange(inputId, value) {
@@ -52,17 +77,15 @@ export class ForgotPassword extends Component {
                     popoverMessage: error === "Unexpected error" ? "Forgot Password Error" : error,
                     popoverIsOpen: document.activeElement === document.getElementById('sendLink')
                 });
-            }
-            
+            }  
         )
         event.preventDefault();
     }
 
-
     render() {
         return (
             <div className="card alt hidden bottom">
-                <div className="toggle" tabIndex="0" onClick={pushCard}>Forgot password?</div>
+                <div id="forgotPasswordLink" className="toggle" tabIndex="0" onClick={this.checkUsername.bind(this)}>Forgot password?</div>
                 <h1 className="title">Forgot<br />password?
                         <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Forgot password?')}></div>
                 </h1>
@@ -73,6 +96,10 @@ export class ForgotPassword extends Component {
                     </div>
 
                     <Popover className={this.state.popoverClass} placement='top' isOpen={this.state.popoverIsOpen} target='sendLink'>
+                        <PopoverBody>{this.state.popoverMessage}</PopoverBody>
+                    </Popover>
+
+                    <Popover className={this.state.popoverClass} placement='top' isOpen={this.state.checkUsernamePopoverIsOpen} target='forgotPasswordLink'>
                         <PopoverBody>{this.state.popoverMessage}</PopoverBody>
                     </Popover>
                 </form>

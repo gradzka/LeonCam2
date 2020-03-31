@@ -31,6 +31,11 @@ namespace LeonCam2.Services.Users
             this.settings = settings.Value;
         }
 
+        public async Task<bool> CheckUsername(string username)
+        {
+            return true;
+        }
+
         public async Task<string> Login(LoginModel loginModel)
         {
             if (loginModel == null)
