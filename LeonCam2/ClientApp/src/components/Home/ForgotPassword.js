@@ -44,7 +44,7 @@ export class ForgotPassword extends Component {
         authenticationService.getLeadingQuestion(this.props.username).then(     
             data => {
                 this.setState({
-                    leadingQuestion: data
+                    leadingQuestion: data.leadingQuestion
                     //popoverClass: 'popover-success-reversed',
                     //popoverMessage: 'Sent',
                     //getLeadingQuestionPopoverIsOpen: document.activeElement === document.getElementById('forgotPasswordLink')

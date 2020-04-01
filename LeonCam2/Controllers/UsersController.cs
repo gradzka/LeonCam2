@@ -41,11 +41,11 @@ namespace LeonCam2.Controllers
                 throw new ArgumentException(nameof(username));
             }
 
-            bool result = await this.userService.GetLeadingQuestion(username).ConfigureAwait(false);
+            string leadingQuestion = await this.userService.GetLeadingQuestion(username).ConfigureAwait(false);
 
             this.logger.LogInformation(GotLeadingQuestionInfo);
 
-            return this.Ok(result);
+            return this.Ok(new { leadingQuestion });
         }
 
         [HttpPost("Login")]
@@ -91,7 +91,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentException(nameof(answer));
             }
 
-            await this.userService.CheckAnswer(username, answer).ConfigureAwait(false);
+            string token = await this.userService.CheckAnswer(username, answer).ConfigureAwait(false);
 
             return this.Ok();
         }

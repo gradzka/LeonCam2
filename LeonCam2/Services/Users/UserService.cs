@@ -31,10 +31,21 @@ namespace LeonCam2.Services.Users
             this.settings = settings.Value;
         }
 
-        public async Task<bool> GetLeadingQuestion(string username)
+        public async Task<string> GetLeadingQuestion(string username)
         {
-            // TODO: return leading question from db
-            return true;
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentException("Username cannot be empty");
+            }
+
+            string leadingQuestion = await this.userRepository.GetLeadingQuestionAsync(username).ConfigureAwait(false);
+
+            if (string.IsNullOrEmpty(leadingQuestion))
+            {
+                throw new ArgumentException("Leading question is empty");
+            }
+
+            return leadingQuestion;
         }
 
         public async Task<string> Login(LoginModel loginModel)

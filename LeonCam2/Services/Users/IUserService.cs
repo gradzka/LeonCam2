@@ -7,7 +7,7 @@ namespace LeonCam2.Services.Users
 
     public interface IUserService
     {
-        Task<bool> GetLeadingQuestion(string username);
+        Task<string> GetLeadingQuestion(string username);
 
         /// <summary>
         /// Login method.
