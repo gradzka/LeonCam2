@@ -31,8 +31,9 @@ namespace LeonCam2.Services.Users
             this.settings = settings.Value;
         }
 
-        public async Task<bool> CheckUsername(string username)
+        public async Task<bool> GetLeadingQuestion(string username)
         {
+            // TODO: return leading question from db
             return true;
         }
 
@@ -49,7 +50,7 @@ namespace LeonCam2.Services.Users
             {
                 if (user.Password == $"{loginModel.Password}{loginModel.Username}{user.ModifiedDate}".GetSHA512Hash())
                 {
-                    if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.LoginAttemptCounter >= this.settings.MaxNumberOfLoginAttempts)
+                    if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
                         await this.userRepository.UpdateAsync(user);
@@ -59,7 +60,7 @@ namespace LeonCam2.Services.Users
                     else
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
-                        user.LoginAttemptCounter = 0;
+                        user.AccessFailedCount = 0;
                         await this.userRepository.UpdateAsync(user);
                     }
 
@@ -81,7 +82,7 @@ namespace LeonCam2.Services.Users
                 else
                 {
                     user.LastLoginAttemptDate = DateTime.Now;
-                    user.LoginAttemptCounter = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.LoginAttemptCounter + 1);
+                    user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
                     await this.userRepository.UpdateAsync(user);
 
                     throw new InternalException("Inproper login data");
@@ -129,10 +130,10 @@ namespace LeonCam2.Services.Users
             {
                 Username = registerModel.Username,
                 Password = passwordData.GetSHA512Hash(),
-                Email = null,
+                LeadingQuestion = null,
                 LastLoginAttemptDate = dateTimeNow,
                 LastLogoutDate = null,
-                LoginAttemptCounter = 0,
+                AccessFailedCount = 0,
                 CreationDate = dateTimeNow,
                 ModifiedDate = dateTimeNow,
             };
@@ -142,12 +143,19 @@ namespace LeonCam2.Services.Users
             await this.userRepository.InsertAsync(user).ConfigureAwait(false);
         }
 
-        public async Task ResetPassword(string email)
+        public async Task<string> CheckAnswer(string username, string answer)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException(nameof(email));
+                throw new ArgumentException(nameof(username));
             }
+
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new ArgumentException(nameof(answer));
+            }
+
+            //TODO: check answer and if success implement login -> return token
 
             throw new NotImplementedException();
         }

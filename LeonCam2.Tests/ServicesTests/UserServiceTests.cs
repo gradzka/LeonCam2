@@ -26,10 +26,10 @@ namespace LeonCam2.Tests.ServicesTests
             {
                 Username = TestUser,
                 Password = TestPassword,
-                Email = null,
+                LeadingQuestion = null,
                 LastLoginAttemptDate = DateTime.Parse(TestDate),
                 LastLogoutDate = DateTime.Parse(TestDate),
-                LoginAttemptCounter = 0,
+                AccessFailedCount = 0,
                 Id = 1,
                 CreationDate = DateTime.Parse(TestDate),
                 ModifiedDate = DateTime.Parse(TestDate),

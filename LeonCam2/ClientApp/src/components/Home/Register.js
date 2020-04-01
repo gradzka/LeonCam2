@@ -84,9 +84,9 @@ export class Register extends Component {
                 <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Register')}></div>
             </h1>
             <form onSubmit={this.register.bind(this)}>
-                <InputBox id="regname" type="text" placeholder="Username" className="alt hidden" value={this.state["regname"]} onChange={this.handleInputChange} />
-                <PasswordBox id="regpass" placeholder="Password" className="alt hidden" value={this.state["regpass"]} onChange={this.handleInputChange} withPasswordStrength={true} />
-                <PasswordBox id="reregpass" placeholder="Repeat Password" className="alt hidden" value={this.state["reregpass"]} onChange={this.handleInputChange} />
+                <InputBox id="regname" type="text" placeholder="Username" className="alt hidden" value={this.state["regname"]} onChange={this.handleInputChange} autoComplete="new-password"/>
+                <PasswordBox id="regpass" placeholder="Password" className="alt hidden" value={this.state["regpass"]} onChange={this.handleInputChange} withPasswordStrength={true} autoComplete="new-password"/>
+                <PasswordBox id="reregpass" placeholder="Repeat Password" className="alt hidden" value={this.state["reregpass"]} onChange={this.handleInputChange} autocomplete="new-password" />
                 <div className="button-container">
                     <button id='signUp' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Sign up</span></button>
                 </div>

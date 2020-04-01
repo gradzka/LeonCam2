@@ -69,7 +69,7 @@ export class Login extends Component {
                         <button id='signIn' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Sign in</span></button>
                     </div>
 
-                    <Popover className="popover-error" placement='top' isOpen={this.state.popoverIsOpen} target='signIn'>
+                    <Popover className="popover-error-reversed" placement='top' isOpen={this.state.popoverIsOpen} target='signIn'>
                         <PopoverBody>{this.state.popoverMessage}</PopoverBody>
                     </Popover>
                 </form>

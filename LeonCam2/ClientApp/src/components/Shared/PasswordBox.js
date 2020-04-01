@@ -118,7 +118,7 @@ export class PasswordBox extends Component {
 
         return (
             <div className={"input-container password-container " + (this.props.className === undefined ? '' : this.props.className)}>
-                <input type="password" id={this.props.id} required="required" onKeyDown={this.toggleCapsLkWarning} onBlur={this.hideCapsLkWarning} value={this.props.value} onChange={this.handleChange}/>
+                <input type="password" id={this.props.id} required="required" onKeyDown={this.toggleCapsLkWarning} onBlur={this.hideCapsLkWarning} value={this.props.value} onChange={this.handleChange} autoComplete={this.props.autoComplete || "on"}/>
                 <label forhtml={this.props.id}>
                     {this.props.placeholder} 
                     <span id="capsLk" className="badge badge-warning">CapsLk</span>

@@ -4,25 +4,25 @@ import { handleResponse } from '../authorization/ResponseHandler';
 const currentUser = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
 export const authenticationService = {
-    checkUsername,
+    getLeadingQuestion,
     login,
     logout,
     register,
-    forgotPassword,
+    checkAnswer,
     currentUser: currentUser.asObservable(),
     get currentUserValue() {
         return currentUser.value
     }
 };
 
-function checkUsername(username) {
+function getLeadingQuestion(username) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( username )
     };
 
-    return fetch(`users/checkUsername`, requestOptions)
+    return fetch(`users/GetLeadingQuestion`, requestOptions)
         .then(handleResponse)
         .then(data => { return data; });
 }
@@ -57,14 +57,14 @@ function register(username, password, repeatedPassword) {
         .then(data => { return data; });
 }
 
-function forgotPassword(username) {
+function checkAnswer(username, answer) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username })
+        body: JSON.stringify({ username, answer })
     };
 
-    return fetch(`users/forgotpassword`, requestOptions)
+    return fetch(`users/checkanswer`, requestOptions)
         .then(handleResponse)
         .then(data => { return data; });
 }

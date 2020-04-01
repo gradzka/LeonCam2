@@ -13,13 +13,15 @@ namespace LeonCam2.Models
         [Required]
         public string Password { get; set; }
 
-        public string Email { get; set; }
+        public string LeadingQuestion { get; set; }
+
+        public string LeadingQuestionAnswer { get; set; }
 
         public DateTime LastLoginAttemptDate { get; set; }
 
         public DateTime? LastLogoutDate { get; set; }
 
         [Required]
-        public int LoginAttemptCounter { get; set; }
+        public int AccessFailedCount { get; set; }
     }
 }

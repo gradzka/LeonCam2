@@ -14,9 +14,9 @@ namespace LeonCam2.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private static readonly string CheckingUsernameStartedInfo = "Checking username started...";
+        private static readonly string GettingLeadingQuestionStartedInfo = "Getting leading question started...";
         private static readonly string IsNullError = " is null";
-        private static readonly string UsernameIsCheckedInfo = "Username is checked";
+        private static readonly string GotLeadingQuestionInfo = "Got leading question";
         private static readonly string UserIsRegisteredInfo = "User is registered";
         private static readonly string UserRegistrationStartedInfo = "User registration started...";
 
@@ -29,10 +29,10 @@ namespace LeonCam2.Controllers
             this.logger = logger;
         }
 
-        [HttpPost("CheckUsername")]
-        public async Task<IActionResult> CheckUsername([FromBody] string username)
+        [HttpPost("GetLeadingQuestion")]
+        public async Task<IActionResult> GetLeadingQuestion([FromBody] string username)
         {
-            this.logger.LogInformation(CheckingUsernameStartedInfo);
+            this.logger.LogInformation(GettingLeadingQuestionStartedInfo);
             this.logger.LogDebug($"Username: {username}");
 
             if (string.IsNullOrEmpty(username))
@@ -41,9 +41,9 @@ namespace LeonCam2.Controllers
                 throw new ArgumentException(nameof(username));
             }
 
-            bool result = await this.userService.CheckUsername(username).ConfigureAwait(false);
+            bool result = await this.userService.GetLeadingQuestion(username).ConfigureAwait(false);
 
-            this.logger.LogInformation(UsernameIsCheckedInfo);
+            this.logger.LogInformation(GotLeadingQuestionInfo);
 
             return this.Ok(result);
         }
@@ -78,15 +78,20 @@ namespace LeonCam2.Controllers
             return this.Ok();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ResetPassword(string eMail)
+        [HttpPost("CheckAnswer")]
+        public async Task<IActionResult> CheckAnswer(string username, string answer)
         {
-            if (string.IsNullOrEmpty(eMail))
+            if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException(nameof(eMail));
+                throw new ArgumentException(nameof(username));
             }
 
-            await this.userService.ResetPassword(eMail).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(answer))
+            {
+                throw new ArgumentException(nameof(answer));
+            }
+
+            await this.userService.CheckAnswer(username, answer).ConfigureAwait(false);
 
             return this.Ok();
         }

@@ -7,7 +7,7 @@ namespace LeonCam2.Services.Users
 
     public interface IUserService
     {
-        Task<bool> CheckUsername(string username);
+        Task<bool> GetLeadingQuestion(string username);
 
         /// <summary>
         /// Login method.
@@ -18,6 +18,6 @@ namespace LeonCam2.Services.Users
 
         Task Register(RegisterModel registerModel);
 
-        Task ResetPassword(string email);
+        Task<string> CheckAnswer(string username, string answer);
     }
 }
