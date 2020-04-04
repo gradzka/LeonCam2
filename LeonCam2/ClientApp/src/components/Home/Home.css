@@ -197,7 +197,7 @@
                     right: 42px;
                     border: 1px solid #0574BB;
                     width: 110px;
-                    align-self: end
+                    align-self: flex-end
                 }
 
                     .card-container .card.alt.hidden .toggle:hover,

@@ -103,14 +103,6 @@
     visibility: visible;
 }
 
-.password-container {
-    display: block ruby;
-}
-
-    .password-container input {
-        width: 90%;
-    }
-
 .input-container.hidden {
     opacity: 0;
     visibility: hidden;
