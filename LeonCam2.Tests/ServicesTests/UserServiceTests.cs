@@ -134,7 +134,7 @@ namespace LeonCam2.Tests.ServicesTests
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
         }
-        
+
         [Theory]
         [ClassData(typeof(UserServiceTestsCheckAnswerData))]
         public async void CheckAnswer_Test(string username, string answer, TestsMethodResult testsMethodResult)
