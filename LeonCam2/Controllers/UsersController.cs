@@ -4,7 +4,6 @@ namespace LeonCam2.Controllers
 {
     using System;
     using System.Threading.Tasks;
-    using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Mvc;
@@ -19,6 +18,7 @@ namespace LeonCam2.Controllers
         private static readonly string GotLeadingQuestionInfo = "Got leading question";
         private static readonly string UserIsRegisteredInfo = "User is registered";
         private static readonly string UserRegistrationStartedInfo = "User registration started...";
+        private static readonly string CheckingAnswerStartedInfo = "Checking user answer started...";
 
         private readonly ILogger<UsersController> logger;
         private readonly IUserService userService;
@@ -81,6 +81,9 @@ namespace LeonCam2.Controllers
         [HttpPost("CheckAnswer")]
         public async Task<IActionResult> CheckAnswer(string username, string answer)
         {
+            this.logger.LogInformation(CheckingAnswerStartedInfo);
+            this.logger.LogDebug($"Username: {username}, Answer: {answer}");
+
             if (string.IsNullOrEmpty(username))
             {
                 throw new ArgumentException(nameof(username));
@@ -91,9 +94,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentException(nameof(answer));
             }
 
-            string token = await this.userService.CheckAnswer(username, answer).ConfigureAwait(false);
-
-            return this.Ok();
+            return this.Ok(new { token = await this.userService.CheckAnswer(username, answer).ConfigureAwait(false) });
         }
     }
 }

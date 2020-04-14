@@ -13,7 +13,6 @@ namespace LeonCam2.Services.Users
     using LeonCam2.Repositories;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Microsoft.IdentityModel.Logging;
     using Microsoft.IdentityModel.Tokens;
 
     public class UserService : IUserService
@@ -42,7 +41,7 @@ namespace LeonCam2.Services.Users
 
             if (string.IsNullOrEmpty(leadingQuestion))
             {
-                throw new ArgumentException("Leading question is empty");
+                throw new InternalException("Leading question is empty");
             }
 
             return leadingQuestion;
@@ -59,7 +58,7 @@ namespace LeonCam2.Services.Users
 
             if (user != null)
             {
-                if (user.Password == $"{loginModel.Password}{loginModel.Username}{user.ModifiedDate}".GetSHA512Hash())
+                if (user.Password == $"{loginModel.Password}{loginModel.Username}{user.CreationDate}".GetSHA512Hash())
                 {
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
@@ -75,20 +74,7 @@ namespace LeonCam2.Services.Users
                         await this.userRepository.UpdateAsync(user);
                     }
 
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
-
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(new Claim[]
-                        {
-                        new Claim(ClaimTypes.Name, user.Id.ToString()),
-                        }),
-                        Expires = DateTime.UtcNow.AddDays(1),
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                    };
-
-                    return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+                    return this.CreateJwtToken(user.Id);
                 }
                 else
                 {
@@ -158,17 +144,66 @@ namespace LeonCam2.Services.Users
         {
             if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException(nameof(username));
+                throw new ArgumentException("Username cannot be empty");
             }
 
             if (string.IsNullOrEmpty(answer))
             {
-                throw new ArgumentException(nameof(answer));
+                throw new ArgumentException("Answer cannot be empty");
             }
 
-            //TODO: check answer and if success implement login -> return token
+            var user = await this.userRepository.GetByUsernameAsync(username).ConfigureAwait(false);
 
-            throw new NotImplementedException();
+            if (user != null)
+            {
+                if (user.LeadingQuestionAnswer == $"{answer}{username}{user.CreationDate}".GetSHA512Hash())
+                {
+                    if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
+                    {
+                        user.LastLoginAttemptDate = DateTime.Now;
+                        await this.userRepository.UpdateAsync(user);
+                        throw new InternalException("Your account is locked - try again later");
+                    }
+                    else
+                    {
+                        user.LastLoginAttemptDate = DateTime.Now;
+                        user.AccessFailedCount = 0;
+                        await this.userRepository.UpdateAsync(user);
+                    }
+
+                    return this.CreateJwtToken(user.Id);
+                }
+                else
+                {
+                    user.LastLoginAttemptDate = DateTime.Now;
+                    user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
+                    await this.userRepository.UpdateAsync(user);
+
+                    throw new InternalException("Invalid answer");
+                }
+            }
+            else
+            {
+                throw new InternalException("Inproper username");
+            }
+        }
+
+        private string CreateJwtToken(int userId)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                        new Claim(ClaimTypes.Name, userId.ToString()),
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            };
+
+            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
     }
 }
