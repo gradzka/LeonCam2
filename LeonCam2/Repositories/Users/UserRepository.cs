@@ -17,8 +17,7 @@ namespace LeonCam2.Repositories
             this.dbConnection = dbConnection;
         }
 
-        // TODO: Rename
-        public async Task<User> GetByUsernameAsync(string username)
+        public async Task<User> GetUserAsync(string username)
         {
             return await this.dbConnection.QuerySingleOrDefaultAsync<User>($"SELECT * FROM {this.TableName} WHERE Username=@Username", new { Username = username });
         }

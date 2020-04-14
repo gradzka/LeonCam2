@@ -4,35 +4,34 @@ namespace LeonCam2.Controllers
 {
     using System;
     using System.Threading.Tasks;
+    using LeonCam2.Enums;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
 
     [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private static readonly string GettingLeadingQuestionStartedInfo = "Getting leading question started...";
         private static readonly string IsNullError = " is null";
-        private static readonly string GotLeadingQuestionInfo = "Got leading question";
-        private static readonly string UserIsRegisteredInfo = "User is registered";
-        private static readonly string UserRegistrationStartedInfo = "User registration started...";
-        private static readonly string CheckingAnswerStartedInfo = "Checking user answer started...";
 
         private readonly ILogger<UsersController> logger;
+        private readonly IStringLocalizer<UsersController> localizer;
         private readonly IUserService userService;
 
-        public UsersController(IUserService userService, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, ILogger<UsersController> logger, IStringLocalizer<UsersController> localizer)
         {
             this.userService = userService;
             this.logger = logger;
+            this.localizer = localizer;
         }
 
         [HttpPost("GetLeadingQuestion")]
         public async Task<IActionResult> GetLeadingQuestion([FromBody] string username)
         {
-            this.logger.LogInformation(GettingLeadingQuestionStartedInfo);
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.GettingLeadingQuestionStarted)]);
             this.logger.LogDebug($"Username: {username}");
 
             if (string.IsNullOrEmpty(username))
@@ -43,7 +42,7 @@ namespace LeonCam2.Controllers
 
             string leadingQuestion = await this.userService.GetLeadingQuestion(username).ConfigureAwait(false);
 
-            this.logger.LogInformation(GotLeadingQuestionInfo);
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.GotLeadingQuestion)]);
 
             return this.Ok(new { leadingQuestion });
         }
@@ -62,7 +61,7 @@ namespace LeonCam2.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
-            this.logger.LogInformation(UserRegistrationStartedInfo);
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.UserRegistrationStarted)]);
             this.logger.LogDebug($"RegisterModel data: {registerModel}");
 
             if (registerModel == null)
@@ -73,7 +72,7 @@ namespace LeonCam2.Controllers
 
             await this.userService.Register(registerModel).ConfigureAwait(false);
 
-            this.logger.LogInformation(UserIsRegisteredInfo);
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.UserRegistered)]);
 
             return this.Ok();
         }
@@ -81,7 +80,7 @@ namespace LeonCam2.Controllers
         [HttpPost("CheckAnswer")]
         public async Task<IActionResult> CheckAnswer(string username, string answer)
         {
-            this.logger.LogInformation(CheckingAnswerStartedInfo);
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.CheckingAnswerStarted)]);
             this.logger.LogDebug($"Username: {username}, Answer: {answer}");
 
             if (string.IsNullOrEmpty(username))

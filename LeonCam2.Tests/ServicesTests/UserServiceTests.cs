@@ -8,7 +8,9 @@ namespace LeonCam2.Tests.ServicesTests
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
     using LeonCam2.Services.Users;
+    using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Abstractions;
     using Microsoft.Extensions.Options;
     using Moq;
     using Xunit;
@@ -22,6 +24,7 @@ namespace LeonCam2.Tests.ServicesTests
         private static readonly string TestDate = "2020-03-29 15:00:42.9685001";
 
         private readonly IOptions<Settings> options;
+        private readonly StringLocalizer<UserService> localizer;
 
         public UserServiceTests()
         {
@@ -43,6 +46,11 @@ namespace LeonCam2.Tests.ServicesTests
             var options = new Mock<IOptions<Settings>>();
             options.Setup(x => x.Value).Returns(settings);
             this.options = options.Object;
+
+            this.localizer = new StringLocalizer<UserService>(
+                new ResourceManagerStringLocalizerFactory(
+                    Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
+                    NullLoggerFactory.Instance));
         }
 
         public User User { get; set; }
@@ -52,11 +60,15 @@ namespace LeonCam2.Tests.ServicesTests
         public async void Login_Test(LoginModel loginModel, TestsMethodResult testsMethodResult)
         {
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult(this.User));
-            userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetUserAsync(TestUser)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetUserAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            var userService = new UserService(userRepository.Object, new Mock<ILogger<UserService>>().Object, this.options);
+            var userService = new UserService(
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                this.options,
+                this.localizer);
 
             if (loginModel == null)
             {
@@ -80,14 +92,15 @@ namespace LeonCam2.Tests.ServicesTests
         public async void Register_Test(RegisterModel registerModel, TestsMethodResult testsMethodResult)
         {
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult(this.User));
-            userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetUserAsync(TestUser)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetUserAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.InsertAsync(It.IsAny<User>()));
 
             var userService = new UserService(
-                userRepository: userRepository.Object,
-                logger: new Mock<ILogger<UserService>>().Object,
-                settings: new Mock<IOptions<Settings>>().Object);
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                new Mock<IOptions<Settings>>().Object,
+                this.localizer);
 
             if (registerModel == null)
             {
@@ -118,7 +131,11 @@ namespace LeonCam2.Tests.ServicesTests
             userRepository.Setup(x => x.GetLeadingQuestionAsync(TestUser)).Returns(Task.FromResult(this.User.LeadingQuestion));
             userRepository.Setup(x => x.GetLeadingQuestionAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<string>(default));
 
-            var userService = new UserService(userRepository.Object, new Mock<ILogger<UserService>>().Object, this.options);
+            var userService = new UserService(
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                this.options,
+                this.localizer);
 
             try
             {
@@ -140,11 +157,15 @@ namespace LeonCam2.Tests.ServicesTests
         public async void CheckAnswer_Test(string username, string answer, TestsMethodResult testsMethodResult)
         {
             var userRepository = new Mock<IUserRepository>();
-            userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult(this.User));
-            userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetUserAsync(TestUser)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetUserAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            var userService = new UserService(userRepository.Object, new Mock<ILogger<UserService>>().Object, this.options);
+            var userService = new UserService(
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                this.options,
+                this.localizer);
 
             try
             {

@@ -7,10 +7,12 @@ namespace LeonCam2.Services.Users
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
+    using LeonCam2.Enums;
     using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
+    using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
@@ -20,28 +22,34 @@ namespace LeonCam2.Services.Users
         private static readonly string UserIsRegisteredInfo = "User is registered...";
 
         private readonly ILogger<UserService> logger;
+        private readonly IStringLocalizer<UserService> localizer;
         private readonly Settings settings;
         private readonly IUserRepository userRepository;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger, IOptions<Settings> settings)
+        public UserService(
+            IUserRepository userRepository,
+            ILogger<UserService> logger,
+            IOptions<Settings> settings,
+            IStringLocalizer<UserService> localizer)
         {
             this.userRepository = userRepository;
             this.logger = logger;
             this.settings = settings.Value;
+            this.localizer = localizer;
         }
 
         public async Task<string> GetLeadingQuestion(string username)
         {
             if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException("Username cannot be empty");
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
             string leadingQuestion = await this.userRepository.GetLeadingQuestionAsync(username).ConfigureAwait(false);
 
             if (string.IsNullOrEmpty(leadingQuestion))
             {
-                throw new InternalException("Leading question is empty");
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.LeadingQuestionEmpty)]);
             }
 
             return leadingQuestion;
@@ -54,7 +62,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentNullException(nameof(loginModel));
             }
 
-            var user = await this.userRepository.GetByUsernameAsync(loginModel.Username).ConfigureAwait(false);
+            var user = await this.userRepository.GetUserAsync(loginModel.Username).ConfigureAwait(false);
 
             if (user != null)
             {
@@ -65,7 +73,7 @@ namespace LeonCam2.Services.Users
                         user.LastLoginAttemptDate = DateTime.Now;
                         await this.userRepository.UpdateAsync(user);
 
-                        throw new InternalException("Your account is locked - try again later");
+                        throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
                     }
                     else
                     {
@@ -82,12 +90,12 @@ namespace LeonCam2.Services.Users
                     user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
                     await this.userRepository.UpdateAsync(user);
 
-                    throw new InternalException("Inproper login data");
+                    throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperLoginData)]);
                 }
             }
             else
             {
-                throw new InternalException("Inproper login data");
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperLoginData)]);
             }
         }
 
@@ -100,25 +108,25 @@ namespace LeonCam2.Services.Users
 
             if (string.IsNullOrEmpty(registerModel.Username))
             {
-                throw new ArgumentException("Username cannot be empty");
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
             if (registerModel.Password != registerModel.RepeatedPassword)
             {
-                throw new ArgumentException("Passwords must be the same");
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]);
             }
 
             if (string.IsNullOrEmpty(registerModel.Password))
             {
-                throw new ArgumentException("Password cannot be empty");
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]);
             }
 
             this.logger.LogInformation(UserIsRegisteredInfo);
             DateTime dateTimeNow = DateTime.Now;
 
-            if (this.userRepository.GetByUsernameAsync(registerModel.Username).Result != null)
+            if (this.userRepository.GetUserAsync(registerModel.Username).Result != null)
             {
-                throw new InternalException("Username is already used");
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]);
             }
 
             string passwordData = $"{registerModel.Password}{registerModel.Username}{dateTimeNow}";
@@ -144,15 +152,15 @@ namespace LeonCam2.Services.Users
         {
             if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException("Username cannot be empty");
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
             if (string.IsNullOrEmpty(answer))
             {
-                throw new ArgumentException("Answer cannot be empty");
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.AnswerCannotBeEmpty)]);
             }
 
-            var user = await this.userRepository.GetByUsernameAsync(username).ConfigureAwait(false);
+            var user = await this.userRepository.GetUserAsync(username).ConfigureAwait(false);
 
             if (user != null)
             {
@@ -162,7 +170,7 @@ namespace LeonCam2.Services.Users
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
                         await this.userRepository.UpdateAsync(user);
-                        throw new InternalException("Your account is locked - try again later");
+                        throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
                     }
                     else
                     {
@@ -179,12 +187,12 @@ namespace LeonCam2.Services.Users
                     user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
                     await this.userRepository.UpdateAsync(user);
 
-                    throw new InternalException("Invalid answer");
+                    throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
                 }
             }
             else
             {
-                throw new InternalException("Inproper username");
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperUsername)]);
             }
         }
 
@@ -197,7 +205,7 @@ namespace LeonCam2.Services.Users
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new Claim(ClaimTypes.Name, userId.ToString()),
+                    new Claim(ClaimTypes.Name, userId.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),

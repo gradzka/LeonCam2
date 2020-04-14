@@ -7,7 +7,7 @@ namespace LeonCam2.Repositories
 
     public interface IUserRepository : IGenericRepository<User>
     {
-        Task<User> GetByUsernameAsync(string username);
+        Task<User> GetUserAsync(string username);
 
         Task<string> GetLeadingQuestionAsync(string username);
     }

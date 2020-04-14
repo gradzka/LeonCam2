@@ -4,6 +4,7 @@ namespace LeonCam2
 {
     using System.Data;
     using System.Data.SQLite;
+    using System.Globalization;
     using System.Text;
     using LeonCam2.Extensions;
     using LeonCam2.Models;
@@ -12,6 +13,7 @@ namespace LeonCam2
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,11 @@ namespace LeonCam2
 
     public class Startup
     {
+        private readonly CultureInfo[] supportedCultures = new[]
+        {
+            new CultureInfo("en-US"),
+        };
+
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -63,6 +70,8 @@ namespace LeonCam2
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddTransient<IDbConnection>((_) => new SQLiteConnection(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUserRepository, UserRepository>();
@@ -84,6 +93,13 @@ namespace LeonCam2
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = this.supportedCultures,
+                SupportedUICultures = this.supportedCultures,
+            });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
