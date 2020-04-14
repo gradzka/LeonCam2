@@ -17,8 +17,11 @@ namespace LeonCam2.Tests.ServicesTests
     {
         private static readonly string JwtKey = "SecretSecret key";
         private static readonly string TestUser = "test";
+        private static readonly string TestQuestion = "Question";
         private static readonly string TestPassword = "51A670987F4C067329A37CD8C8A493C38F49A0FE8BA1EE67FCB830EA681332F69FC7DB87AA4627E3A2735798F5DCC209A1D90CCA0C95DECA685F3CC7E6AD72E6";
         private static readonly string TestDate = "2020-03-29 15:00:42.9685001";
+
+        private readonly IOptions<Settings> options;
 
         public UserServiceTests()
         {
@@ -26,7 +29,8 @@ namespace LeonCam2.Tests.ServicesTests
             {
                 Username = TestUser,
                 Password = TestPassword,
-                LeadingQuestion = null,
+                LeadingQuestion = TestQuestion,
+                LeadingQuestionAnswer = TestPassword,
                 LastLoginAttemptDate = DateTime.Parse(TestDate),
                 LastLogoutDate = DateTime.Parse(TestDate),
                 AccessFailedCount = 0,
@@ -34,6 +38,11 @@ namespace LeonCam2.Tests.ServicesTests
                 CreationDate = DateTime.Parse(TestDate),
                 ModifiedDate = DateTime.Parse(TestDate),
             };
+
+            Settings settings = new Settings() { JwtKey = JwtKey, MaxNumberOfLoginAttempts = 1 };
+            var options = new Mock<IOptions<Settings>>();
+            options.Setup(x => x.Value).Returns(settings);
+            this.options = options.Object;
         }
 
         public User User { get; set; }
@@ -47,14 +56,7 @@ namespace LeonCam2.Tests.ServicesTests
             userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            Settings settings = new Settings() { JwtKey = JwtKey, MaxNumberOfLoginAttempts = 1 };
-            var options = new Mock<IOptions<Settings>>();
-            options.Setup(x => x.Value).Returns(settings);
-
-            var userService = new UserService(
-                userRepository: userRepository.Object,
-                logger: new Mock<ILogger<UserService>>().Object,
-                settings: options.Object);
+            var userService = new UserService(userRepository.Object, new Mock<ILogger<UserService>>().Object, this.options);
 
             if (loginModel == null)
             {
@@ -105,6 +107,57 @@ namespace LeonCam2.Tests.ServicesTests
             else
             {
                 await userService.Register(registerModel).ConfigureAwait(false);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(UserServiceTestsGetLeadingQuestionData))]
+        public async void GetLeadingQuestion_Test(string username, TestsMethodResult testsMethodResult)
+        {
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetLeadingQuestionAsync(TestUser)).Returns(Task.FromResult(this.User.LeadingQuestion));
+            userRepository.Setup(x => x.GetLeadingQuestionAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<string>(default));
+
+            var userService = new UserService(userRepository.Object, new Mock<ILogger<UserService>>().Object, this.options);
+
+            try
+            {
+                string question = await userService.GetLeadingQuestion(username).ConfigureAwait(false);
+
+                Assert.True(testsMethodResult.Exception == null);
+                Assert.Equal(this.User.LeadingQuestion, question);
+            }
+            catch (Exception ex)
+            {
+                Assert.True(testsMethodResult.Exception != null);
+                Assert.Equal(ex.GetType(), testsMethodResult.Exception.GetType());
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+        }
+        
+        [Theory]
+        [ClassData(typeof(UserServiceTestsCheckAnswerData))]
+        public async void CheckAnswer_Test(string username, string answer, TestsMethodResult testsMethodResult)
+        {
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetByUsernameAsync(TestUser)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetByUsernameAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
+
+            var userService = new UserService(userRepository.Object, new Mock<ILogger<UserService>>().Object, this.options);
+
+            try
+            {
+                string token = await userService.CheckAnswer(username, answer).ConfigureAwait(false);
+
+                Assert.True(testsMethodResult.Exception == null);
+                Assert.True(!string.IsNullOrEmpty(token));
+            }
+            catch (Exception ex)
+            {
+                Assert.True(testsMethodResult.Exception != null);
+                Assert.Equal(ex.GetType(), testsMethodResult.Exception.GetType());
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
         }
     }

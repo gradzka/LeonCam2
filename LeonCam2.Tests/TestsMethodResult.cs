@@ -6,8 +6,8 @@ namespace LeonCam2.Tests
 
     public class TestsMethodResult
     {
-        public Exception Exception { get; set; }
+        public Exception Exception { get; set; } = null;
 
-        public object Result { get; set; }
+        public object Result { get; set; } = null;
     }
 }
