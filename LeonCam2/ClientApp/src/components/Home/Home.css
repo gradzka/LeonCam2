@@ -6,6 +6,12 @@
     margin: 0 auto;
 }
 
+@media screen and (min-width: 768px) {
+    .margin-left-md-55 {
+        margin-left: 65%;
+    }
+}
+
     .card-container .card {
         position: relative;
         background: #fff;
@@ -18,6 +24,7 @@
     }
 
         .card-container .card:not(.alt) {
+            margin-bottom: 50px;
             -webkit-box-shadow: 0 4px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
             -moz-box-shadow: 0 4px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
             box-shadow: 0 4px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -276,15 +283,3 @@
             bottom: 29px;
             width: 74%;
         }
-
-body {
-    background: #e9e9e9;
-    color: #666;
-    font-family: RobotoDraft, Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}

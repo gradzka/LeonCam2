@@ -6,9 +6,22 @@ html {
 }
 
 body {
-    padding-bottom: 10rem;
+    padding-bottom: 6rem;
     min-height: 100%;
     position: relative;
+    background: #e9e9e9;
+    color: #666;
+    font-family: RobotoDraft, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png);
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+footer ul {
+    padding-left: 0;
 }
 
 a {

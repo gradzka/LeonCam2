@@ -28,7 +28,7 @@ export class Home extends Component {
 
     render() {
         return (
-            <div className="card-container">
+            <div className="card-container margin-left-md-55">
                 <Register />
                 <ForgotPassword username={this.state.username} />
                 <div className="card first"></div>
