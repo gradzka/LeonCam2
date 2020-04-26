@@ -19,8 +19,6 @@ namespace LeonCam2.Models
 
         public DateTime LastLoginAttemptDate { get; set; }
 
-        public DateTime? LastLogoutDate { get; set; }
-
         [Required]
         public int AccessFailedCount { get; set; }
     }

@@ -137,7 +137,6 @@ namespace LeonCam2.Services.Users
                 Password = passwordData.GetSHA512Hash(),
                 LeadingQuestion = null,
                 LastLoginAttemptDate = dateTimeNow,
-                LastLogoutDate = null,
                 AccessFailedCount = 0,
                 CreationDate = dateTimeNow,
                 ModifiedDate = dateTimeNow,

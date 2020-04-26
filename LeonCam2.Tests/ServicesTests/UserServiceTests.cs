@@ -35,7 +35,6 @@ namespace LeonCam2.Tests.ServicesTests
                 LeadingQuestion = TestQuestion,
                 LeadingQuestionAnswer = TestPassword,
                 LastLoginAttemptDate = DateTime.Parse(TestDate),
-                LastLogoutDate = DateTime.Parse(TestDate),
                 AccessFailedCount = 0,
                 Id = 1,
                 CreationDate = DateTime.Parse(TestDate),
