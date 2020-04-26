@@ -10,6 +10,7 @@ namespace LeonCam2.Services.Users
     using LeonCam2.Enums;
     using LeonCam2.Extensions;
     using LeonCam2.Models;
+    using LeonCam2.Models.DB;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
     using Microsoft.Extensions.Localization;

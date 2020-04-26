@@ -5,6 +5,7 @@ namespace LeonCam2.Tests.ServicesTests
     using System;
     using System.Threading.Tasks;
     using LeonCam2.Models;
+    using LeonCam2.Models.DB;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
     using LeonCam2.Services.Users;

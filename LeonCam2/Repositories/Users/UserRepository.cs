@@ -5,7 +5,7 @@ namespace LeonCam2.Repositories
     using System.Data;
     using System.Threading.Tasks;
     using Dapper;
-    using LeonCam2.Models;
+    using LeonCam2.Models.DB;
 
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
