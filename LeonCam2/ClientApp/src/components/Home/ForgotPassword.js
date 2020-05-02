@@ -113,7 +113,7 @@ export class ForgotPassword extends Component {
     render() {
         return (
             <div className="card alt hidden bottom">
-                <div id="forgotPasswordLink" className="toggle" tabIndex="0" onClick={this.getLeadingQuestion.bind(this)} onBlur={this.hidePopover}>Forgot password?</div>
+                <div id="forgotPasswordLink" className="toggle" tabIndex="0" onClick={this.getLeadingQuestion.bind(this)}>Forgot password?</div>
                 <h1 className="title">Forgot<br />password?
                         <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Forgot password?')}></div>
                 </h1>
