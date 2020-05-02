@@ -34,7 +34,6 @@
     .input-container input {
         outline: none;
         z-index: 1;
-        position: relative;
         background: none;
         width: 100%;
         height: 43px;
@@ -42,6 +41,8 @@
         color: #032B45;
         font-size: 16px;
         font-weight: 300;
+        position: absolute;
+        bottom: 0;
     }
 
         .input-container input:focus ~ .bar:before,
@@ -51,8 +52,8 @@
 
         .input-container input:focus ~ label {
             color: #CECECE;
-            -webkit-transform: translate(-12%,-50%) scale(0.75);
-            transform: translate(-12%,-50%) scale(0.75);
+            -webkit-transform: translate(-12%,-16px) scale(0.75);
+            transform: translate(-12%,-16px) scale(0.75);
         }
 
         .input-container input:required {
@@ -61,14 +62,11 @@
 
         .input-container input:valid ~ label {
             color: #acb0b0;
-            -webkit-transform: translate(-12%,-50%) scale(0.75);
-            transform: translate(-12%,-50%) scale(0.75);
+            -webkit-transform: translate(-12%,-16px) scale(0.75);
+            transform: translate(-12%,-16px) scale(0.75);
         }
 
     .input-container label {
-        position: absolute;
-        top: 0;
-        left: 0;
         color: #acb0b0;
         font-size: 16px;
         font-weight: 300;
