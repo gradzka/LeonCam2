@@ -29,6 +29,14 @@ export class Login extends Component {
         }  
     }
 
+    componentDidMount() {
+        document.body.addEventListener('click', this.hidePopover);
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.hidePopover);
+    }
+
     hidePopover() {
         this.setState({
             popoverIsOpen: false
@@ -51,7 +59,7 @@ export class Login extends Component {
                 this.setState({
                     isSubmitting: false,
                     popoverMessage: error === "Unexpected error" ? "Sign-In Error" : error,
-                    popoverIsOpen: document.activeElement === document.getElementById('signIn')
+                    popoverIsOpen: true
                 });
             }
         )
@@ -66,7 +74,7 @@ export class Login extends Component {
                     <InputBox id="username" type="text" placeholder="Username" value={this.state["username"]} onChange={this.handleInputChange} />
                     <PasswordBox id="password" placeholder="Password" value={this.state["password"]} onChange={this.handleInputChange} />
                     <div className="button-container">
-                        <button id='signIn' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Sign in</span></button>
+                        <button id='signIn' disabled={this.state.isSubmitting}><span>Sign in</span></button>
                     </div>
 
                     <Popover className="popover-error-reversed" placement='top' isOpen={this.state.popoverIsOpen} target='signIn'>

@@ -28,6 +28,14 @@ export class Register extends Component {
         });
     }
 
+    componentDidMount() {
+        document.body.addEventListener('click', this.hidePopover);
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.hidePopover);
+    }
+
     hidePopover() {
         this.setState({
             popoverIsOpen: false
@@ -45,7 +53,7 @@ export class Register extends Component {
                 isSubmitting: false,
                 popoverClass: 'popover-error-reversed',
                 popoverMessage: "Passwords must be the same",
-                popoverIsOpen: document.activeElement === document.getElementById('signUp')
+                popoverIsOpen: true
             });
         }
         else {
@@ -67,7 +75,7 @@ export class Register extends Component {
                         isSubmitting: false,
                         popoverClass: 'popover-error-reversed',
                         popoverMessage: error === "Unexpected error" ? "Sign-Up Error" : error,
-                        popoverIsOpen: document.activeElement === document.getElementById('signUp')
+                        popoverIsOpen: true
                     });
                 }
 
@@ -88,7 +96,7 @@ export class Register extends Component {
                 <PasswordBox id="regpass" placeholder="Password" className="alt hidden" value={this.state["regpass"]} onChange={this.handleInputChange} withPasswordStrength={true} autoComplete="new-password"/>
                 <PasswordBox id="reregpass" placeholder="Repeat Password" className="alt hidden" value={this.state["reregpass"]} onChange={this.handleInputChange} autocomplete="new-password" />
                 <div className="button-container">
-                    <button id='signUp' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Sign up</span></button>
+                    <button id='signUp' disabled={this.state.isSubmitting}><span>Sign up</span></button>
                 </div>
 
                 <Popover className={this.state.popoverClass} placement='top' isOpen={this.state.popoverIsOpen} target='signUp'>

@@ -68,6 +68,14 @@ export class ForgotPassword extends Component {
         });
     }
 
+    componentDidMount() {
+        document.body.addEventListener('click', this.hidePopover);
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.hidePopover);
+    }
+
     hidePopover() {
         this.setState({
             popoverIsOpen: false,
@@ -112,7 +120,7 @@ export class ForgotPassword extends Component {
                 <form onSubmit={this.checkAnswer.bind(this)}>
                     <InputBox id="leadingQuestionAnswer" type="text" placeholder={this.state.leadingQuestion} className="alt hidden" value={this.state.answer} onChange={this.handleInputChange} />
                     <div className="button-container">
-                        <button id='checkAnswer' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Check answer</span></button>
+                        <button id='checkAnswer' disabled={this.state.isSubmitting}><span>Check answer</span></button>
                     </div>
 
                     <Popover className={this.state.popoverClass} placement='top' isOpen={this.state.popoverIsOpen} target='checkAnswer'>
