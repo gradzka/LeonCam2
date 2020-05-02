@@ -95,7 +95,7 @@ export class ForgotPassword extends Component {
                     isSubmitting: false,
                     popoverClass: 'popover-success-reversed',
                     popoverMessage: 'Sent',
-                    popoverIsOpen: document.activeElement === document.getElementById('checkAnswer')
+                    popoverIsOpen: true
                 });
             },
             error => {
@@ -103,7 +103,7 @@ export class ForgotPassword extends Component {
                     isSubmitting: false,
                     popoverClass: 'popover-error-reversed',
                     popoverMessage: error === "Unexpected error" ? "Forgot Password Error" : error,
-                    popoverIsOpen: document.activeElement === document.getElementById('checkAnswer')
+                    popoverIsOpen: true
                 });
             }  
         )
