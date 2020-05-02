@@ -37,11 +37,7 @@ function login(username, password) {
     return fetch(`users/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
-            // Store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUser.next(user);
-
-            return user;
+            return setCurrentUser(user);
         });
 }
 
@@ -66,11 +62,20 @@ function checkAnswer(username, answer) {
 
     return fetch(`users/checkanswer`, requestOptions)
         .then(handleResponse)
-        .then(data => { return data; });
-}
+        .then(user => {
+            return setCurrentUser(user);
+        });}
 
 function logout() {
     // Remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     currentUser.next(null);
+}
+
+function setCurrentUser(user) {
+    // Store user details and jwt token in local storage to keep user logged in between page refreshes
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    currentUser.next(user);
+
+    return user;
 }

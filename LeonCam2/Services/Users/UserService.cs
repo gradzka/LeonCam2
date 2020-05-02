@@ -148,23 +148,28 @@ namespace LeonCam2.Services.Users
             await this.userRepository.InsertAsync(user).ConfigureAwait(false);
         }
 
-        public async Task<string> CheckAnswer(string username, string answer)
+        public async Task<string> CheckAnswer(LeadingQuestionModel leadingQuestionModel)
         {
-            if (string.IsNullOrEmpty(username))
+            if (leadingQuestionModel == null)
+            {
+                throw new ArgumentNullException(nameof(leadingQuestionModel));
+            }
+
+            if (string.IsNullOrEmpty(leadingQuestionModel.Username))
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
-            if (string.IsNullOrEmpty(answer))
+            if (string.IsNullOrEmpty(leadingQuestionModel.Answer))
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.AnswerCannotBeEmpty)]);
             }
 
-            var user = await this.userRepository.GetUserAsync(username).ConfigureAwait(false);
+            var user = await this.userRepository.GetUserAsync(leadingQuestionModel.Username).ConfigureAwait(false);
 
             if (user != null)
             {
-                if (user.LeadingQuestionAnswer == $"{answer}{username}{user.CreationDate}".GetSHA512Hash())
+                if (user.LeadingQuestionAnswer == $"{leadingQuestionModel.Answer}{leadingQuestionModel.Username}{user.CreationDate}".GetSHA512Hash())
                 {
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {

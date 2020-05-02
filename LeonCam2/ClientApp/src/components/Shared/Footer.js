@@ -2,10 +2,6 @@
 import './Footer.css';
 
 export class Footer extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     getCurrentYear() {
         return new Date().getFullYear();
     }

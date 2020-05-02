@@ -9,7 +9,7 @@ export class ForgotPassword extends Component {
         super();
         this.state = {
             username: '',
-            answer: '',
+            leadingQuestionAnswer: '',
             popoverMessage: '',
             popoverClass: '',
             popoverIsOpen: false,
@@ -24,7 +24,6 @@ export class ForgotPassword extends Component {
 
     getLeadingQuestion(event) {
         this.setState({
-            isSubmitting: true,
             popoverIsOpen: false,
             getLeadingQuestionPopoverIsOpen: false
         });
@@ -33,7 +32,7 @@ export class ForgotPassword extends Component {
             this.setState({
                 popoverClass: 'popover-error-reversed',
                 popoverMessage: "Username is empty",
-                getLeadingQuestionPopoverIsOpen: document.activeElement === document.getElementById('forgotPasswordLink')
+                getLeadingQuestionPopoverIsOpen: true
             });
 
             return;
@@ -45,9 +44,6 @@ export class ForgotPassword extends Component {
             data => {
                 this.setState({
                     leadingQuestion: data.leadingQuestion
-                    //popoverClass: 'popover-success-reversed',
-                    //popoverMessage: 'Sent',
-                    //getLeadingQuestionPopoverIsOpen: document.activeElement === document.getElementById('forgotPasswordLink')
                 });
 
                 pushCard(event);
@@ -56,7 +52,7 @@ export class ForgotPassword extends Component {
                 this.setState({
                     popoverClass: 'popover-error-reversed',
                     popoverMessage: error === "Unexpected error" ? "Forgot Password Error" : error,
-                    getLeadingQuestionPopoverIsOpen: document.activeElement === document.getElementById('forgotPasswordLink')
+                    getLeadingQuestionPopoverIsOpen: true
                 });
             }
         )
@@ -86,17 +82,14 @@ export class ForgotPassword extends Component {
     checkAnswer(event) {
         this.setState({
             isSubmitting: true,
-            popoverIsOpen: false,
-            getLeadingQuestionPopoverIsOpen: false
+            popoverIsOpen: false
         });
-        authenticationService.checkAnswer(this.state.username, this.state.answer).then(
-            data => {
-                this.setState({
-                    isSubmitting: false,
-                    popoverClass: 'popover-success-reversed',
-                    popoverMessage: 'Sent',
-                    popoverIsOpen: true
-                });
+        authenticationService.checkAnswer(this.props.username, this.state.leadingQuestionAnswer).then(
+            () => {
+                const { from } = this.props.location.state || {
+                    from: { pathname: "/dashboard" }
+                };
+                this.props.history.push(from);
             },
             error => {
                 this.setState({
@@ -118,7 +111,7 @@ export class ForgotPassword extends Component {
                         <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Forgot password?')}></div>
                 </h1>
                 <form onSubmit={this.checkAnswer.bind(this)}>
-                    <InputBox id="leadingQuestionAnswer" type="text" placeholder={this.state.leadingQuestion} className="alt hidden" value={this.state.answer} onChange={this.handleInputChange} />
+                    <InputBox id="leadingQuestionAnswer" type="text" placeholder={this.state.leadingQuestion} className="alt hidden" value={this.state.leadingQuestionAnswer} onChange={this.handleInputChange} />
                     <div className="button-container">
                         <button id='checkAnswer' disabled={this.state.isSubmitting}><span>Check answer</span></button>
                     </div>

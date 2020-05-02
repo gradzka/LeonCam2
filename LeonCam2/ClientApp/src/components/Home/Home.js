@@ -30,7 +30,7 @@ export class Home extends Component {
         return (
             <div className="card-container margin-left-md-55">
                 <Register />
-                <ForgotPassword username={this.state.username} />
+                <ForgotPassword username={this.state.username} location={this.props.location} history={this.props.history} />
                 <div className="card first"></div>
                 <Login location={this.props.location} history={this.props.history} onUsernameChanged={this.onUsernameChanged}/>
             </div>

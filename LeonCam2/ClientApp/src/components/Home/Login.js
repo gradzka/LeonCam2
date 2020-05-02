@@ -49,7 +49,7 @@ export class Login extends Component {
             popoverIsOpen: false
         });
         authenticationService.login(this.state.username, this.state.password).then(
-            user => {
+            () => {
                 const { from } = this.props.location.state || {
                     from: { pathname: "/dashboard" }
                 };

@@ -58,7 +58,7 @@ export class Register extends Component {
         }
         else {
             authenticationService.register(this.state.regname, this.state.regpass, this.state.reregpass).then(
-                data => {
+                () => {
                     this.setState({
                         isSubmitting: false,
                         popoverClass: 'popover-success-reversed',

@@ -56,7 +56,7 @@ export class NavMenu extends Component {
                                             <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <a className="text-dark nav-link" onClick={this.logout}>Logout</a>
+                                            <button className="text-dark nav-link" onClick={this.logout}>Logout</button>
                                         </NavItem>
                                     </ul>
                                 </Collapse>

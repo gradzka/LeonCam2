@@ -154,7 +154,7 @@ namespace LeonCam2.Tests.ServicesTests
 
         [Theory]
         [ClassData(typeof(UserServiceTestsCheckAnswerData))]
-        public async void CheckAnswer_Test(string username, string answer, TestsMethodResult testsMethodResult)
+        public async void CheckAnswer_Test(LeadingQuestionModel leadingQuestionModel, TestsMethodResult testsMethodResult)
         {
             var userRepository = new Mock<IUserRepository>();
             userRepository.Setup(x => x.GetUserAsync(TestUser)).Returns(Task.FromResult(this.User));
@@ -169,7 +169,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             try
             {
-                string token = await userService.CheckAnswer(username, answer).ConfigureAwait(false);
+                string token = await userService.CheckAnswer(leadingQuestionModel).ConfigureAwait(false);
 
                 Assert.True(testsMethodResult.Exception == null);
                 Assert.True(!string.IsNullOrEmpty(token));

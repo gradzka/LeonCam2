@@ -18,6 +18,6 @@ namespace LeonCam2.Services.Users
 
         Task Register(RegisterModel registerModel);
 
-        Task<string> CheckAnswer(string username, string answer);
+        Task<string> CheckAnswer(LeadingQuestionModel leadingQuestionModel);
     }
 }

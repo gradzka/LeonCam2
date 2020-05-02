@@ -78,22 +78,18 @@ namespace LeonCam2.Controllers
         }
 
         [HttpPost("CheckAnswer")]
-        public async Task<IActionResult> CheckAnswer(string username, string answer)
+        public async Task<IActionResult> CheckAnswer(LeadingQuestionModel leadingQuestionModel)
         {
             this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.CheckingAnswerStarted)]);
-            this.logger.LogDebug($"Username: {username}, Answer: {answer}");
+            this.logger.LogDebug($"Username: {leadingQuestionModel.Username}, Answer: {leadingQuestionModel.Answer}");
 
-            if (string.IsNullOrEmpty(username))
+            if (leadingQuestionModel == null)
             {
-                throw new ArgumentException(nameof(username));
+                this.logger.LogError($"{nameof(leadingQuestionModel)}{IsNullError}");
+                throw new ArgumentNullException(nameof(leadingQuestionModel));
             }
 
-            if (string.IsNullOrEmpty(answer))
-            {
-                throw new ArgumentException(nameof(answer));
-            }
-
-            return this.Ok(new { token = await this.userService.CheckAnswer(username, answer).ConfigureAwait(false) });
+            return this.Ok(new { token = await this.userService.CheckAnswer(leadingQuestionModel).ConfigureAwait(false) });
         }
     }
 }
