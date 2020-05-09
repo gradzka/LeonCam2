@@ -119,7 +119,7 @@
             top: 14px;
             right: 0;
             z-index: 10;
-            background: none;
+            background: transparent;
             border-radius: 5px;
             -webkit-transition: .3s ease;
             transition: .3s ease;
@@ -183,7 +183,7 @@
                 overflow: unset;
                 top: 0;
                 z-index: 8;
-                background: none;
+                background: transparent;
                 border-radius: 100%;
                 transition: .3s ease;
                 -webkit-transition: .3s ease;
