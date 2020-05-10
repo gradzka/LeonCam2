@@ -98,3 +98,17 @@ code {
     .popover-success-reversed .arrow:after {
         border-top-color: #78ba3c;
     }
+
+/* Change autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-transition-delay: 9999s;
+    transition-delay: 9999s;
+}
