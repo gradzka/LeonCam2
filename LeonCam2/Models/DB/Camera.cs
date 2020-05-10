@@ -1,6 +1,6 @@
 ﻿// Camera.cs by Gradzka & Kazimierczak
 
-namespace LeonCam2.Models
+namespace LeonCam2.Models.DB
 {
     using System.ComponentModel.DataAnnotations;
 

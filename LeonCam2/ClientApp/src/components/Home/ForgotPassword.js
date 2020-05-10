@@ -8,15 +8,54 @@ export class ForgotPassword extends Component {
     constructor() {
         super();
         this.state = {
-            forgotmail: '',
+            username: '',
+            leadingQuestionAnswer: '',
             popoverMessage: '',
             popoverClass: '',
             popoverIsOpen: false,
-            isSubmitting: false
+            getLeadingQuestionPopoverIsOpen: false,
+            isSubmitting: false,
+            leadingQuestion: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.hidePopover = this.hidePopover.bind(this);
+    }
+
+    getLeadingQuestion(event) {
+        this.setState({
+            popoverIsOpen: false,
+            getLeadingQuestionPopoverIsOpen: false
+        });
+
+        if (!this.props.username) {
+            this.setState({
+                popoverClass: 'popover-error-reversed',
+                popoverMessage: "Username is empty",
+                getLeadingQuestionPopoverIsOpen: true
+            });
+
+            return;
+        }
+
+        event.persist();
+
+        authenticationService.getLeadingQuestion(this.props.username).then(     
+            data => {
+                this.setState({
+                    leadingQuestion: data.leadingQuestion
+                });
+
+                pushCard(event);
+            },
+            error => {
+                this.setState({
+                    popoverClass: 'popover-error-reversed',
+                    popoverMessage: error === "Unexpected error" ? "Forgot Password Error" : error,
+                    getLeadingQuestionPopoverIsOpen: true
+                });
+            }
+        )
     }
 
     handleInputChange(inputId, value) {
@@ -25,54 +64,63 @@ export class ForgotPassword extends Component {
         });
     }
 
+    componentDidMount() {
+        document.body.addEventListener('click', this.hidePopover);
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.hidePopover);
+    }
+
     hidePopover() {
         this.setState({
-            popoverIsOpen: false
+            popoverIsOpen: false,
+            getLeadingQuestionPopoverIsOpen: false
         });
     }
 
-    forgotpassword(event) {
+    checkAnswer(event) {
         this.setState({
             isSubmitting: true,
             popoverIsOpen: false
         });
-        authenticationService.forgotPassword(this.state.forgotmail).then(
-            data => {
-                this.setState({
-                    isSubmitting: false,
-                    popoverClass: 'popover-success',
-                    popoverMessage: 'Sent',
-                    popoverIsOpen: document.activeElement === document.getElementById('sendLink')
-                });
+        authenticationService.checkAnswer(this.props.username, this.state.leadingQuestionAnswer).then(
+            () => {
+                const { from } = this.props.location.state || {
+                    from: { pathname: "/dashboard" }
+                };
+                this.props.history.push(from);
             },
             error => {
                 this.setState({
                     isSubmitting: false,
                     popoverClass: 'popover-error-reversed',
-                    popoverMessage: error.message === "Unexpected error" ? "Forgot Password Error" : error.message,
-                    popoverIsOpen: document.activeElement === document.getElementById('sendLink')
+                    popoverMessage: error === "Unexpected error" ? "Forgot Password Error" : error,
+                    popoverIsOpen: true
                 });
-            }
-            
+            }  
         )
         event.preventDefault();
     }
 
-
     render() {
         return (
             <div className="card alt hidden bottom">
-                <div className="toggle" tabIndex="0" onClick={pushCard}>Forgot password?</div>
+                <div id="forgotPasswordLink" className="toggle" tabIndex="0" onClick={this.getLeadingQuestion.bind(this)}>Forgot password?</div>
                 <h1 className="title">Forgot<br />password?
                         <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Forgot password?')}></div>
                 </h1>
-                <form onSubmit={this.forgotpassword.bind(this)}>
-                    <InputBox id="forgotmail" type="email" placeholder="E-Mail" className="alt hidden" value={this.state["forgotmail"]} onChange={this.handleInputChange} />
+                <form onSubmit={this.checkAnswer.bind(this)}>
+                    <InputBox id="leadingQuestionAnswer" type="text" placeholder={this.state.leadingQuestion} className="alt hidden" value={this.state.leadingQuestionAnswer} onChange={this.handleInputChange} />
                     <div className="button-container">
-                        <button id='sendLink' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Send link</span></button>
+                        <button id='checkAnswer' disabled={this.state.isSubmitting}><span>Check answer</span></button>
                     </div>
 
-                    <Popover className={this.state.popoverClass} placement='top' isOpen={this.state.popoverIsOpen} target='sendLink'>
+                    <Popover className={this.state.popoverClass} placement='top' isOpen={this.state.popoverIsOpen} target='checkAnswer'>
+                        <PopoverBody>{this.state.popoverMessage}</PopoverBody>
+                    </Popover>
+
+                    <Popover className={this.state.popoverClass} placement='top' isOpen={this.state.getLeadingQuestionPopoverIsOpen} target='forgotPasswordLink'>
                         <PopoverBody>{this.state.popoverMessage}</PopoverBody>
                     </Popover>
                 </form>

@@ -4,18 +4,30 @@ namespace LeonCam2
 {
     using System.Data;
     using System.Data.SQLite;
+    using System.Globalization;
+    using System.Text;
     using LeonCam2.Extensions;
+    using LeonCam2.Models;
     using LeonCam2.Repositories;
+    using LeonCam2.Services.Users;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
 
     public class Startup
     {
+        private readonly CultureInfo[] supportedCultures = new[]
+        {
+            new CultureInfo("en-US"),
+        };
+
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -26,6 +38,30 @@ namespace LeonCam2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var settingsSection = this.Configuration.GetSection("Settings");
+            services.Configure<Settings>(settingsSection);
+
+            // configure jwt authentication
+            var settings = settingsSection.Get<Settings>();
+            var key = Encoding.ASCII.GetBytes(settings.JwtKey);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
+            });
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(x => x.SwaggerDoc("v1", new OpenApiInfo { Title = "LeonCam2 API", Version = "v1" }));
 
@@ -34,9 +70,13 @@ namespace LeonCam2
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddTransient<IDbConnection>((_) => new SQLiteConnection(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +93,13 @@ namespace LeonCam2
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = this.supportedCultures,
+                SupportedUICultures = this.supportedCultures,
+            });
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

@@ -1,6 +1,6 @@
 ﻿// User.cs by Gradzka & Kazimierczak
 
-namespace LeonCam2.Models
+namespace LeonCam2.Models.DB
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -13,20 +13,13 @@ namespace LeonCam2.Models
         [Required]
         public string Password { get; set; }
 
-        [Required]
-        public string SecurityQuestions { get; set; }
+        public string LeadingQuestion { get; set; }
 
-        [Required]
-        public string Answer { get; set; }
-
-        [Required]
-        public string Email { get; set; }
+        public string LeadingQuestionAnswer { get; set; }
 
         public DateTime LastLoginAttemptDate { get; set; }
 
-        public DateTime LastLogoutDate { get; set; }
-
         [Required]
-        public int LoginAttemptCounter { get; set; }
+        public int AccessFailedCount { get; set; }
     }
 }

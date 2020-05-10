@@ -11,14 +11,14 @@ export function handleResponse(response) {
                     window.location.reload(true);
                 }
 
-                const error = (data && data.message) || response.statusText;
+                const error = (data && data.Message) || response.statusText;
                 return Promise.reject(error);
             }
 
             return data;
         }
         catch (error) {
-            return Promise.reject(new Error("Unexpected error"));
+            return Promise.reject("Unexpected error");
         }
     });
 }

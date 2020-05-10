@@ -29,20 +29,27 @@ namespace LeonCam2.Middleware
             catch (Exception ex)
             {
                 this.logger.LogError($"Something went wrong: {ex}");
-                await this.HandleExceptionAsync(httpContext).ConfigureAwait(false);
+                await this.HandleExceptionAsync(httpContext, ex).ConfigureAwait(false);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context)
+        private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            // TODO: identify status codes and messages
             context.Response.ContentType = "application/json";
+
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            var message = nameof(HttpStatusCode.InternalServerError);
+
+            if (exception is InternalException)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                message = exception.Message;
+            }
 
             return context.Response.WriteAsync(new ErrorDetails()
             {
                 StatusCode = context.Response.StatusCode,
-                Message = nameof(HttpStatusCode.InternalServerError),
+                Message = message,
             }.ToString());
         }
     }

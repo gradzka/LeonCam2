@@ -16,13 +16,11 @@ namespace LeonCam2.Repositories
     public abstract class GenericRepository<T> : IGenericRepository<T>
         where T : class
     {
-        private readonly string tableName;
-
         private readonly IDbConnection connection;
 
         protected GenericRepository(IDbConnection dbConnection)
         {
-            this.tableName = typeof(T).Name;
+            this.TableName = typeof(T).Name;
             this.connection = dbConnection;
 
             if (!this.CheckIfTableExists())
@@ -35,6 +33,8 @@ namespace LeonCam2.Repositories
             }
         }
 
+        protected string TableName { get; }
+
         private IEnumerable<PropertyInfo> Properties => typeof(T).GetProperties().Where(x =>
         {
             var attributes = x.GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -43,17 +43,17 @@ namespace LeonCam2.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await this.connection.QueryAsync<T>($"SELECT * FROM {this.tableName}");
+            return await this.connection.QueryAsync<T>($"SELECT * FROM {this.TableName}");
         }
 
         public async Task DeleteRowAsync(Guid id)
         {
-            await this.connection.ExecuteAsync($"DELETE FROM {this.tableName} WHERE Id=@Id", new { Id = id });
+            await this.connection.ExecuteAsync($"DELETE FROM {this.TableName} WHERE Id=@Id", new { Id = id });
         }
 
         public async Task<T> GetAsync(Guid id)
         {
-            return await this.connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {this.tableName} WHERE Id=@Id", new { Id = id }) ?? throw new KeyNotFoundException($"{this.tableName} with id [{id}] could not be found.");
+            return await this.connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {this.TableName} WHERE Id=@Id", new { Id = id }) ?? throw new KeyNotFoundException($"{this.TableName} with id [{id}] could not be found.");
         }
 
         public async Task<int> SaveRangeAsync(IEnumerable<T> list)
@@ -73,9 +73,9 @@ namespace LeonCam2.Repositories
 
         private string GenerateInsertQuery()
         {
-            var properties = this.Properties.Select(x => x.Name).ToList();
+            var properties = this.Properties.Select(x => x.Name).Where(x => x != "Id").ToList();
 
-            var insertQuery = new StringBuilder($"INSERT INTO {this.tableName} ").Append("(");
+            var insertQuery = new StringBuilder($"INSERT INTO {this.TableName} ").Append("(");
 
             properties.ForEach(prop => { insertQuery.Append($"[{prop}],"); });
 
@@ -90,7 +90,7 @@ namespace LeonCam2.Repositories
 
         private string GenerateUpdateQuery()
         {
-            var updateQuery = new StringBuilder($"UPDATE {this.tableName} SET ");
+            var updateQuery = new StringBuilder($"UPDATE {this.TableName} SET ");
 
             var properties = this.Properties.Select(x => x.Name).ToList();
 
@@ -102,7 +102,7 @@ namespace LeonCam2.Repositories
                 }
             });
 
-            updateQuery.Remove(updateQuery.Length - 1, 1); // remove last comma
+            updateQuery.Remove(updateQuery.Length - 1, 1); //// Remove last comma
             updateQuery.Append(" WHERE Id=@Id");
 
             return updateQuery.ToString();
@@ -110,7 +110,7 @@ namespace LeonCam2.Repositories
 
         private void CreateTable()
         {
-            var query = new StringBuilder($"CREATE TABLE {this.tableName} ").Append("(");
+            var query = new StringBuilder($"CREATE TABLE {this.TableName} ").Append("(");
 
             foreach (var property in this.Properties)
             {
@@ -123,7 +123,7 @@ namespace LeonCam2.Repositories
 
                 if (property.Name == "Id")
                 {
-                    sqlType += $" PRIMARY KEY AUTOINCREMENT";
+                    sqlType += $" PRIMARY KEY";
                 }
 
                 query.Append($"{property.Name} {sqlType}, ");
@@ -136,7 +136,7 @@ namespace LeonCam2.Repositories
 
         private void CheckTableColumns()
         {
-            var dbColumns = this.connection.Query<string>($"SELECT name FROM pragma_table_info(@name);", new { name = this.tableName });
+            var dbColumns = this.connection.Query<string>($"SELECT name FROM pragma_table_info(@name);", new { name = this.TableName });
             var missingDbColumns = this.Properties.Where(x => !dbColumns.Contains(x.Name));
 
             foreach (var dbColumn in missingDbColumns)
@@ -148,7 +148,7 @@ namespace LeonCam2.Repositories
                     sqlType += $" NOT NULL";
                 }
 
-                this.connection.Execute($"ALTER TABLE {this.tableName} ADD {dbColumn.Name} {sqlType}");
+                this.connection.Execute($"ALTER TABLE {this.TableName} ADD {dbColumn.Name} {sqlType}");
             }
         }
 
@@ -165,7 +165,7 @@ namespace LeonCam2.Repositories
 
         private bool CheckIfTableExists()
         {
-            return this.connection.QuerySingle<int>($"SELECT COUNT(1) FROM sqlite_master WHERE type = 'table' AND name = @name", new { name = this.tableName }) == 1;
+            return this.connection.QuerySingle<int>($"SELECT COUNT(1) FROM sqlite_master WHERE type = 'table' AND name = @name", new { name = this.TableName }) == 1;
         }
     }
 }

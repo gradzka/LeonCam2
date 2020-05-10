@@ -6,9 +6,29 @@ html {
 }
 
 body {
-    padding-bottom: 10rem;
+    padding-bottom: 6rem;
     min-height: 100%;
     position: relative;
+    background: #e9e9e9;
+    color: #666;
+    font-family: RobotoDraft, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: url("/assets/background.svg");
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media only screen and (max-device-width: 768px) {
+    body {
+        background-image: unset;
+        background-color: whitesmoke;
+    }
+}
+
+footer ul {
+    padding-left: 0;
 }
 
 a {
@@ -63,4 +83,18 @@ code {
     .popover-error-reversed .arrow:before,
     .popover-error-reversed .arrow:after {
         border-top-color: #d9534f;
+    }
+
+.popover-success-reversed {
+    border-color: #78ba3c;
+    background-color: #78ba3c;
+}
+
+    .popover-success-reversed .popover-body {
+        color: white;
+    }
+
+    .popover-success-reversed .arrow:before,
+    .popover-success-reversed .arrow:after {
+        border-top-color: #78ba3c;
     }

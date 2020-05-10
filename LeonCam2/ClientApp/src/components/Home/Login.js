@@ -21,8 +21,20 @@ export class Login extends Component {
 
     handleInputChange(inputId, value) {
         this.setState({
-                [inputId]: value
-            });
+            [inputId]: value
+        });
+
+        if (inputId === 'username') {
+            this.props.onUsernameChanged(value);
+        }  
+    }
+
+    componentDidMount() {
+        document.body.addEventListener('click', this.hidePopover);
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.hidePopover);
     }
 
     hidePopover() {
@@ -37,7 +49,7 @@ export class Login extends Component {
             popoverIsOpen: false
         });
         authenticationService.login(this.state.username, this.state.password).then(
-            user => {
+            () => {
                 const { from } = this.props.location.state || {
                     from: { pathname: "/dashboard" }
                 };
@@ -46,8 +58,8 @@ export class Login extends Component {
             error => {
                 this.setState({
                     isSubmitting: false,
-                    popoverMessage: error.message === "Unexpected error" ? "Sign-In Error" : error.message,
-                    popoverIsOpen: document.activeElement === document.getElementById('signIn')
+                    popoverMessage: error === "Unexpected error" ? "Sign-In Error" : error,
+                    popoverIsOpen: true
                 });
             }
         )
@@ -62,10 +74,10 @@ export class Login extends Component {
                     <InputBox id="username" type="text" placeholder="Username" value={this.state["username"]} onChange={this.handleInputChange} />
                     <PasswordBox id="password" placeholder="Password" value={this.state["password"]} onChange={this.handleInputChange} />
                     <div className="button-container">
-                        <button id='signIn' disabled={this.state.isSubmitting} onBlur={this.hidePopover}><span>Sign in</span></button>
+                        <button id='signIn' disabled={this.state.isSubmitting}><span>Sign in</span></button>
                     </div>
 
-                    <Popover className="popover-error" placement='top' isOpen={this.state.popoverIsOpen} target='signIn'>
+                    <Popover className="popover-error-reversed" placement='top' isOpen={this.state.popoverIsOpen} target='signIn'>
                         <PopoverBody>{this.state.popoverMessage}</PopoverBody>
                     </Popover>
                 </form>
