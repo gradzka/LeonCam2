@@ -5,8 +5,8 @@ import { authenticationService } from '../../services/AuthenticationService';
 import { Popover, PopoverBody } from 'reactstrap';
 
 export class Login extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             username: '',
             password: '',
@@ -16,7 +16,7 @@ export class Login extends Component {
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.hidePopover = this.hidePopover.bind(this);
+        this.hidePopover = this.hidePopover.bind(this);       
     }
 
     handleInputChange(inputId, value) {
@@ -68,7 +68,7 @@ export class Login extends Component {
 
     render() {
         return (
-            <div className="card">
+            <div className={"card " + (this.props.onTop === true ? '' : 'underneath')}>
                 <h1 className="title">Login</h1>
                 <form onSubmit={this.login.bind(this)}>
                     <InputBox id="username" type="text" placeholder="Username" value={this.state["username"]} onChange={this.handleInputChange} />

@@ -1,12 +1,11 @@
 ﻿import React, { Component } from 'react';
 import { InputBox } from '../Shared/InputBox';
-import { pushCard, popCard } from '../Shared/Card';
 import { authenticationService } from '../../services/AuthenticationService';
 import { Popover, PopoverBody } from 'reactstrap';
 
 export class ForgotPassword extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             username: '',
             leadingQuestionAnswer: '',
@@ -15,11 +14,13 @@ export class ForgotPassword extends Component {
             popoverIsOpen: false,
             getLeadingQuestionPopoverIsOpen: false,
             isSubmitting: false,
-            leadingQuestion: ''
+            leadingQuestion: '',
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.hidePopover = this.hidePopover.bind(this);
+        this.pushCard = this.pushCard.bind(this);
+        this.popCard = this.popCard.bind(this);
     }
 
     getLeadingQuestion(event) {
@@ -46,7 +47,7 @@ export class ForgotPassword extends Component {
                     leadingQuestion: data.leadingQuestion
                 });
 
-                pushCard(event);
+                this.pushCard();
             },
             error => {
                 this.setState({
@@ -103,15 +104,25 @@ export class ForgotPassword extends Component {
         event.preventDefault();
     }
 
+    pushCard() {
+        this.props.onOnTopChanged('forgotPasswordCardOnTop', true);
+    }
+
+    popCard() {
+        this.props.onOnTopChanged('forgotPasswordCardOnTop', false);
+    }
+
     render() {
+        let toggledHidden = "alt" + (this.props.onTop === true ? '' : ' hidden');
+
         return (
-            <div className="card alt hidden bottom">
+            <div className={"card bottom " + toggledHidden}>
                 <div id="forgotPasswordLink" className="toggle" tabIndex="0" onClick={this.getLeadingQuestion.bind(this)}>Forgot password?</div>
                 <h1 className="title">Forgot<br />password?
-                        <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Forgot password?')}></div>
+                        <div className="close" tabIndex="0" onClick={this.popCard}></div>
                 </h1>
                 <form onSubmit={this.checkAnswer.bind(this)}>
-                    <InputBox id="leadingQuestionAnswer" type="text" placeholder={this.state.leadingQuestion} className="alt hidden" value={this.state.leadingQuestionAnswer} onChange={this.handleInputChange} />
+                    <InputBox id="leadingQuestionAnswer" type="text" placeholder={this.state.leadingQuestion} className={toggledHidden} value={this.state.leadingQuestionAnswer} onChange={this.handleInputChange} />
                     <div className="button-container">
                         <button id='checkAnswer' disabled={this.state.isSubmitting}><span>Check answer</span></button>
                     </div>

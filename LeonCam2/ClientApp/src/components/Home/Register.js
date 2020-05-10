@@ -1,13 +1,12 @@
 ﻿import React, { Component } from 'react';
 import { InputBox } from '../Shared/InputBox';
-import { pushCard, popCard } from '../Shared/Card';
 import { PasswordBox } from '../Shared/PasswordBox';
 import { authenticationService } from '../../services/AuthenticationService';
 import { Popover, PopoverBody } from 'reactstrap';
 
 export class Register extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             regname: '',
             regpass: '',
@@ -15,11 +14,13 @@ export class Register extends Component {
             popoverMessage: '',
             popoverClass: '',
             popoverIsOpen: false,
-            isSubmitting: false
+            isSubmitting: false,
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.hidePopover = this.hidePopover.bind(this);
+        this.pushCard = this.pushCard.bind(this);
+        this.popCard = this.popCard.bind(this);
     }
 
     handleInputChange(inputId, value) {
@@ -84,17 +85,27 @@ export class Register extends Component {
         event.preventDefault();
     }
 
+    pushCard() {
+        this.props.onOnTopChanged('registerCardOnTop', true);
+    }
+
+    popCard() {
+        this.props.onOnTopChanged('registerCardOnTop', false);
+    }
 
     render() {
-        return (<div className="card alt hidden">
-            <div className="toggle" tabIndex="0" onClick={pushCard}>Register</div>
+        let toggledHidden = "alt" + (this.props.onTop === true ? '' : ' hidden');
+
+        return (
+            <div className={"card " + toggledHidden}>
+                <div className="toggle" tabIndex="0" onClick={this.pushCard}>Register</div>
             <h1 className="title">Register
-                <div className="close" tabIndex="0" onClick={popCard.bind(this, 'Register')}></div>
+                <div className="close" tabIndex="0" onClick={this.popCard}></div>
             </h1>
             <form onSubmit={this.register.bind(this)}>
-                <InputBox id="regname" type="text" placeholder="Username" className="alt hidden" value={this.state["regname"]} onChange={this.handleInputChange} autoComplete="new-password"/>
-                <PasswordBox id="regpass" placeholder="Password" className="alt hidden" value={this.state["regpass"]} onChange={this.handleInputChange} withPasswordStrength={true} autoComplete="new-password"/>
-                <PasswordBox id="reregpass" placeholder="Repeat Password" className="alt hidden" value={this.state["reregpass"]} onChange={this.handleInputChange} autocomplete="new-password" />
+                    <InputBox id="regname" type="text" placeholder="Username" className={toggledHidden} value={this.state["regname"]} onChange={this.handleInputChange} autoComplete="new-password"/>
+                    <PasswordBox id="regpass" placeholder="Password" className={toggledHidden} value={this.state["regpass"]} onChange={this.handleInputChange} withPasswordStrength={true} autoComplete="new-password"/>
+                    <PasswordBox id="reregpass" placeholder="Repeat Password" className={toggledHidden} value={this.state["reregpass"]} onChange={this.handleInputChange} autocomplete="new-password" />
                 <div className="button-container">
                     <button id='signUp' disabled={this.state.isSubmitting}><span>Sign up</span></button>
                 </div>
