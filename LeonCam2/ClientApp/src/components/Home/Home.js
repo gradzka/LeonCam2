@@ -38,10 +38,11 @@ export class Home extends Component {
 
         return (
             <div className="card-container margin-left-md-55">
-                <div className="card first"></div>
-                <Login onTop={loginOnTop} location={this.props.location} history={this.props.history} onUsernameChanged={this.onUsernameChanged} />
+                
                 <Register onTop={this.state.registerCardOnTop} onOnTopChanged={this.onOnTopChanged} />
                 <ForgotPassword onTop={this.state.forgotPasswordCardOnTop} username={this.state.username} location={this.props.location} history={this.props.history} onOnTopChanged={this.onOnTopChanged} />
+                <div className={"card first" + (loginOnTop ? '' : ' underneath')}></div>
+                <Login onTop={loginOnTop} location={this.props.location} history={this.props.history} onUsernameChanged={this.onUsernameChanged} />
             </div>
         );
     }

@@ -117,7 +117,7 @@ export class ForgotPassword extends Component {
 
         return (
             <div className={"card bottom " + toggledHidden}>
-                <div id="forgotPasswordLink" className="toggle" tabIndex="0" onClick={this.getLeadingQuestion.bind(this)}>Forgot password?</div>
+                <div id="forgotPasswordLink" className="toggle" tabIndex="0" onClick={this.getLeadingQuestion.bind(this)}>{this.props.onTop ? '' : 'Forgot password?'}</div>
                 <h1 className="title">Forgot<br />password?
                         <div className="close" tabIndex="0" onClick={this.popCard}></div>
                 </h1>

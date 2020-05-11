@@ -68,7 +68,7 @@ export class Login extends Component {
 
     render() {
         return (
-            <div className={"card " + (this.props.onTop === true ? '' : 'underneath')}>
+            <div className={"card" + (this.props.onTop === true ? '' : ' underneath')}>
                 <h1 className="title">Login</h1>
                 <form onSubmit={this.login.bind(this)}>
                     <InputBox id="username" type="text" placeholder="Username" value={this.state["username"]} onChange={this.handleInputChange} />

@@ -98,7 +98,7 @@ export class Register extends Component {
 
         return (
             <div className={"card " + toggledHidden}>
-                <div className="toggle" tabIndex="0" onClick={this.pushCard}>Register</div>
+                <div className="toggle" tabIndex="0" onClick={this.pushCard}>{this.props.onTop ? '' : 'Register'}</div>
             <h1 className="title">Register
                 <div className="close" tabIndex="0" onClick={this.popCard}></div>
             </h1>
