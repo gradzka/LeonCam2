@@ -6,12 +6,6 @@
     margin: 0 auto;
 }
 
-@media screen and (min-width: 768px) {
-    .margin-left-md-55 {
-        margin-left: 65%;
-    }
-}
-
 .card-container .card {
     position: relative;
     background: #fff;

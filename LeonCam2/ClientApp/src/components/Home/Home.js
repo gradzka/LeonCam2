@@ -4,6 +4,7 @@ import { ForgotPassword } from './ForgotPassword';
 import { Login } from './Login';
 import { Register } from './Register';
 import { authenticationService } from '../../services/AuthenticationService';
+import { Row, Col, Container } from 'reactstrap';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -37,13 +38,19 @@ export class Home extends Component {
         let loginOnTop = !(this.state.forgotPasswordCardOnTop || this.state.registerCardOnTop);
 
         return (
-            <div className="card-container margin-left-md-55">
-                
-                <Register onTop={this.state.registerCardOnTop} onOnTopChanged={this.onOnTopChanged} />
-                <ForgotPassword onTop={this.state.forgotPasswordCardOnTop} username={this.state.username} location={this.props.location} history={this.props.history} onOnTopChanged={this.onOnTopChanged} />
-                <div className={"card first" + (loginOnTop ? '' : ' underneath')}></div>
-                <Login onTop={loginOnTop} location={this.props.location} history={this.props.history} onUsernameChanged={this.onUsernameChanged} />
-            </div>
+            <Container fluid="sm md" >
+                <Row>
+                    <Col></Col>
+                    <Col lg={5} >
+                        <div className="card-container">
+                            <Register onTop={this.state.registerCardOnTop} onOnTopChanged={this.onOnTopChanged} />
+                            <ForgotPassword onTop={this.state.forgotPasswordCardOnTop} username={this.state.username} location={this.props.location} history={this.props.history} onOnTopChanged={this.onOnTopChanged} />
+                            <div className={"card first" + (loginOnTop ? '' : ' underneath')}></div>
+                            <Login onTop={loginOnTop} location={this.props.location} history={this.props.history} onUsernameChanged={this.onUsernameChanged} />
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }
