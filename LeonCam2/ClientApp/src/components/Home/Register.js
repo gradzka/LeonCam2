@@ -91,6 +91,11 @@ export class Register extends Component {
 
     popCard() {
         this.props.onOnTopChanged('registerCardOnTop', false);
+        this.setState({
+            regname: '',
+            regpass: '',
+            reregpass: '',
+        });
     }
 
     render() {

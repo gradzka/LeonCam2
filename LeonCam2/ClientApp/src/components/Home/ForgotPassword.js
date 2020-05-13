@@ -110,6 +110,9 @@ export class ForgotPassword extends Component {
 
     popCard() {
         this.props.onOnTopChanged('forgotPasswordCardOnTop', false);
+        this.setState({
+            leadingQuestionAnswer: '',
+        });
     }
 
     render() {
