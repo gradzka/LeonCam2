@@ -38,7 +38,7 @@ export class Home extends Component {
         let loginOnTop = !(this.state.forgotPasswordCardOnTop || this.state.registerCardOnTop);
 
         return (
-            <Container fluid="sm md" >
+            <Container>
                 <Row>
                     <Col></Col>
                     <Col lg={5} >
