@@ -2,6 +2,7 @@
 
 namespace LeonCam2
 {
+    using System;
     using System.Data;
     using System.Data.SQLite;
     using System.Globalization;
@@ -9,6 +10,7 @@ namespace LeonCam2
     using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Repositories;
+    using LeonCam2.Services.JwtTokens;
     using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -59,6 +61,8 @@ namespace LeonCam2
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(0),
                 };
             });
 
@@ -77,6 +81,8 @@ namespace LeonCam2
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddSingleton<IJwtTokenService, JwtTokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,6 +121,9 @@ namespace LeonCam2
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

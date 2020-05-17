@@ -16,6 +16,8 @@ namespace LeonCam2.Services.Users
         /// <returns>JWT token.</returns>
         Task<string> Login(LoginModel loginModel);
 
+        Task Logout();
+
         Task Register(RegisterModel registerModel);
 
         Task<string> CheckAnswer(LeadingQuestionModel leadingQuestionModel);

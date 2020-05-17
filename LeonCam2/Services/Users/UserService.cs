@@ -3,9 +3,6 @@
 namespace LeonCam2.Services.Users
 {
     using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Security.Claims;
-    using System.Text;
     using System.Threading.Tasks;
     using LeonCam2.Enums;
     using LeonCam2.Extensions;
@@ -13,6 +10,7 @@ namespace LeonCam2.Services.Users
     using LeonCam2.Models.DB;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
+    using LeonCam2.Services.JwtTokens;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -26,17 +24,20 @@ namespace LeonCam2.Services.Users
         private readonly IStringLocalizer<UserService> localizer;
         private readonly Settings settings;
         private readonly IUserRepository userRepository;
+        private readonly IJwtTokenService jwtTokenService;
 
         public UserService(
             IUserRepository userRepository,
             ILogger<UserService> logger,
             IOptions<Settings> settings,
-            IStringLocalizer<UserService> localizer)
+            IStringLocalizer<UserService> localizer,
+            IJwtTokenService jwtTokenService)
         {
             this.userRepository = userRepository;
             this.logger = logger;
             this.settings = settings.Value;
             this.localizer = localizer;
+            this.jwtTokenService = jwtTokenService;
         }
 
         public async Task<string> GetLeadingQuestion(string username)
@@ -83,7 +84,7 @@ namespace LeonCam2.Services.Users
                         await this.userRepository.UpdateAsync(user);
                     }
 
-                    return this.CreateJwtToken(user.Id);
+                    return this.jwtTokenService.CreateToken(user.Id);
                 }
                 else
                 {
@@ -98,6 +99,12 @@ namespace LeonCam2.Services.Users
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperLoginData)]);
             }
+        }
+
+        public async Task Logout()
+        {
+            // TODO
+            return;
         }
 
         public async Task Register(RegisterModel registerModel)
@@ -184,7 +191,7 @@ namespace LeonCam2.Services.Users
                         await this.userRepository.UpdateAsync(user);
                     }
 
-                    return this.CreateJwtToken(user.Id);
+                    return this.jwtTokenService.CreateToken(user.Id);
                 }
                 else
                 {
@@ -199,24 +206,6 @@ namespace LeonCam2.Services.Users
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperUsername)]);
             }
-        }
-
-        private string CreateJwtToken(int userId)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, userId.ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            };
-
-            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
     }
 }
