@@ -1,5 +1,6 @@
 ﻿import { BehaviorSubject } from 'rxjs';
 import { handleResponse } from '../authorization/ResponseHandler';
+import { getAuthorizationHeader } from '../authorization/AuthorizationHeader';
 
 const currentUser = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -67,6 +68,15 @@ function checkAnswer(username, answer) {
         });}
 
 function logout() {
+    
+    // Call controller logout
+    const requestOptions = {
+        method: 'POST',
+        headers: getAuthorizationHeader()
+    };
+
+    fetch(`users/logout`, requestOptions);
+
     // Remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     currentUser.next(null);
