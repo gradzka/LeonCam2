@@ -21,6 +21,16 @@ export class PasswordBox extends Component {
         }
     }
 
+    componentDidUpdate() {
+        if (this.props.withPasswordStrength) {
+            if (this.props.value === "")
+            {
+                let bar = document.getElementById(this.props.id).parentNode.getElementsByClassName('password-strength-bar')[1];
+                bar.classList.remove(bar.classList[1]);
+            }
+        }
+    }
+
     checkPasswordStrength(event) {
         const hasNumber = value => {
             return new RegExp(/[0-9]/).test(value);

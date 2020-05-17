@@ -1,6 +1,7 @@
 ﻿.input-container {
     position: relative;
     margin: 0 43px 36px;
+    background-attachment: scroll;
 }
 
     .input-container .bar {
