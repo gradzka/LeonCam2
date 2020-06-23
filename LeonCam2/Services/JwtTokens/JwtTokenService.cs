@@ -7,7 +7,6 @@ namespace LeonCam2.Services.JwtTokens
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using System.Text;
-    using System.Threading.Tasks;
     using LeonCam2.Models;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -39,7 +38,7 @@ namespace LeonCam2.Services.JwtTokens
         public string CreateToken(int userId)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
+            byte[] key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -60,7 +59,7 @@ namespace LeonCam2.Services.JwtTokens
             {
                 SecurityToken securityToken = new JwtSecurityToken(token);
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
+                byte[] key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
 
                 TokenValidationParameters validationParameters = new TokenValidationParameters()
                 {

@@ -65,13 +65,9 @@ namespace LeonCam2.Controllers
         [HttpPost("Logout")]
         public IActionResult Logout()
         {
-            if (this.ControllerContext.HttpContext.Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues token))
-            {
-                this.userService.Logout(AuthenticationHeaderValue.Parse(token.First()).Parameter);
-                return this.Ok();
-            }
-
-            return this.BadRequest();
+            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
+            this.userService.Logout(AuthenticationHeaderValue.Parse(token).Parameter);
+            return this.Ok();
         }
 
         [HttpPost("Register")]

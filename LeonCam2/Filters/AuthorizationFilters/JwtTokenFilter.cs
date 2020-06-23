@@ -4,20 +4,13 @@ namespace LeonCam2.Filters.AuthorizationFilters
 {
     using System;
     using System.Linq;
-    using System.Net.Http;
     using System.Net.Http.Headers;
-    using System.Threading;
     using System.Threading.Tasks;
-    using System.Web.Http.Controllers;
-    using System.Web.Http.Filters;
     using LeonCam2.Models;
     using LeonCam2.Services.JwtTokens;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Filters;
 
-    /// <summary>
-    /// https://zaven.co/blog/user-authentication-asp-net-web-api-2-rsa-jwt-tokens-part-4/ .
-    /// </summary>
     public class JwtTokenFilter : Attribute, IAsyncAuthorizationFilter
     {
         private static readonly string InvalidAuthorizationScheme = "Invalid Authorization Scheme";
@@ -25,13 +18,7 @@ namespace LeonCam2.Filters.AuthorizationFilters
         private static readonly string MissingAutorizationHader = "Missing autorization header";
         private static readonly string MissingToken = "Missing Token";
 
-        public bool AllowMultiple
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool AllowMultiple => false;
 
         public Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
