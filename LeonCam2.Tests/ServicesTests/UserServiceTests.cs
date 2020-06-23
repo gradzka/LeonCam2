@@ -8,6 +8,7 @@ namespace LeonCam2.Tests.ServicesTests
     using LeonCam2.Models.DB;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
+    using LeonCam2.Services.JwtTokens;
     using LeonCam2.Services.Users;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
@@ -68,7 +69,8 @@ namespace LeonCam2.Tests.ServicesTests
                 userRepository.Object,
                 new Mock<ILogger<UserService>>().Object,
                 this.options,
-                this.localizer);
+                this.localizer,
+                new JwtTokenService(null, this.options));
 
             if (loginModel == null)
             {
@@ -100,26 +102,27 @@ namespace LeonCam2.Tests.ServicesTests
                 userRepository.Object,
                 new Mock<ILogger<UserService>>().Object,
                 new Mock<IOptions<Settings>>().Object,
-                this.localizer);
+                this.localizer,
+                new Mock<IJwtTokenService>().Object);
 
             if (registerModel == null)
             {
-                ArgumentNullException ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.Register(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
+                ArgumentNullException ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.RegisterAsync(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
             else if (registerModel.Username == TestUser)
             {
-                InternalException ex = await Assert.ThrowsAsync<InternalException>(async () => await userService.Register(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
+                InternalException ex = await Assert.ThrowsAsync<InternalException>(async () => await userService.RegisterAsync(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
             else if (!(bool)testsMethodResult.Result)
             {
-                ArgumentException ex = await Assert.ThrowsAsync<ArgumentException>(async () => await userService.Register(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
+                ArgumentException ex = await Assert.ThrowsAsync<ArgumentException>(async () => await userService.RegisterAsync(registerModel).ConfigureAwait(false)).ConfigureAwait(false);
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
             else
             {
-                await userService.Register(registerModel).ConfigureAwait(false);
+                await userService.RegisterAsync(registerModel).ConfigureAwait(false);
             }
         }
 
@@ -135,7 +138,8 @@ namespace LeonCam2.Tests.ServicesTests
                 userRepository.Object,
                 new Mock<ILogger<UserService>>().Object,
                 this.options,
-                this.localizer);
+                this.localizer,
+                new Mock<IJwtTokenService>().Object);
 
             try
             {
@@ -165,7 +169,8 @@ namespace LeonCam2.Tests.ServicesTests
                 userRepository.Object,
                 new Mock<ILogger<UserService>>().Object,
                 this.options,
-                this.localizer);
+                this.localizer,
+                new JwtTokenService(null, this.options));
 
             try
             {
