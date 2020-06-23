@@ -8,8 +8,8 @@ namespace LeonCam2.Services.JwtTokens
 
         void AddTokenToBlackList(string token);
 
-        bool CheckIfTokenOnBlackList();
+        bool CheckIfTokenOnBlackList(string token);
 
-        void RemoveExpiredTokensFromBlackList();
+        bool ValidateToken(string token);
     }
 }

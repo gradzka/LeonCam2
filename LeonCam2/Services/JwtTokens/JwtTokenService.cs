@@ -7,6 +7,7 @@ namespace LeonCam2.Services.JwtTokens
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using System.Text;
+    using System.Threading.Tasks;
     using LeonCam2.Models;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -30,15 +31,14 @@ namespace LeonCam2.Services.JwtTokens
             this.blackList.Add(token);
         }
 
-        public bool CheckIfTokenOnBlackList()
+        public bool CheckIfTokenOnBlackList(string token)
         {
-            // TODO
-            return false;
+            return this.blackList.Contains(token);
         }
 
         public string CreateToken(int userId)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -54,9 +54,33 @@ namespace LeonCam2.Services.JwtTokens
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
 
-        public void RemoveExpiredTokensFromBlackList()
+        public bool ValidateToken(string token)
         {
-            // TOOD
+            try
+            {
+                SecurityToken securityToken = new JwtSecurityToken(token);
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(this.settings.JwtKey);
+
+                TokenValidationParameters validationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(0),
+                };
+
+                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogWarning($"Token not passed validation: {token}. Error: {ex}");
+                return false;
+            }
+
+            return !this.CheckIfTokenOnBlackList(token);
         }
     }
 }

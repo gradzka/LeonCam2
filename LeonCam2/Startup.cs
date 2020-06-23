@@ -8,6 +8,7 @@ namespace LeonCam2
     using System.Globalization;
     using System.Text;
     using LeonCam2.Extensions;
+    using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models;
     using LeonCam2.Repositories;
     using LeonCam2.Services.JwtTokens;
@@ -20,6 +21,7 @@ namespace LeonCam2
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Logging;
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
 
@@ -83,6 +85,8 @@ namespace LeonCam2
             services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton<IJwtTokenService, JwtTokenService>();
+
+            services.AddScoped<JwtTokenFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

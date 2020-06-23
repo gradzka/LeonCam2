@@ -3,8 +3,11 @@
 namespace LeonCam2.Controllers
 {
     using System;
+    using System.Linq;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using LeonCam2.Enums;
+    using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Mvc;
@@ -40,7 +43,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentException(nameof(username));
             }
 
-            string leadingQuestion = await this.userService.GetLeadingQuestion(username).ConfigureAwait(false);
+            string leadingQuestion = await this.userService.GetLeadingQuestionAsync(username).ConfigureAwait(false);
 
             this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.GotLeadingQuestion)]);
 
@@ -55,7 +58,20 @@ namespace LeonCam2.Controllers
                 throw new ArgumentNullException(nameof(loginModel));
             }
 
-            return this.Ok(new { token = await this.userService.Login(loginModel).ConfigureAwait(false) });
+            return this.Ok(new { token = await this.userService.LoginAsync(loginModel).ConfigureAwait(false) });
+        }
+
+        [JwtTokenFilter]
+        [HttpPost("Logout")]
+        public IActionResult Logout()
+        {
+            if (this.ControllerContext.HttpContext.Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues token))
+            {
+                this.userService.Logout(AuthenticationHeaderValue.Parse(token.First()).Parameter);
+                return this.Ok();
+            }
+
+            return this.BadRequest();
         }
 
         [HttpPost("Register")]
@@ -70,7 +86,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentNullException(nameof(registerModel));
             }
 
-            await this.userService.Register(registerModel).ConfigureAwait(false);
+            await this.userService.RegisterAsync(registerModel).ConfigureAwait(false);
 
             this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.UserRegistered)]);
 
@@ -89,7 +105,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentNullException(nameof(leadingQuestionModel));
             }
 
-            return this.Ok(new { token = await this.userService.CheckAnswer(leadingQuestionModel).ConfigureAwait(false) });
+            return this.Ok(new { token = await this.userService.CheckAnswerAsync(leadingQuestionModel).ConfigureAwait(false) });
         }
     }
 }

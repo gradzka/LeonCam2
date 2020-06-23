@@ -40,7 +40,7 @@ namespace LeonCam2.Services.Users
             this.jwtTokenService = jwtTokenService;
         }
 
-        public async Task<string> GetLeadingQuestion(string username)
+        public async Task<string> GetLeadingQuestionAsync(string username)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -57,7 +57,7 @@ namespace LeonCam2.Services.Users
             return leadingQuestion;
         }
 
-        public async Task<string> Login(LoginModel loginModel)
+        public async Task<string> LoginAsync(LoginModel loginModel)
         {
             if (loginModel == null)
             {
@@ -73,7 +73,7 @@ namespace LeonCam2.Services.Users
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
-                        await this.userRepository.UpdateAsync(user);
+                        await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
                         throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
                     }
@@ -81,7 +81,7 @@ namespace LeonCam2.Services.Users
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
                         user.AccessFailedCount = 0;
-                        await this.userRepository.UpdateAsync(user);
+                        await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
                     }
 
                     return this.jwtTokenService.CreateToken(user.Id);
@@ -90,7 +90,7 @@ namespace LeonCam2.Services.Users
                 {
                     user.LastLoginAttemptDate = DateTime.Now;
                     user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
-                    await this.userRepository.UpdateAsync(user);
+                    await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
                     throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperLoginData)]);
                 }
@@ -101,13 +101,12 @@ namespace LeonCam2.Services.Users
             }
         }
 
-        public async Task Logout()
+        public void Logout(string token)
         {
-            // TODO
-            return;
+            this.jwtTokenService.AddTokenToBlackList(token);
         }
 
-        public async Task Register(RegisterModel registerModel)
+        public async Task RegisterAsync(RegisterModel registerModel)
         {
             if (registerModel == null)
             {
@@ -132,7 +131,7 @@ namespace LeonCam2.Services.Users
             this.logger.LogInformation(UserIsRegisteredInfo);
             DateTime dateTimeNow = DateTime.Now;
 
-            if (this.userRepository.GetUserAsync(registerModel.Username).Result != null)
+            if (await this.userRepository.GetUserAsync(registerModel.Username) != null)
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]);
             }
@@ -155,7 +154,7 @@ namespace LeonCam2.Services.Users
             await this.userRepository.InsertAsync(user).ConfigureAwait(false);
         }
 
-        public async Task<string> CheckAnswer(LeadingQuestionModel leadingQuestionModel)
+        public async Task<string> CheckAnswerAsync(LeadingQuestionModel leadingQuestionModel)
         {
             if (leadingQuestionModel == null)
             {
@@ -181,14 +180,14 @@ namespace LeonCam2.Services.Users
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
-                        await this.userRepository.UpdateAsync(user);
+                        await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
                         throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
                     }
                     else
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
                         user.AccessFailedCount = 0;
-                        await this.userRepository.UpdateAsync(user);
+                        await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
                     }
 
                     return this.jwtTokenService.CreateToken(user.Id);
@@ -197,7 +196,7 @@ namespace LeonCam2.Services.Users
                 {
                     user.LastLoginAttemptDate = DateTime.Now;
                     user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
-                    await this.userRepository.UpdateAsync(user);
+                    await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
                     throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
                 }

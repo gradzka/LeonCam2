@@ -72,17 +72,17 @@ namespace LeonCam2.Tests.ServicesTests
 
             if (loginModel == null)
             {
-                ArgumentNullException ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.Login(loginModel).ConfigureAwait(false)).ConfigureAwait(false);
+                ArgumentNullException ex = await Assert.ThrowsAsync<ArgumentNullException>(async () => await userService.LoginAsync(loginModel).ConfigureAwait(false)).ConfigureAwait(false);
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
             else if (!(bool)testsMethodResult.Result)
             {
-                InternalException ex = await Assert.ThrowsAsync<InternalException>(async () => await userService.Login(loginModel).ConfigureAwait(false)).ConfigureAwait(false);
+                InternalException ex = await Assert.ThrowsAsync<InternalException>(async () => await userService.LoginAsync(loginModel).ConfigureAwait(false)).ConfigureAwait(false);
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
             else
             {
-                string token = await userService.Login(loginModel).ConfigureAwait(false);
+                string token = await userService.LoginAsync(loginModel).ConfigureAwait(false);
                 Assert.True(!string.IsNullOrEmpty(token));
             }
         }
@@ -139,7 +139,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             try
             {
-                string question = await userService.GetLeadingQuestion(username).ConfigureAwait(false);
+                string question = await userService.GetLeadingQuestionAsync(username).ConfigureAwait(false);
 
                 Assert.True(testsMethodResult.Exception == null);
                 Assert.Equal(this.User.LeadingQuestion, question);
@@ -169,7 +169,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             try
             {
-                string token = await userService.CheckAnswer(leadingQuestionModel).ConfigureAwait(false);
+                string token = await userService.CheckAnswerAsync(leadingQuestionModel).ConfigureAwait(false);
 
                 Assert.True(testsMethodResult.Exception == null);
                 Assert.True(!string.IsNullOrEmpty(token));
