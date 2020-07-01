@@ -42,7 +42,8 @@ namespace LeonCam2.Filters.AuthorizationFilters
                 throw new InternalException(MissingToken);
             }
 
-            bool correctToken = jwtTokenService.ValidateToken(authorization.Parameter);
+            bool correctToken = jwtTokenService.ValidateToken(authorization.Parameter) && !jwtTokenService.CheckIfTokenOnBlackList(authorization.Parameter);
+
             if (!correctToken)
             {
                 throw new InternalException(InvalidToken);

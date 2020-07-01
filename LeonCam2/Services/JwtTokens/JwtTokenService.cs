@@ -46,11 +46,16 @@ namespace LeonCam2.Services.JwtTokens
                 {
                     new Claim(ClaimTypes.Name, userId.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddDays(this.settings.JwtTokenLifeTimeInHours),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
 
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+        }
+
+        public int RemoveInvalidTokensFromBlackList()
+        {
+            return this.blackList.RemoveWhere(x => !this.ValidateToken(x));
         }
 
         public bool ValidateToken(string token)
@@ -79,7 +84,7 @@ namespace LeonCam2.Services.JwtTokens
                 return false;
             }
 
-            return !this.CheckIfTokenOnBlackList(token);
+            return true;
         }
     }
 }
