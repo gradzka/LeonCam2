@@ -6,8 +6,12 @@ namespace LeonCam2.Models
     {
         public string JwtKey { get; set; }
 
-        public int BlockTimeInMinutes { get; set; }
+        public double JwtTokenLifeTimeInHours { get; set; } = 24;
 
-        public int MaxNumberOfLoginAttempts { get; set; }
+        public double BlockTimeInMinutes { get; set; } = 15;
+
+        public int MaxNumberOfLoginAttempts { get; set; } = 3;
+
+        public double BlackListControlIntervalInHours { get; set; } = 24;
     }
 }

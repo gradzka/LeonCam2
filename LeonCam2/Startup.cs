@@ -5,12 +5,13 @@ namespace LeonCam2
     using System.Data;
     using System.Data.SQLite;
     using System.Globalization;
-    using System.Text;
     using LeonCam2.Extensions;
+    using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models;
     using LeonCam2.Repositories;
+    using LeonCam2.Services;
+    using LeonCam2.Services.JwtTokens;
     using LeonCam2.Services.Users;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Localization;
@@ -18,7 +19,6 @@ namespace LeonCam2
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
 
     public class Startup
@@ -41,27 +41,6 @@ namespace LeonCam2
             var settingsSection = this.Configuration.GetSection("Settings");
             services.Configure<Settings>(settingsSection);
 
-            // configure jwt authentication
-            var settings = settingsSection.Get<Settings>();
-            var key = Encoding.ASCII.GetBytes(settings.JwtKey);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                };
-            });
-
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(x => x.SwaggerDoc("v1", new OpenApiInfo { Title = "LeonCam2 API", Version = "v1" }));
 
@@ -77,6 +56,12 @@ namespace LeonCam2
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddSingleton<IJwtTokenService, JwtTokenService>();
+
+            services.AddScoped<JwtTokenFilter>();
+
+            services.AddHostedService<TimedBackgroundService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,6 +100,9 @@ namespace LeonCam2
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

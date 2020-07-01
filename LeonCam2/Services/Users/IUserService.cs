@@ -7,17 +7,19 @@ namespace LeonCam2.Services.Users
 
     public interface IUserService
     {
-        Task<string> GetLeadingQuestion(string username);
+        Task<string> GetLeadingQuestionAsync(string username);
 
         /// <summary>
         /// Login method.
         /// </summary>
         /// <param name="loginModel">Model to sign in.</param>
         /// <returns>JWT token.</returns>
-        Task<string> Login(LoginModel loginModel);
+        Task<string> LoginAsync(LoginModel loginModel);
 
-        Task Register(RegisterModel registerModel);
+        void Logout(string token);
 
-        Task<string> CheckAnswer(LeadingQuestionModel leadingQuestionModel);
+        Task RegisterAsync(RegisterModel registerModel);
+
+        Task<string> CheckAnswerAsync(LeadingQuestionModel leadingQuestionModel);
     }
 }
