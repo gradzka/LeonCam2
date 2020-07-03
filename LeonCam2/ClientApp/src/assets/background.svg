@@ -102,18 +102,6 @@
          id="stop893" />
     </linearGradient>
     <linearGradient
-       id="linearGradient1229"
-       inkscape:collect="always">
-      <stop
-         id="stop1225"
-         offset="0"
-         style="stop-color:#ff6100;stop-opacity:1" />
-      <stop
-         id="stop1227"
-         offset="1"
-         style="stop-color:#e5be39;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient
        id="linearGradient1122"
        inkscape:collect="always">
       <stop
@@ -175,15 +163,6 @@
        xlink:href="#linearGradient1072"
        inkscape:collect="always"
        gradientTransform="matrix(1,0,0,0.97849462,0,2.344086)" />
-    <linearGradient
-       gradientUnits="userSpaceOnUse"
-       y2="260"
-       x2="720"
-       y1="40"
-       x1="720"
-       id="linearGradient1231"
-       xlink:href="#linearGradient1229"
-       inkscape:collect="always" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient895"
@@ -390,10 +369,10 @@
      inkscape:window-width="1366"
      showgrid="true"
      inkscape:document-rotation="0"
-     inkscape:current-layer="layer9"
+     inkscape:current-layer="layer10"
      inkscape:document-units="px"
      inkscape:cy="372.4314"
-     inkscape:cx="410.37056"
+     inkscape:cx="777.9211"
      inkscape:zoom="0.5"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
@@ -418,11 +397,24 @@
     </rdf:RDF>
   </metadata>
   <g
+     inkscape:label="Background"
+     id="layer10"
+     inkscape:groupmode="layer">
+    <rect
+       ry="0"
+       y="0"
+       x="0"
+       height="780"
+       width="1380"
+       id="rect1636"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none" />
+  </g>
+  <g
+     sodipodi:insensitive="true"
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="StripOfLand1"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
        style="opacity:1;fill:url(#linearGradient984);fill-opacity:1;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect900"
@@ -444,6 +436,7 @@
        sodipodi:nodetypes="ccccccccc" />
   </g>
   <g
+     sodipodi:insensitive="true"
      inkscape:groupmode="layer"
      id="layer9"
      inkscape:label="StripOfLand3"
@@ -455,13 +448,13 @@
        sodipodi:nodetypes="cccccccccccc" />
   </g>
   <g
+     sodipodi:insensitive="true"
      inkscape:label="Sky"
      id="layer3"
      inkscape:groupmode="layer"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <rect
-       style="display:inline;opacity:0.565359;fill:url(#linearGradient1231);fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="display:inline;opacity:0.565359;fill:#ff6100;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect1135"
        width="1366"
        height="212"
