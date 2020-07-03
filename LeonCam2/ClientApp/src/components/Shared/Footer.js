@@ -26,16 +26,6 @@ export class Footer extends Component {
                         <span> & </span>
                         <a href="https://github.com/kazimierczak-robert">Kazimierczak</a>
                     </li>
-                    <li className="divider" />
-                    <li>
-                        <span>Graphics by Kuzayova</span>
-                        <a href="https://www.facebook.com/kuzayova">
-                            <i className="fa fa-facebook-f" />
-                        </a>
-                        <a href="https://www.instagram.com/kuzayova.art">
-                            <i className="fa fa-instagram" />
-                        </a>
-                    </li>
                 </ul>
             </footer>
         );
