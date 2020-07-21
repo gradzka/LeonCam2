@@ -13,6 +13,8 @@ export class Sidebar extends Component {
             basicUiMenuOpen: false,
             formElementsMenuOpen: false
         }
+
+        document.body.classList.add('sidebar-icon-only');
     }
 
     logout(evt) {
