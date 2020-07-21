@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import './Sidebar.css';
+import { browserHistory } from '../../router/BrowserHistory';
+import { authenticationService } from '../../services/AuthenticationService';
 
 export class Sidebar extends Component {
     constructor(props) {
@@ -11,6 +13,12 @@ export class Sidebar extends Component {
             basicUiMenuOpen: false,
             formElementsMenuOpen: false
         }
+    }
+
+    logout(evt) {
+        authenticationService.logout();
+        browserHistory.push('/');
+        evt.preventDefault();
     }
 
     toggleMenuState(menuState) {
@@ -101,6 +109,12 @@ export class Sidebar extends Component {
                             <i className="fa fa-cog menu-icon" />
                             <span className="menu-title">Settings</span>
                         </Link>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" onClick={this.logout}>
+                            <i className="fa fa-sign-out menu-icon" />
+                            <span className="menu-title">Logout</span>
+                        </a>
                     </li>
                 </ul>
             </nav>
