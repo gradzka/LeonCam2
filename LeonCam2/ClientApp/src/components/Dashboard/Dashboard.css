@@ -1,0 +1,27 @@
+﻿.dashboard-grid div.dashboard-grid-cell {
+    border: 1px solid black;
+    height: 330px;
+    width: 330px;
+    margin: 10px;
+    list-style-type: none;
+    display: inline-block;
+}
+
+@media (max-width: 767px) {
+    .dashboard-grid div.dashboard-grid-cell {
+        height: 250px;
+        width: 250px;
+    }
+}
+
+.dashboard-grid-cell .circle {
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
