@@ -1,0 +1,95 @@
+﻿.sidebar {
+    position: fixed;
+    min-height: 100vh;
+    background: #fff;
+    font-family: "Roboto", sans-serif;
+    padding: 0;
+    width: 255px;
+    z-index: 11;
+    transition: width 0.25s ease, background 0.25s ease;
+    -webkit-transition: width 0.25s ease, background 0.25s ease;
+    -moz-transition: width 0.25s ease, background 0.25s ease;
+    -ms-transition: width 0.25s ease, background 0.25s ease;
+}
+    .sidebar .sidebar-brand-wrapper {
+        width: auto;
+        height: 63px;
+    }
+
+    .sidebar .navbar-toggler {
+        padding: 16px 25px;
+        margin-left: auto;
+        min-width: 70px;
+    }
+
+    .sidebar .navbar-toggler .menu-icon {
+        margin-right: 0;
+    }
+
+
+
+.sidebar .nav-link {
+    align-items: center;
+    display: flex;
+    padding: 16px 25px;
+    white-space: nowrap;
+    height: 52px;
+    color: #4a4a4a;
+    width: 255px;
+}
+
+    .sidebar .nav-link:hover {
+        background: #fafbfc;
+        color: #4a4a4a;
+    }
+
+    .sidebar .menu-title {
+        color: inherit;
+        display: inline-block;
+        font-size: 12px;
+        line-height: 1;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .sidebar .menu-icon {
+        margin-right: 1.25rem;
+        width: 16px;
+        line-height: 1;
+        font-size: 18px;
+    }
+
+    .sidebar .nav .nav-item .nav-link i.menu-arrow {
+        margin-left: auto;
+        margin-right: 0;
+        transition-duration: 0.2s;
+        transition-property: transform;
+        transition-timing-function: ease-in;
+    }
+
+    .sidebar .nav.sub-menu {
+        margin-bottom: 0;
+        padding: 0 0 0 4rem;
+    }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link {
+            color: #4a4a4a;
+            padding: 0.75rem 1rem 0.75rem 1rem;
+            font-size: 0.75rem;
+            line-height: 1;
+            height: auto;
+            width: calc(255px - 4rem);
+        }
+
+.sidebar-icon-only .sidebar,
+.sidebar-icon-only .sidebar .nav-item,
+.sidebar-icon-only .sidebar .nav-link {
+    width: 70px;
+}
+
+
+    .sidebar-icon-only .sidebar .menu-title,
+    .sidebar-icon-only .sidebar .nav.sub-menu .nav-item .nav-link,
+    .sidebar-icon-only .sidebar .nav .nav-item .nav-link i.menu-arrow {
+        display: none;
+    }

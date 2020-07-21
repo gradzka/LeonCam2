@@ -10,7 +10,7 @@ export class Footer extends Component {
         return (
             <footer>
                 <ul>
-                    <li><b>LeonCam2</b> is the surveillance system with IP network cameras. It supports the ONVIF standard. </li>
+                    <li><b>LeonCam2</b> is the surveillance system with IP network cameras with ONVIF standard support</li>
                 </ul>
                 <ul>
                     <li>

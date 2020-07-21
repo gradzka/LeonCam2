@@ -1,0 +1,26 @@
+﻿.page-body-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.main-panel {
+    transition: width 0.25s ease, margin 0.25s ease;
+    width: 100%;
+    padding-top: 63px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 255px;
+    min-height: 100vh;
+}
+
+.sidebar-icon-only .main-panel {
+    padding-left: 70px;
+}
+
+.content-wrapper {
+    padding: 1.5rem 1.7rem;
+    width: 100%;
+    flex-grow: 1;
+}

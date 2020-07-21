@@ -1,19 +1,18 @@
 ﻿footer {
-    color: #7BA2BB;
+    color: #f4f4f4;
     line-height: 1.5;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin-top: 100px;
     text-align: center;
     font-family: RobotoDraft, Roboto, sans-serif;
     font-size: 12px;
+    transition: all 0.25s ease;
+    -moz-transition: all 0.25s ease;
+    -webkit-transition: all 0.25s ease;
+    -ms-transition: all 0.25s ease;
 }
 
     footer a {
         text-decoration: none;
-        color: #7BA2BB;
+        color: #f4f4f4;
     }
 
     footer ul {
@@ -29,14 +28,14 @@
             font-size: 1.5rem;
         }
 
-        footer ul li a i:hover, footer ul li a i:focus {
-            color: #9DD6FC;
-            font-size: 1.5rem;
-        }
+            footer ul li a i:hover, footer ul li a i:focus {
+                color: #ffffff;
+                font-size: 1.5rem;
+            }
 
-        footer ul li a:hover, footer ul li a:focus {
-            color: #9DD6FC;
-        }
+            footer ul li a:hover, footer ul li a:focus {
+                color: #ffffff;
+            }
 
         footer ul li.divider {
             width: 1px;
@@ -52,7 +51,7 @@
         footer ul:first-child {
             padding-top: .5rem;
             flex-wrap: wrap;
-            background: rgba(1,17,27,.6);
+            background: rgba(0, 0, 0, 0.3);
             margin-bottom: 0;
             color: #f4f4f4;
             vertical-align: middle;
@@ -62,7 +61,7 @@
             display: flex;
             justify-content: center;
             padding-bottom: .5rem;
-            background: rgba(1,17,27,.6);
+            background: rgba(0, 0, 0, 0.3);
             font-size: 10px;
             margin-bottom: 0;
         }
