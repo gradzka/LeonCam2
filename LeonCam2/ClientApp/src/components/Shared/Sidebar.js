@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import './Sidebar.css';
 import { browserHistory } from '../../router/BrowserHistory';
 import { authenticationService } from '../../services/AuthenticationService';
@@ -10,8 +9,8 @@ export class Sidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            basicUiMenuOpen: false,
-            formElementsMenuOpen: false
+            camerasMenuOpen: false,
+            visualMenuOpen: false
         }
 
         document.body.classList.add('sidebar-icon-only');
@@ -37,28 +36,19 @@ export class Sidebar extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location !== prevProps.location) {
+        if (this.props.location !== prevProps.location)
+        {
             this.onRouteChanged();
         }
     }
 
     onRouteChanged() {
-        document.querySelector('#sidebar').classList.remove('active');
-        Object.keys(this.state).forEach(i => {
-            this.setState({ [i]: false });
-        });
-
         const dropdownPaths = [
-            { path: '/basic-ui', state: 'basicUiMenuOpen' },
-            { path: '/form-elements', state: 'formElementsMenuOpen' }
+            { path: '/cameras', state: 'camerasMenuOpen' },
+            { path: '/visual', state: 'visualMenuOpen' }
         ];
 
-        dropdownPaths.forEach((obj => {
-            if (this.isPathActive(obj.path)) {
-                this.setState({ [obj.state]: true })
-            }
-        }));
-
+        dropdownPaths.forEach((obj => this.setState({ [obj.state]: this.isPathActive(obj.path) })));
     }
 
     toggleOffcanvas() {
@@ -81,28 +71,48 @@ export class Sidebar extends Component {
                         </Link>
                     </li>
                     <li className={this.isPathActive('/cameras') ? 'nav-item active' : 'nav-item'}>
-                        <div className={this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('basicUiMenuOpen')} data-toggle="collapse">
+                        <div className={this.state.camerasMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('camerasMenuOpen')} data-toggle="collapse">
                             <i className="fa fa-camera menu-icon" />
                             <span className="menu-title">Cameras</span>
                             <i className="fa fa-angle-right menu-icon menu-arrow"></i>
                         </div>
-                        <Collapse isOpen={this.state.basicUiMenuOpen}>
+                        <Collapse isOpen={this.state.camerasMenuOpen}>
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/dropdowns') ? 'nav-link active' : 'nav-link'} to="/basic-ui/dropdowns">New</Link></li>
-                                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link'} to="/basic-ui/buttons">List</Link></li>
+                                <li className="nav-item">
+                                    <Link className={this.isPathActive('/cameras/new') ? 'nav-link active' : 'nav-link'} to="/cameras/new">
+                                        <i className="fa fa-plus-square menu-icon" />
+                                        <span className="menu-title">New</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className={this.isPathActive('/cameras/list') ? 'nav-link active' : 'nav-link'} to="/cameras/list">
+                                        <i className="fa fa-list-alt menu-icon" />
+                                        <span className="menu-title">List</span>
+                                    </Link>
+                                </li>
                             </ul>
                         </Collapse>
                     </li>
-                    <li className={this.isPathActive('/memories') ? 'nav-item active' : 'nav-item'}>
-                        <div className={this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('basicUiMenuOpen')} data-toggle="collapse">
-                            <i className="fa fa-photo menu-icon" />
+                    <li className={this.isPathActive('/visual') ? 'nav-item active' : 'nav-item'}>
+                        <div className={this.state.visualMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('visualMenuOpen')} data-toggle="collapse">
+                            <i className="fa fa-photo-video menu-icon" />
                             <span className="menu-title">Visual</span>
                             <i className="fa fa-angle-right menu-icon menu-arrow"></i>
                         </div>
-                        <Collapse isOpen={this.state.basicUiMenuOpen}>
+                        <Collapse isOpen={this.state.visualMenuOpen}>
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/dropdowns') ? 'nav-link active' : 'nav-link'} to="/basic-ui/dropdowns">Pictures</Link></li>
-                                <li className="nav-item"> <Link className={this.isPathActive('/basic-ui/buttons') ? 'nav-link active' : 'nav-link'} to="/basic-ui/buttons">Videos</Link></li>
+                                <li className="nav-item">
+                                    <Link className={this.isPathActive('/visual/pictures') ? 'nav-link active' : 'nav-link'} to="/visual/pictures">
+                                        <i className="fa fa-photo menu-icon" />
+                                        <span className="menu-title">Pictures</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className={this.isPathActive('/visual/videos') ? 'nav-link active' : 'nav-link'} to="/visual/videos">
+                                        <i className="fa fa-video menu-icon" />
+                                        <span className="menu-title">Videos</span>
+                                    </Link>
+                                </li>
                             </ul>
                         </Collapse>
                     </li>
