@@ -1,4 +1,6 @@
 ﻿import React, { Component } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import './Footer.css';
 
 export class Footer extends Component {
@@ -16,7 +18,7 @@ export class Footer extends Component {
                     <li>
                         <span>See source code</span>
                         <a href="https://github.com/gradzka/LeonCam2">
-                            <i className="fa fa-github" />
+                            <FontAwesomeIcon icon={faGithub} size="2x" />
                         </a>
                     </li>
                     <li className="divider" />

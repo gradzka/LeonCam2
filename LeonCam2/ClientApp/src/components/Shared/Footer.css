@@ -23,23 +23,13 @@
             text-decoration: underline;
         }
 
-        footer ul li a i::before {
-            display: inline-block;
-            font-size: 1.5rem;
-        }
-
-            footer ul li a i:hover, footer ul li a i:focus {
-                color: #ffffff;
-                font-size: 1.5rem;
-            }
-
             footer ul li a:hover, footer ul li a:focus {
                 color: #ffffff;
             }
 
         footer ul li.divider {
             width: 1px;
-            background: #7BA2BB;
+            background: #f4f4f4;
             margin: .3rem .5rem;
         }
 
