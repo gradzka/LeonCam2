@@ -4,18 +4,25 @@ import arrayMove from "array-move";
 import { Container, Row, Col } from 'reactstrap';
 import "./Dashboard.css";
 
-const SortableItem = SortableElement(({ value }) => {
+const CircleActionButton = ({ icon }) => (
+    <Col xs="auto" className="padding-right-left-5"><div className="circle"><i className={icon} /></div></Col>
+);
+
+const SortableItem = SortableElement(({ value, camera }) => {
     return (
         <div className="dashboard-grid-cell">
             <Container>
-                <Row>
+                <Row className="justify-content-center padding-top-bottom-5">
                     {value}
                 </Row>
                 <Row>
-                    <Col><div className="circle"><i className="fa fa-power-off" /></div></Col>
-                    <Col><div className="circle"><i className="fa fa-camera" /></div></Col>
-                    <Col><div className="circle"><i className="fa fa-edit" /></div></Col>
-                    <Col><div className="circle"><i className="fa fa-trash" /></div></Col>
+                    <div className="camera-container"></div>
+                </Row>
+                <Row className="justify-content-center padding-top-bottom-5">
+                    <CircleActionButton icon="fa fa-power-off" />
+                    <CircleActionButton icon="fa fa-camera" />
+                    <CircleActionButton icon="fa fa-edit" />
+                    <CircleActionButton icon="fa fa-trash" />
                 </Row>
             </Container>
         </div>
@@ -35,12 +42,11 @@ const SortableList = SortableContainer(({ items }) => {
 class SortableComponent extends Component {
     state = {
         items: [
-            "Item 1",
-            "Item 2",
-            "Item 3",
-            "Item 4",
-            "Item 5",
-            "Item 6",
+            "Baby room",
+            "Living room",
+            "Front door",
+            "Garage",
+            "Garden"
         ]
     };
 
