@@ -69,7 +69,7 @@ class SortableComponent extends Component {
 export class Dashboard extends Component {
     render() {
         return (
-            <SortableComponent/>
+            <SortableComponent />
         );
     }
 }
