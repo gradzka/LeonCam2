@@ -4,10 +4,6 @@
     text-align: center;
     font-family: RobotoDraft, Roboto, sans-serif;
     font-size: 12px;
-    transition: all 0.25s ease;
-    -moz-transition: all 0.25s ease;
-    -webkit-transition: all 0.25s ease;
-    -ms-transition: all 0.25s ease;
 }
 
     footer a {
@@ -61,3 +57,4 @@
                 vertical-align: middle;
                 margin: .15rem;
             }
+

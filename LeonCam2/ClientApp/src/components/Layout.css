@@ -6,7 +6,7 @@
 }
 
 .main-panel {
-    transition: width 0.25s ease, margin 0.25s ease;
+    transition: 0.25s padding ease;
     width: 100%;
     padding-top: 10px;
     display: flex;
