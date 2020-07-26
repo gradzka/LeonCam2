@@ -55,3 +55,19 @@
         height: 180px;
     }
 }
+
+.leon-green {
+    color: #47b060
+}
+
+    .leon-green:hover {
+        color: #5AE178
+    }
+
+.leon-red {
+    color: #be0819
+}
+
+    .leon-red:hover {
+        color: #FA0018
+    }

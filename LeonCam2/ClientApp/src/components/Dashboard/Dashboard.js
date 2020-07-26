@@ -41,11 +41,11 @@ class SortableCamera extends Component {
                         <div className="camera-container"></div>
                     </Row>
                     <Row className="justify-content-center padding-top-bottom-5">
-                        <CircleActionButton id="powerOnOff" icon={faPowerOff} onClickAction={this.powerOnOff} className={this.state.isOn ? 'bg-success' : 'bg-danger'} />
+                        <CircleActionButton icon={faPowerOff} onClickAction={this.powerOnOff} className={this.state.isOn ? 'leon-green' : 'leon-red'} />
                         <CircleActionButton icon={faExpandAlt} />
                         <CircleActionButton icon={faEdit} />
                         <CircleActionButton icon={faCamera} />
-                        <CircleActionButton icon={faTrash} />
+                        <CircleActionButton icon={faTrash} className="leon-red" />
                     </Row>
                 </Container>
             </div>
