@@ -1,0 +1,57 @@
+﻿.dashboard-grid {
+    text-align: center;
+}
+
+.dashboard-grid div.dashboard-grid-cell {
+    width: 320px;
+    margin: 10px;
+    list-style-type: none;
+    display: inline-block;
+}
+
+@media (max-width: 767px) {
+    .dashboard-grid div.dashboard-grid-cell {
+        width: 240px;
+    }
+}
+
+.dashboard-grid-cell .circle {
+    background-color: whitesmoke;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-grid-cell .circle:hover {
+    background-color: white;
+}
+
+.padding-right-left-5
+{
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.padding-top-bottom-5 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.camera-container {
+    height: 240px;
+    width: 100%;
+    background-color: white;
+    color:aliceblue;
+}
+
+
+@media (max-width: 767px) {
+    .camera-container {
+        height: 180px;
+    }
+}
