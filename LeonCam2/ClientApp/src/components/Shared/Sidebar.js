@@ -68,27 +68,37 @@ export class Sidebar extends Component {
                 <ul className="nav">
                     <li className={this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item'}>
                         <Link className="nav-link" to="/dashboard">
-                            <FontAwesomeIcon icon={faHome} className="menu-icon" />
+                            <div className="menu-icon">
+                                <FontAwesomeIcon icon={faHome} />
+                            </div>
                             <span className="menu-title">Dashboard</span>
                         </Link>
                     </li>
                     <li className={this.isPathActive('/cameras') ? 'nav-item active' : 'nav-item'}>
                         <div className={this.state.camerasMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('camerasMenuOpen')} data-toggle="collapse">
-                            <FontAwesomeIcon icon={faCamera} className="menu-icon" />
+                            <div className="menu-icon">
+                                <FontAwesomeIcon icon={faCamera} />
+                            </div>
                             <span className="menu-title">Cameras</span>
-                            <FontAwesomeIcon icon={faAngleRight} className="menu-icon menu-arrow" />
+                            <div className="menu-icon menu-arrow">
+                                <FontAwesomeIcon icon={faAngleRight} />
+                            </div>
                         </div>
                         <Collapse isOpen={this.state.camerasMenuOpen}>
                             <ul className="nav flex-column sub-menu">
                                 <li className={this.isPathActive('/cameras/new') ? 'nav-item active' : 'nav-item'}>
                                     <Link className='nav-link' to="/cameras/new">
-                                        <FontAwesomeIcon icon={faPlusSquare} className="menu-icon" />
+                                        <div className="menu-icon">
+                                            <FontAwesomeIcon icon={faPlusSquare} />
+                                        </div>
                                         <span className="menu-title">New</span>
                                     </Link>
                                 </li>
                                 <li className={this.isPathActive('/cameras/list') ? 'nav-item active' : 'nav-item'}>
                                     <Link className='nav-link' to="/cameras/list">
-                                        <FontAwesomeIcon icon={faListAlt} className="menu-icon" />
+                                        <div className="menu-icon">
+                                            <FontAwesomeIcon icon={faListAlt} />
+                                        </div>
                                         <span className="menu-title">List</span>
                                     </Link>
                                 </li>
@@ -97,21 +107,29 @@ export class Sidebar extends Component {
                     </li>
                     <li className={this.isPathActive('/visual') ? 'nav-item active' : 'nav-item'}>
                         <div className={this.state.visualMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('visualMenuOpen')} data-toggle="collapse">
-                            <FontAwesomeIcon icon={faPhotoVideo} className="menu-icon" />
+                            <div className="menu-icon">
+                                <FontAwesomeIcon icon={faPhotoVideo} />
+                            </div>
                             <span className="menu-title">Visual</span>
-                            <FontAwesomeIcon icon={faAngleRight} className="menu-icon menu-arrow" />
+                            <div className="menu-icon menu-arrow">
+                                <FontAwesomeIcon icon={faAngleRight} />
+                            </div>
                         </div>
                         <Collapse isOpen={this.state.visualMenuOpen}>
                             <ul className="nav flex-column sub-menu">
                                 <li className={this.isPathActive('/visual/pictures') ? 'nav-item active' : 'nav-item'}>
                                     <Link className='nav-link' to="/visual/pictures">
-                                        <FontAwesomeIcon icon={faImage} className="menu-icon" />
+                                        <div className="menu-icon">
+                                            <FontAwesomeIcon icon={faImage} />
+                                        </div>
                                         <span className="menu-title">Pictures</span>
                                     </Link>
                                 </li>
                                 <li className={this.isPathActive('/visual/pictures') ? 'nav-item active' : 'nav-item'}>
                                     <Link className='nav-link' to="/visual/videos">
-                                        <FontAwesomeIcon icon={faFilm} className="menu-icon" />
+                                        <div className="menu-icon">
+                                            <FontAwesomeIcon icon={faFilm} />
+                                        </div>
                                         <span className="menu-title">Videos</span>
                                     </Link>
                                 </li>
@@ -120,13 +138,17 @@ export class Sidebar extends Component {
                     </li>
                     <li className={this.isPathActive('/settings') ? 'nav-item active' : 'nav-item'}>
                         <Link className="nav-link" to="/settings">
-                            <FontAwesomeIcon icon={faCogs} className="menu-icon" />
+                            <div className="menu-icon">
+                                <FontAwesomeIcon icon={faCogs} />
+                            </div>
                             <span className="menu-title">Settings</span>
                         </Link>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" onClick={this.logout}>
-                            <FontAwesomeIcon icon={faSignOutAlt} className="menu-icon" />
+                            <div className="menu-icon">
+                                <FontAwesomeIcon icon={faSignOutAlt} />
+                            </div>
                             <span className="menu-title">Logout</span>
                         </a>
                     </li>

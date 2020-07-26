@@ -58,7 +58,6 @@
     .sidebar .menu-icon {
         margin-right: 1.25rem;
         width: 16px;
-        line-height: 1;
     }
 
     .sidebar .nav-item.active > .nav-link {
@@ -99,4 +98,8 @@
     .sidebar-icon-only .sidebar .menu-title,
     .sidebar-icon-only .sidebar .nav .nav-item .nav-link .menu-arrow {
         display: none;
+    }
+
+    .sidebar-icon-only .sidebar .menu-icon {
+        margin-right: 0;
     }
