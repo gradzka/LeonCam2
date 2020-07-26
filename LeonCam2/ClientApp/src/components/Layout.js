@@ -19,7 +19,7 @@ export class Layout extends Component {
             <div className="container-scroller">
                 <div className="container-fluid page-body-wrapper">
                     {sidebarComponent}
-                    <div className="main-panel" style={paddingStyle }>
+                    <div className="main-panel" style={paddingStyle}>
                         <div className="content-wrapper" style={paddingStyle}>
                             {this.props.children}
                         </div>

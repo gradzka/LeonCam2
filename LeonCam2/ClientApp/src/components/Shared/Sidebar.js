@@ -80,14 +80,14 @@ export class Sidebar extends Component {
                         </div>
                         <Collapse isOpen={this.state.camerasMenuOpen}>
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item">
-                                    <Link className={this.isPathActive('/cameras/new') ? 'nav-link active' : 'nav-link'} to="/cameras/new">
+                                <li className={this.isPathActive('/cameras/new') ? 'nav-item active' : 'nav-item'}>
+                                    <Link className='nav-link' to="/cameras/new">
                                         <FontAwesomeIcon icon={faPlusSquare} className="menu-icon" />
                                         <span className="menu-title">New</span>
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className={this.isPathActive('/cameras/list') ? 'nav-link active' : 'nav-link'} to="/cameras/list">
+                                <li className={this.isPathActive('/cameras/list') ? 'nav-item active' : 'nav-item'}>
+                                    <Link className='nav-link' to="/cameras/list">
                                         <FontAwesomeIcon icon={faListAlt} className="menu-icon" />
                                         <span className="menu-title">List</span>
                                     </Link>
@@ -103,14 +103,14 @@ export class Sidebar extends Component {
                         </div>
                         <Collapse isOpen={this.state.visualMenuOpen}>
                             <ul className="nav flex-column sub-menu">
-                                <li className="nav-item">
-                                    <Link className={this.isPathActive('/visual/pictures') ? 'nav-link active' : 'nav-link'} to="/visual/pictures">
+                                <li className={this.isPathActive('/visual/pictures') ? 'nav-item active' : 'nav-item'}>
+                                    <Link className='nav-link' to="/visual/pictures">
                                         <FontAwesomeIcon icon={faImage} className="menu-icon" />
                                         <span className="menu-title">Pictures</span>
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className={this.isPathActive('/visual/videos') ? 'nav-link active' : 'nav-link'} to="/visual/videos">
+                                <li className={this.isPathActive('/visual/pictures') ? 'nav-item active' : 'nav-item'}>
+                                    <Link className='nav-link' to="/visual/videos">
                                         <FontAwesomeIcon icon={faFilm} className="menu-icon" />
                                         <span className="menu-title">Videos</span>
                                     </Link>
@@ -136,9 +136,6 @@ export class Sidebar extends Component {
     }
 
     isPathActive(path) {
-        if (!this.props.location) {
-            return false;
-        }
-        return this.props.location.pathname.startsWith(path);
+        return window.location.pathname.startsWith(path);
     }
 }

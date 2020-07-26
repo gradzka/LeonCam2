@@ -61,6 +61,17 @@
         line-height: 1;
     }
 
+    .sidebar .nav-item.active > .nav-link {
+        color: #2196f3;
+    }
+
+    .sidebar .nav-item > .nav-link.menu-expanded,
+    .sidebar .nav-item > .collapsing,
+    .sidebar .nav-item > .nav-link.menu-expanded + div {
+        background-color: #f0f0f0
+    }
+
+
     .sidebar .nav .nav-item .nav-link .menu-arrow {
         margin-left: auto;
         margin-right: 0;
