@@ -3,7 +3,7 @@
     max-width: 340px;
     min-width: 280px;
     width: 100%;
-    margin: 0 auto;
+    margin: 10px auto 0 10px;
 }
 
 .card-container .card {

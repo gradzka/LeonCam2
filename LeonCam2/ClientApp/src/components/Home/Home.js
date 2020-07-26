@@ -39,7 +39,7 @@ export class Home extends Component {
 
         return (
             <Container>
-                <Row>
+                <Row style={{ paddingBottom: 5 + '%', paddingTop: 5 + '%' }}>
                     <Col></Col>
                     <Col lg={5} >
                         <div className="card-container">
