@@ -1,11 +1,18 @@
 ﻿import React, { Component } from 'react';
 import './InputBox.css';
 import './PasswordBox.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 export class PasswordBox extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            eyeClicked: false
+        }
+
+        this.eyeClicked = this.eyeClicked.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -89,16 +96,10 @@ export class PasswordBox extends Component {
         }
     }
 
-    hidePassword(event) {
-        event.target.classList.remove("fa-eye");
-        event.target.classList.add("fa-eye-slash");
-        event.target.parentNode.parentNode.childNodes[0].type = 'password';
-    }
-
-    showPassword(event) {
-        event.target.classList.remove("fa-eye-slash");
-        event.target.classList.add("fa-eye");
-        event.target.parentNode.parentNode.childNodes[0].type = 'text';
+    eyeClicked(event) {
+        this.setState({
+            eyeClicked: event.type === "mousedown" || event.type === "touchstart"
+        });
     }
 
     toggleCapsLkWarning(event) {
@@ -128,13 +129,13 @@ export class PasswordBox extends Component {
 
         return (
             <div className={"input-container password-container " + (this.props.className === undefined ? '' : this.props.className)}>
-                <input type="password" id={this.props.id} required="required" onKeyDown={this.toggleCapsLkWarning} onBlur={this.hideCapsLkWarning} value={this.props.value} onChange={this.handleChange} autoComplete={this.props.autoComplete || "on"}/>
+                <input type={this.state.eyeClicked ? 'text' : 'password'} id={this.props.id} required="required" onKeyDown={this.toggleCapsLkWarning} onBlur={this.hideCapsLkWarning} value={this.props.value} onChange={this.handleChange} autoComplete={this.props.autoComplete || "on"}/>
                 <label forhtml={this.props.id}>
                     {this.props.placeholder} 
                     <span id="capsLk" className="badge badge-warning">CapsLk</span>
                 </label>
-                <div className="input-group-addon">
-                    <span className="fa fa-eye-slash" aria-hidden="true" onMouseDown={this.showPassword} onTouchStart={this.showPassword} onMouseUp={this.hidePassword} onMouseOut={this.hidePassword} onTouchEnd={this.hidePassword} />
+                <div className="input-group-addon" onMouseDown={this.eyeClicked} onTouchStart={this.eyeClicked} onMouseUp={this.eyeClicked} onMouseOut={this.eyeClicked} onTouchEnd={this.eyeClicked}>
+                    <FontAwesomeIcon icon={this.state.eyeClicked ? faEye : faEyeSlash} aria-hidden="true" />
                 </div>
                 <div className="bar"></div>
                 {passwordStrength}

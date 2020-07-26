@@ -3,9 +3,15 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import { Container, Row, Col } from 'reactstrap';
 import "./Dashboard.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPowerOff, faCamera, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const CircleActionButton = ({ icon }) => (
-    <Col xs="auto" className="padding-right-left-5"><div className="circle"><i className={icon} /></div></Col>
+    <Col xs="auto" className="padding-right-left-5">
+        <div className="circle">
+            <FontAwesomeIcon icon={icon}/>
+        </div>
+    </Col>
 );
 
 const SortableItem = SortableElement(({ value, camera }) => {
@@ -19,10 +25,10 @@ const SortableItem = SortableElement(({ value, camera }) => {
                     <div className="camera-container"></div>
                 </Row>
                 <Row className="justify-content-center padding-top-bottom-5">
-                    <CircleActionButton icon="fa fa-power-off" />
-                    <CircleActionButton icon="fa fa-camera" />
-                    <CircleActionButton icon="fa fa-edit" />
-                    <CircleActionButton icon="fa fa-trash" />
+                    <CircleActionButton icon={faPowerOff} />
+                    <CircleActionButton icon={faCamera} />
+                    <CircleActionButton icon={faEdit} />
+                    <CircleActionButton icon={faTrash} />
                 </Row>
             </Container>
         </div>
