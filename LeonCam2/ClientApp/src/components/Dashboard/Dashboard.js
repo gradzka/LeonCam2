@@ -4,7 +4,7 @@ import arrayMove from "array-move";
 import { Container, Row, Col } from 'reactstrap';
 import "./Dashboard.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPowerOff, faCamera, faEdit, faTrash, faExpand, faExchangeAlt, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPowerOff, faCamera, faEdit, faTrash, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
 
 const CircleActionButton = ({ icon, className, onClickAction }) => (
     <Col xs="auto" className="padding-right-left-5" >
@@ -34,7 +34,7 @@ class SortableCamera extends Component {
         return (
             <div className="dashboard-grid-cell">
                 <Container>
-                    <Row className="justify-content-center padding-top-bottom-5">
+                    <Row className="justify-content-center padding-top-bottom-5 no-select">
                         {this.props.value}
                     </Row>
                     <Row>
@@ -45,7 +45,7 @@ class SortableCamera extends Component {
                         <CircleActionButton icon={faExpandAlt} />
                         <CircleActionButton icon={faEdit} />
                         <CircleActionButton icon={faCamera} />
-                        <CircleActionButton icon={faTrash} className="leon-red" />
+                        <CircleActionButton icon={faTrash} onClickAction={() => this.props.onRemove(this.props.indexCopy)} className="leon-red" />
                     </Row>
                 </Container>
             </div>
@@ -53,34 +53,37 @@ class SortableCamera extends Component {
     }
 }
 
-const SortableItem = SortableElement(({ value, camera }) => {
+const SortableItem = SortableElement(({ indexCopy, value, onRemove }) => {
     return (
-        <SortableCamera value={value}/>
+        <SortableCamera value={value} indexCopy={indexCopy} onRemove={onRemove} />
     );
 });
 
-const SortableList = SortableContainer(({ items }) => {
+const SortableList = SortableContainer(({ items, onRemove }) => {
     return (
         <div>
             {items.map((value, index) => (
-                <SortableItem key={`item-${index}`} index={index} value={value}/>
+                <SortableItem key={`item-${index}`} index={index} indexCopy={index} value={value} onRemove={onRemove} />
             ))}
         </div>
     );
 });
 
 class SortableComponent extends Component {
-    state = {
-        items: [
-            "Baby room",
-            "Living room",
-            "Front door",
-            "Garage",
-            "Garden"
-        ]
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            items: Array.apply(null, this.props.items).map((val, index) => val)
+        };
+    }   
 
     componentDidMount() { }
+
+    remove = ( index ) => {
+        this.state.items.splice(index, 1);
+        this.setState({ items: this.state.items });
+    }
 
     onSortEnd = ({ oldIndex, newIndex }) => {
         this.setState(({ items }) => ({
@@ -91,11 +94,7 @@ class SortableComponent extends Component {
     render() {
         return (
             <div className="dashboard-grid">
-                <SortableList axis="xy"
-                    items={this.state.items}
-                    onSortEnd={this.onSortEnd}
-                    pressDelay={250}
-                />
+                <SortableList axis="xy" items={this.state.items} onSortEnd={this.onSortEnd} onRemove={this.remove} pressDelay={200}/>
             </div>
         );
     }
@@ -104,7 +103,7 @@ class SortableComponent extends Component {
 export class Dashboard extends Component {
     render() {
         return (
-            <SortableComponent />
+            <SortableComponent items={["Baby room", "Living room","Front door","Garage","Garden"]}/>
         );
     }
 }

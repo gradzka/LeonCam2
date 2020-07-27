@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faHome, faCamera, faAngleRight, faPlusSquare, faListAlt, faPhotoVideo, faImage, faFilm, faCogs, faSignOutAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faHome, faAngleRight, faPlusSquare, faListAlt, faPhotoVideo, faImage, faFilm, faCogs, faSignOutAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { browserHistory } from '../../router/BrowserHistory';
 import { authenticationService } from '../../services/AuthenticationService';
 import './Sidebar.css';
