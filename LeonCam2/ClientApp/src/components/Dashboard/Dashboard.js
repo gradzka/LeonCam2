@@ -2,13 +2,13 @@
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import "./Dashboard.css";
-import { Camera } from "../Shared/Camera.js";
-import {SortableCamera} from "./SortableCamera.js"
+import { Camera } from "../Shared/Camera";
+import { CameraBox } from "../Shared/CameraBox"
 
 
 const SortableItem = SortableElement(({ indexCopy, camera, onPowerOff, onRemove, onTakePhoto }) => {
     return (
-        <SortableCamera camera={camera} indexCopy={indexCopy} onPowerOff={onPowerOff} onRemove={onRemove} onTakePhoto={onTakePhoto} />
+        <CameraBox camera={camera} indexCopy={indexCopy} onPowerOff={onPowerOff} onRemove={onRemove} onTakePhoto={onTakePhoto} />
     );
 });
 
@@ -37,10 +37,6 @@ export class Dashboard extends Component {
         this.getCameras();
     }
 
-    powerOff = (camera) => {
-
-    }
-
     getCameras() {
         let cameras = [
             new Camera(1, "Baby room", "192.168.1.1"),
@@ -53,6 +49,10 @@ export class Dashboard extends Component {
         this.setState({
             items: Array.apply(null, cameras).map((camera, index) => camera)
         });
+    }
+
+    powerOff = (camera) => {
+
     }
 
     remove = (index, camera) => {

@@ -12,7 +12,7 @@ const CircleActionButton = ({ icon, className, onClickAction }) => (
     </Col>
 );
 
-export class SortableCamera extends Component {
+export class CameraBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,6 +31,9 @@ export class SortableCamera extends Component {
     }
 
     render() {
+
+        let fullScreenItem = browserHistory.location.pathname !== "/camerafullscreen" ? <CircleActionButton icon={faExpandAlt} onClickAction={() => browserHistory.push('/camerafullscreen', { id: this.props.camera.id })} /> : '';
+
         return (
             <div className="dashboard-grid-cell">
                 <Container>
@@ -42,7 +45,7 @@ export class SortableCamera extends Component {
                     </Row>
                     <Row className="justify-content-center padding-top-bottom-5">
                         <CircleActionButton icon={faPowerOff} onClickAction={this.powerOnOff} className={this.state.isOn ? 'leon-green' : 'leon-red'} />
-                        <CircleActionButton icon={faExpandAlt} onClickAction={() => browserHistory.push('/camerafullscreen', { id: this.props.camera.id })} />
+                        {fullScreenItem}
                         <CircleActionButton icon={faEdit} onClickAction={() => browserHistory.push('/cameraedition', { id: this.props.camera.id })} />
                         <CircleActionButton icon={faCamera} onClickAction={() => this.props.onTakePhoto(this.props.camera)} />
                         <CircleActionButton icon={faTrash} onClickAction={() => this.props.onRemove(this.props.indexCopy, this.props.camera)} className="leon-red" />
