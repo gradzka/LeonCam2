@@ -6,6 +6,7 @@ import "./Dashboard.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff, faCamera, faEdit, faTrash, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
 import { Camera } from "../Shared/Camera.js";
+import { browserHistory } from '../../router/BrowserHistory';
 
 const CircleActionButton = ({ icon, className, onClickAction }) => (
     <Col xs="auto" className="padding-right-left-5" >
@@ -44,8 +45,8 @@ class SortableCamera extends Component {
                     </Row>
                     <Row className="justify-content-center padding-top-bottom-5">
                         <CircleActionButton icon={faPowerOff} onClickAction={this.powerOnOff} className={this.state.isOn ? 'leon-green' : 'leon-red'} />
-                        <CircleActionButton icon={faExpandAlt} onClickAction={() => this.props.onExpandScreen(this.props.camera)} />
-                        <CircleActionButton icon={faEdit} onClickAction={() => this.props.onEdit(this.props.camera)} />
+                        <CircleActionButton icon={faExpandAlt} onClickAction={() => browserHistory.push('/camerafullscreen', { id: this.props.camera.id })} />
+                        <CircleActionButton icon={faEdit} onClickAction={() => browserHistory.push('/cameraedition', { id: this.props.camera.id }) } />
                         <CircleActionButton icon={faCamera} onClickAction={() => this.props.onTakePhoto(this.props.camera)} />
                         <CircleActionButton icon={faTrash} onClickAction={() => this.props.onRemove(this.props.indexCopy, this.props.camera)} className="leon-red" />
                     </Row>
@@ -55,17 +56,17 @@ class SortableCamera extends Component {
     }
 }
 
-const SortableItem = SortableElement(({ indexCopy, value, onEdit, onExpandScreen, onPowerOff, onRemove, onTakePhoto }) => {
+const SortableItem = SortableElement(({ indexCopy, camera, onPowerOff, onRemove, onTakePhoto }) => {
     return (
-        <SortableCamera camera={value} indexCopy={indexCopy} onEdit={onEdit} onExpandScreen={onExpandScreen} onPowerOff={onPowerOff} onRemove={onRemove} onTakePhoto={onTakePhoto} />
+        <SortableCamera camera={camera} indexCopy={indexCopy} onPowerOff={onPowerOff} onRemove={onRemove} onTakePhoto={onTakePhoto} />
     );
 });
 
-const SortableList = SortableContainer(({ items, onEdit, onExpandScreen, onPowerOff, onRemove, onTakePhoto }) => {
+const SortableList = SortableContainer(({ items, onPowerOff, onRemove, onTakePhoto }) => {
     return (
         <div>
-            {items.map((value, index) => (
-                <SortableItem key={`item-${index}`} index={index} indexCopy={index} value={value} onEdit={onEdit} onExpandScreen={onExpandScreen} onPowerOff={onPowerOff} onRemove={onRemove} onTakePhoto={onTakePhoto} />
+            {items.map((camera, index) => (
+                <SortableItem key={`item-${index}`} index={index} indexCopy={index} camera={camera} onPowerOff={onPowerOff} onRemove={onRemove} onTakePhoto={onTakePhoto} />
             ))}
         </div>
     );
@@ -81,14 +82,6 @@ class SortableComponent extends Component {
     }   
 
     componentDidMount() { }
-
-    edit = (camera) => {
-        console.log(camera);
-    }
-
-    expandScreen = (camera) => {
-
-    }
 
     powerOff = (camera) => {
 
@@ -112,7 +105,7 @@ class SortableComponent extends Component {
     render() {
         return (
             <div className="dashboard-grid">
-                <SortableList axis="xy" items={this.state.items} onEdit={this.edit} onExpandScreen={this.expandScreen} onPowerOff={this.powerOff} onRemove={this.remove} onSortEnd={this.sortEnd} onTakePhoto={this.takePhoto} pressDelay={200}/>
+                <SortableList axis="xy" items={this.state.items} onPowerOff={this.powerOff} onRemove={this.remove} onSortEnd={this.sortEnd} onTakePhoto={this.takePhoto} pressDelay={200}/>
             </div>
         );
     }
