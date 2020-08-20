@@ -211,9 +211,9 @@ export class Settings extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Change username</h4>
-                                <form className="forms-sample" onSubmit={this.changeUsername.bind(this)}>
-                                    <InputBox id="changeUsernameNewUsername" type="text" placeholder="Username" value={this.state["changeUsernameNewUsername"]} onChange={this.handleInputChange} />
-                                    <PasswordBox id="changeUsernamePassword" placeholder="Password" value={this.state["changeUsernamePassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
+                                <form onSubmit={this.changeUsername.bind(this)}>
+                                    <InputBox id="changeUsernameNewUsername" type="text" placeholder="Username" className='settings' value={this.state["changeUsernameNewUsername"]} onChange={this.handleInputChange} />
+                                    <PasswordBox id="changeUsernamePassword" placeholder="Password" className='settings' value={this.state["changeUsernamePassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
 
                                     <button type="submit" id="changeUsername" className="btn btn-primary" disabled={this.state.changeUsernameIsSubmitting}>Change</button>
                                     <Popover className={this.state.changeUsernamePopoverClass} placement='right' isOpen={this.state.changeUsernamePopoverIsOpen} target='changeUsername'>
@@ -227,10 +227,10 @@ export class Settings extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Change password</h4>
-                                <form className="forms-sample" onSubmit={this.changePassword.bind(this)}>
-                                    <PasswordBox id="changePasswordOldPassword" placeholder="Old password" value={this.state["changePasswordOldPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />        
-                                    <PasswordBox id="changePasswordNewPassword" placeholder="New password" value={this.state["changePasswordNewPassword"]} onChange={this.handleInputChange} withPasswordStrength={true} autoComplete="new-password" />
-                                    <PasswordBox id="changePasswordConfirmNewPassword" placeholder="Confirm new password" value={this.state["changePasswordConfirmNewPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
+                                <form onSubmit={this.changePassword.bind(this)}>
+                                    <PasswordBox id="changePasswordOldPassword" placeholder="Old password" className='settings' value={this.state["changePasswordOldPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />        
+                                    <PasswordBox id="changePasswordNewPassword" placeholder="New password" className='settings' value={this.state["changePasswordNewPassword"]} onChange={this.handleInputChange} withPasswordStrength={true} autoComplete="new-password" />
+                                    <PasswordBox id="changePasswordConfirmNewPassword" placeholder="Confirm new password" className='settings' value={this.state["changePasswordConfirmNewPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
 
                                     <button type="submit" id="changePassword" className="btn btn-primary" disabled={this.state.changePasswordIsSubmitting}>Change</button>
                                     <Popover className={this.state.changePasswordPopoverClass} placement='right' isOpen={this.state.changePasswordPopoverIsOpen} target='changePassword'>
@@ -247,8 +247,8 @@ export class Settings extends Component {
                             <div className="card-body">
                                 <h4 className="card-title">Reset account</h4>
                                 <p className="card-description">All saved cameras will be removed irreversibly!</p>
-                                <form className="forms-sample" onSubmit={this.resetAccount.bind(this)}>
-                                    <PasswordBox id="resetAccountPassword" placeholder="Password" value={this.state["resetAccountPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
+                                <form onSubmit={this.resetAccount.bind(this)}>
+                                    <PasswordBox id="resetAccountPassword" placeholder="Password" className='settings' value={this.state["resetAccountPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
 
                                     <button type="submit" id="resetAccount" className="btn btn-primary" disabled={this.state.resetAccountIsSubmitting}>Reset</button>
                                     <Popover className={this.state.resetAccountPopoverClass} placement='right' isOpen={this.state.resetAccountPopoverIsOpen} target='resetAccount'>
@@ -263,8 +263,8 @@ export class Settings extends Component {
                             <div className="card-body">
                                 <h4 className="card-title">Delete account</h4>
                                 <p className="card-description">Your account will be removed irreversibly!</p>
-                                <form className="forms-sample" onSubmit={this.deleteAccount.bind(this)}>
-                                    <PasswordBox id="deleteAccountPassword" placeholder="Password" value={this.state["deleteAccountPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
+                                <form onSubmit={this.deleteAccount.bind(this)}>
+                                    <PasswordBox id="deleteAccountPassword" placeholder="Password" className='settings' value={this.state["deleteAccountPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
 
                                     <button type="submit" id="deleteAccount" className="btn btn-primary" disabled={this.state.deleteAccountIsSubmitting}>Delete</button>
                                     <Popover className={this.state.deleteAccountPopoverClass} placement='right' isOpen={this.state.deleteAccountPopoverIsOpen} target='deleteAccount'>

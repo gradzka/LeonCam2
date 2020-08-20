@@ -15,8 +15,8 @@
     color: #76838f;
 }
 
-.input-container {
+.input-container.settings {
     margin-left: 5px;
     margin-right: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
