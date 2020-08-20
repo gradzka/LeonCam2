@@ -212,7 +212,7 @@ export class Settings extends Component {
                             <div className="card-body">
                                 <h4 className="card-title">Change username</h4>
                                 <form onSubmit={this.changeUsername.bind(this)}>
-                                    <InputBox id="changeUsernameNewUsername" type="text" placeholder="Username" className='settings' value={this.state["changeUsernameNewUsername"]} onChange={this.handleInputChange} />
+                                    <InputBox id="changeUsernameNewUsername" type="text" placeholder="New username" className='settings' value={this.state["changeUsernameNewUsername"]} onChange={this.handleInputChange} />
                                     <PasswordBox id="changeUsernamePassword" placeholder="Password" className='settings' value={this.state["changeUsernamePassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
 
                                     <button type="submit" id="changeUsername" className="btn btn-primary" disabled={this.state.changeUsernameIsSubmitting}>Change</button>
