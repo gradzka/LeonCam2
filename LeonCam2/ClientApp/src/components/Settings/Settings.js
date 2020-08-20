@@ -246,7 +246,7 @@ export class Settings extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Reset account</h4>
-                                <p className="card-description">All saved cameras will be removed irreversibly!</p>
+                                <p className="card-description alert alert-danger">All saved cameras will be removed irreversibly!</p>
                                 <form onSubmit={this.resetAccount.bind(this)}>
                                     <PasswordBox id="resetAccountPassword" placeholder="Password" className='settings' value={this.state["resetAccountPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
 
@@ -262,7 +262,7 @@ export class Settings extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Delete account</h4>
-                                <p className="card-description">Your account will be removed irreversibly!</p>
+                                <p className="card-description alert alert-danger">Your account will be removed irreversibly!</p>
                                 <form onSubmit={this.deleteAccount.bind(this)}>
                                     <PasswordBox id="deleteAccountPassword" placeholder="Password" className='settings' value={this.state["deleteAccountPassword"]} onChange={this.handleInputChange} autoComplete="new-password" />
 
