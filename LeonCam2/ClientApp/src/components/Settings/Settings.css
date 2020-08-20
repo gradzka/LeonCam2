@@ -1,0 +1,17 @@
+﻿.grid-margin {
+    margin-bottom: 25px;
+}
+
+.card-title {
+    color: #343a40;
+    margin-bottom: 15px;
+}
+
+.card .card-description {
+    color: #76838f;
+}
+
+.form-control {
+    font-size: 0.75rem;
+}
+
