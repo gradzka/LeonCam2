@@ -2,6 +2,10 @@
     margin-bottom: 25px;
 }
 
+.card {
+    background-color: #00000008;
+}
+
 .card-title {
     color: #343a40;
     margin-bottom: 15px;

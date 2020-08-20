@@ -21,7 +21,7 @@ export class Settings extends Component {
                                         <Label htmlFor="changeUsernamePassword">Password</Label>
                                         <Input type="password" id="changeUsernamePassword" placeholder="Password" />
                                     </FormGroup>
-                                    <button type="submit" className="btn btn-primary mr-2">Change</button>
+                                    <button type="submit" className="btn btn-primary">Change</button>
                                 </form>
                             </div>
                         </div>
@@ -32,18 +32,18 @@ export class Settings extends Component {
                                 <h4 className="card-title">Change password</h4>
                                 <form className="forms-sample">
                                     <FormGroup>
-                                        <Label htmlFor="changePasswordOldPassword">Username</Label>
+                                        <Label htmlFor="changePasswordOldPassword">Old password</Label>
                                         <Input type="text" id="changePasswordOldPassword" placeholder="Username" size="lg" />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label htmlFor="changePasswordNewPassword">Password</Label>
+                                        <Label htmlFor="changePasswordNewPassword">New password</Label>
                                         <Input type="password" id="changePasswordNewPassword" placeholder="Password" />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label htmlFor="changePasswordConfirmNewPassword">Confirm Password</Label>
+                                        <Label htmlFor="changePasswordConfirmNewPassword">Confirm new password</Label>
                                         <Input type="password" id="changePasswordConfirmNewPassword" placeholder="Password" />
                                     </FormGroup>
-                                    <button type="submit" className="btn btn-primary mr-2">Change</button>
+                                    <button type="submit" className="btn btn-primary">Change</button>
                                 </form>
                             </div>
                         </div>
@@ -54,13 +54,13 @@ export class Settings extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Reset account</h4>
-                                <p className="card-description">All saved cameras will be removed!</p>
+                                <p className="card-description">All saved cameras will be removed irreversibly!</p>
                                 <form className="forms-sample">
                                     <FormGroup>
                                         <Label htmlFor="resetAccountPassword">Password</Label>
                                         <Input type="password" id="resetAccountPassword" placeholder="Password" />
                                     </FormGroup>
-                                    <button type="submit" className="btn btn-primary mr-2">Reset</button>
+                                    <button type="submit" className="btn btn-primary">Reset</button>
                                 </form>
                             </div>
                         </div>
@@ -69,13 +69,13 @@ export class Settings extends Component {
                         <div className="card">
                             <div className="card-body">
                                 <h4 className="card-title">Delete account</h4>
-                                <p className="card-description">Your account with all data will be removed!</p>
+                                <p className="card-description">Your account will be removed irreversibly!</p>
                                 <form className="forms-sample">
                                     <FormGroup>
                                         <Label htmlFor="deleteAccountPassword">Password</Label>
                                         <Input type="password" id="deleteAccountPassword" placeholder="Password" />
                                     </FormGroup>
-                                    <button type="submit" className="btn btn-primary mr-2">Delete</button>
+                                    <button type="submit" className="btn btn-primary">Delete</button>
                                 </form>
                             </div>
                         </div>
