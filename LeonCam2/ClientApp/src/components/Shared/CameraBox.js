@@ -36,14 +36,14 @@ export class CameraBox extends Component {
 
         return (
             <div className="dashboard-grid-cell">
-                <Container>
-                    <Row className="justify-content-center padding-top-bottom-5 no-select">
+                <Container>         
+                    <Row className="justify-content-center padding-top-bottom-10 no-select">
                         {this.props.camera.name}
                     </Row>
-                    <Row>
-                        <div className="camera-container"></div>
-                    </Row>
-                    <Row className="justify-content-center padding-top-bottom-5">
+                    <div className="embed-responsive embed-responsive-16by9">
+                        <div className="embed-responsive-item camera-container"></div>
+                    </div>
+                    <Row className="justify-content-center padding-top-bottom-10">
                         <CircleActionButton icon={faPowerOff} onClickAction={this.powerOnOff} className={this.state.isOn ? 'leon-green' : 'leon-red'} />
                         {fullScreenItem}
                         <CircleActionButton icon={faEdit} onClickAction={() => browserHistory.push('/cameraedition', { id: this.props.camera.id })} />

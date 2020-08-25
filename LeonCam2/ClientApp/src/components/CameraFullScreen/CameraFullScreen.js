@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Camera } from "../Shared/Camera";
 import { CameraBox } from "../Shared/CameraBox";
+import "./CameraFullScreen.css";
 
 export class CameraFullScreen extends Component {
     constructor(props) {
