@@ -3,7 +3,9 @@ import { Container, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff, faCamera, faEdit, faTrash, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
 import { browserHistory } from '../../router/BrowserHistory';
-
+import "./CameraBox.css"
+import { CameraPTZ } from '../CameraFullScreen/CameraPTZ';
+ 
 const CircleActionButton = ({ icon, className, onClickAction }) => (
     <Col xs="auto" className="padding-right-left-5" >
         <button className={"circle " + className} onClick={onClickAction}>
@@ -33,6 +35,7 @@ export class CameraBox extends Component {
     render() {
 
         let fullScreenItem = browserHistory.location.pathname !== "/camerafullscreen" ? <CircleActionButton icon={faExpandAlt} onClickAction={() => browserHistory.push('/camerafullscreen', { id: this.props.camera.id })} /> : '';
+        let cameraPTZ = browserHistory.location.pathname === "/camerafullscreen" ? <CameraPTZ className="control-container right-bottom-corner" /> : '';
 
         return (
             <div className="dashboard-grid-cell">
@@ -40,8 +43,9 @@ export class CameraBox extends Component {
                     <Row className="justify-content-center padding-top-bottom-10 no-select">
                         {this.props.camera.name}
                     </Row>
-                    <div className="embed-responsive embed-responsive-16by9">
-                        <div className="embed-responsive-item camera-container"></div>
+                    <div className="embed-responsive embed-responsive-16by9 root">
+                        <div className="embed-responsive-item camera-container"/>
+                        {cameraPTZ}
                     </div>
                     <Row className="justify-content-center padding-top-bottom-10">
                         <CircleActionButton icon={faPowerOff} onClickAction={this.powerOnOff} className={this.state.isOn ? 'leon-green' : 'leon-red'} />

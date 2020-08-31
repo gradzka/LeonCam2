@@ -1,0 +1,17 @@
+﻿.right-bottom-corner {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+}
+
+.control-container {
+    display: grid;
+    height: auto;
+    width: 120px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.display-contents{
+    display: contents;
+}
