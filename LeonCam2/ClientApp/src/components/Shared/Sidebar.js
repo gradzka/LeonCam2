@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faHome, faCamera, faAngleRight, faPlusSquare, faListAlt, faPhotoVideo, faImage, faFilm, faCogs, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faHome, faAngleRight, faPlusSquare, faListAlt, faPhotoVideo, faImage, faFilm, faCogs, faSignOutAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { browserHistory } from '../../router/BrowserHistory';
 import { authenticationService } from '../../services/AuthenticationService';
 import './Sidebar.css';
@@ -77,7 +77,7 @@ export class Sidebar extends Component {
                     <li className={this.isPathActive('/cameras') ? 'nav-item active' : 'nav-item'}>
                         <div className={this.state.camerasMenuOpen ? 'nav-link menu-expanded' : 'nav-link'} onClick={() => this.toggleMenuState('camerasMenuOpen')} data-toggle="collapse">
                             <div className="menu-icon">
-                                <FontAwesomeIcon icon={faCamera} />
+                                <FontAwesomeIcon icon={faVideo} />
                             </div>
                             <span className="menu-title">Cameras</span>
                             <div className="menu-icon menu-arrow">
