@@ -1,18 +1,10 @@
 ﻿import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Container, Row} from 'reactstrap';
 import { faPowerOff, faCamera, faEdit, faTrash, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
 import { browserHistory } from '../../router/BrowserHistory';
 import "./CameraBox.css"
 import { CameraPTZ } from '../CameraFullScreen/CameraPTZ';
- 
-const CircleActionButton = ({ icon, className, onClickAction }) => (
-    <Col xs="auto" className="padding-right-left-5" >
-        <button className={"circle " + className} onClick={onClickAction}>
-            <FontAwesomeIcon icon={icon} />
-        </button>
-    </Col>
-);
+import { CircleActionButton } from "./CircleActionButton";
 
 export class CameraBox extends Component {
     constructor(props) {

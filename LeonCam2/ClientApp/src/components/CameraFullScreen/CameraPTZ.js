@@ -1,15 +1,7 @@
 ﻿import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCaretUp, faCaretRight, faCaretDown, faHome, faPowerOff, faCamera, faEdit, faTrash, faExpandAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretUp, faCaretRight, faCaretDown, faHome} from '@fortawesome/free-solid-svg-icons';
 import "./CameraPTZ.css"
-
-const ActionButton = ({ icon, className, onClickAction, size }) => (
-    <div xs="auto" className="display-contents no-padding">
-        <button className={className} onClick={onClickAction}>
-            <FontAwesomeIcon icon={icon} size={size} />
-        </button>
-    </div>
-);
+import { ActionButton } from '../Shared/ActionButton';
 
 export class CameraPTZ extends Component {
     constructor(props) {
