@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faHome, faAngleRight, faPlusSquare, faListAlt, faPhotoVideo, faImage, faFilm, faCogs, faSignOutAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCat, faAngleRight, faPlusSquare, faListAlt, faPhotoVideo, faImage, faFilm, faCogs, faSignOutAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { browserHistory } from '../../router/BrowserHistory';
 import { authenticationService } from '../../services/AuthenticationService';
 import './Sidebar.css';
@@ -69,7 +69,7 @@ export class Sidebar extends Component {
                     <li className={this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item'}>
                         <Link className="nav-link" to="/dashboard">
                             <div className="menu-icon">
-                                <FontAwesomeIcon icon={faHome} />
+                                <FontAwesomeIcon icon={faCat} />
                             </div>
                             <span className="menu-title">Dashboard</span>
                         </Link>

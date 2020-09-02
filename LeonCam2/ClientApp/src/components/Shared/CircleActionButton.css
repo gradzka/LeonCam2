@@ -1,0 +1,15 @@
+﻿.circle {
+    background-color: whitesmoke;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .circle:hover {
+        background-color: white;
+    }
