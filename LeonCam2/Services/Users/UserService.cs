@@ -14,7 +14,6 @@ namespace LeonCam2.Services.Users
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Microsoft.IdentityModel.Tokens;
 
     public class UserService : IUserService
     {
@@ -205,6 +204,26 @@ namespace LeonCam2.Services.Users
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperUsername)]);
             }
+        }
+
+        public Task ChangeUsernameAsync(string newUsername, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ChangePasswordAsync(string oldPassword, string newPassword, string confirmNewPassword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ResetAccountAsync(string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAccountAsync(string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

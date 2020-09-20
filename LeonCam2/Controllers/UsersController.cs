@@ -103,5 +103,75 @@ namespace LeonCam2.Controllers
 
             return this.Ok(new { token = await this.userService.CheckAnswerAsync(leadingQuestionModel).ConfigureAwait(false) });
         }
+
+        [HttpPost("ChangeUsername")]
+        public async Task<IActionResult> ChangeUsername(string newUsername, string password)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingPasswordStarted)]);
+            this.logger.LogDebug($"New username: {newUsername}");
+
+            this.Validate(newUsername, nameof(newUsername));
+            this.Validate(password, nameof(password));
+
+            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
+
+            await this.userService.ChangeUsernameAsync(newUsername, password).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] string oldPassword, string newPassword, string confirmNewPassword)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingPasswordStarted)]);
+
+            this.Validate(oldPassword, nameof(oldPassword));
+            this.Validate(newPassword, nameof(newPassword));
+            this.Validate(confirmNewPassword, nameof(confirmNewPassword));
+
+            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
+            var a = AuthenticationHeaderValue.Parse(token);
+
+            await this.userService.ChangePasswordAsync(oldPassword, newPassword, confirmNewPassword).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        [HttpPost("ResetAccount")]
+        public async Task<IActionResult> ResetAccount([FromBody] string password)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ResettingAccountStarted)]);
+
+            this.Validate(password, nameof(password));
+
+            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
+
+            await this.userService.ResetAccountAsync(password).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        [HttpPost("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount([FromBody] string password)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.DeletingAccountStarted)]);
+
+            this.Validate(password, nameof(password));
+
+            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
+
+            await this.userService.DeleteAccountAsync(password).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        private void Validate(string param, string paramName)
+        {
+            if (string.IsNullOrEmpty(param))
+            {
+                this.logger.LogError($"{paramName}{IsNullError}");
+                throw new ArgumentException(paramName);
+            }
+        }
     }
 }

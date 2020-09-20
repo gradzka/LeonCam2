@@ -117,14 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChangingPasswordStarted" xml:space="preserve">
+    <value>Changing password started...</value>
+  </data>
+  <data name="ChangingUsernameStarted" xml:space="preserve">
+    <value>Changing username started...</value>
+  </data>
   <data name="CheckingAnswerStarted" xml:space="preserve">
     <value>Checking user answer started...</value>
+  </data>
+  <data name="DeletingAccountStarted" xml:space="preserve">
+    <value>Deleting account started...</value>
   </data>
   <data name="GettingLeadingQuestionStarted" xml:space="preserve">
     <value>Getting leading question started...</value>
   </data>
   <data name="GotLeadingQuestion" xml:space="preserve">
     <value>Got leading question</value>
+  </data>
+  <data name="ResettingAccountStarted" xml:space="preserve">
+    <value>Resetting account started...</value>
   </data>
   <data name="UserRegistered" xml:space="preserve">
     <value>User is registered</value>
