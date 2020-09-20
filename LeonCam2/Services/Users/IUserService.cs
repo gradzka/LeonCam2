@@ -21,5 +21,13 @@ namespace LeonCam2.Services.Users
         Task RegisterAsync(RegisterModel registerModel);
 
         Task<string> CheckAnswerAsync(LeadingQuestionModel leadingQuestionModel);
+
+        Task ChangeUsernameAsync(string newUsername, string password);
+
+        Task ChangePasswordAsync(string oldPassword, string newPassword, string confirmNewPassword);
+
+        Task ResetAccountAsync(string password);
+
+        Task DeleteAccountAsync(string password);
     }
 }
