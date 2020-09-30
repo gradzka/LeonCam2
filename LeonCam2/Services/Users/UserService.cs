@@ -206,24 +206,36 @@ namespace LeonCam2.Services.Users
             }
         }
 
-        public Task ChangeUsernameAsync(string newUsername, string password)
+        public Task ChangeUsernameAsync(int userId, ChangeUsernameModel changeUsernameModel)
         {
             throw new NotImplementedException();
         }
 
-        public Task ChangePasswordAsync(string oldPassword, string newPassword, string confirmNewPassword)
+        public Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel)
         {
             throw new NotImplementedException();
         }
 
-        public Task ResetAccountAsync(string password)
+        public Task ResetAccountAsync(int userId, string password)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAccountAsync(string password)
+        public Task DeleteAccountAsync(int userId, string password)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<bool> CheckPasswordAsync(int userId, string password)
+        {
+            var user = await this.userRepository.GetAsync(userId).ConfigureAwait(false);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return user.Password == $"{password}{user.Username}{user.CreationDate}".GetSHA512Hash();
         }
     }
 }
