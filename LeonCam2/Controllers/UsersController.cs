@@ -7,6 +7,7 @@ namespace LeonCam2.Controllers
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using LeonCam2.Enums;
+    using LeonCam2.Extensions;
     using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
@@ -104,39 +105,42 @@ namespace LeonCam2.Controllers
             return this.Ok(new { token = await this.userService.CheckAnswerAsync(leadingQuestionModel).ConfigureAwait(false) });
         }
 
+        [JwtTokenFilter]
         [HttpPost("ChangeUsername")]
-        public async Task<IActionResult> ChangeUsername(string newUsername, string password)
+        public async Task<IActionResult> ChangeUsername(ChangeUsernameModel changeUsernameModel)
         {
             this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingPasswordStarted)]);
-            this.logger.LogDebug($"New username: {newUsername}");
+            this.logger.LogDebug($"New username: {changeUsernameModel.NewUsername}");
 
-            this.Validate(newUsername, nameof(newUsername));
-            this.Validate(password, nameof(password));
+            if (changeUsernameModel == null)
+            {
+                this.logger.LogError($"{nameof(changeUsernameModel)}{IsNullError}");
+                throw new ArgumentNullException(nameof(changeUsernameModel));
+            }
 
-            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
-
-            await this.userService.ChangeUsernameAsync(newUsername, password).ConfigureAwait(false);
+            await this.userService.ChangeUsernameAsync(this.GetLoggedUserId(), changeUsernameModel).ConfigureAwait(false);
 
             return this.Ok();
         }
 
+        [JwtTokenFilter]
         [HttpPost("ChangePassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] string oldPassword, string newPassword, string confirmNewPassword)
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
         {
             this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingPasswordStarted)]);
 
-            this.Validate(oldPassword, nameof(oldPassword));
-            this.Validate(newPassword, nameof(newPassword));
-            this.Validate(confirmNewPassword, nameof(confirmNewPassword));
+            if (changePasswordModel == null)
+            {
+                this.logger.LogError($"{nameof(changePasswordModel)}{IsNullError}");
+                throw new ArgumentNullException(nameof(changePasswordModel));
+            }
 
-            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
-            var a = AuthenticationHeaderValue.Parse(token);
-
-            await this.userService.ChangePasswordAsync(oldPassword, newPassword, confirmNewPassword).ConfigureAwait(false);
+            await this.userService.ChangePasswordAsync(this.GetLoggedUserId(), changePasswordModel).ConfigureAwait(false);
 
             return this.Ok();
         }
 
+        [JwtTokenFilter]
         [HttpPost("ResetAccount")]
         public async Task<IActionResult> ResetAccount([FromBody] string password)
         {
@@ -144,13 +148,12 @@ namespace LeonCam2.Controllers
 
             this.Validate(password, nameof(password));
 
-            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
-
-            await this.userService.ResetAccountAsync(password).ConfigureAwait(false);
+            await this.userService.ResetAccountAsync(this.GetLoggedUserId(), password).ConfigureAwait(false);
 
             return this.Ok();
         }
 
+        [JwtTokenFilter]
         [HttpPost("DeleteAccount")]
         public async Task<IActionResult> DeleteAccount([FromBody] string password)
         {
@@ -158,9 +161,7 @@ namespace LeonCam2.Controllers
 
             this.Validate(password, nameof(password));
 
-            string token = this.ControllerContext.HttpContext.Request.Headers["Authorization"].First();
-
-            await this.userService.DeleteAccountAsync(password).ConfigureAwait(false);
+            await this.userService.DeleteAccountAsync(this.GetLoggedUserId(), password).ConfigureAwait(false);
 
             return this.Ok();
         }

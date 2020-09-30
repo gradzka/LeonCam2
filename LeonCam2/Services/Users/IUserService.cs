@@ -22,12 +22,12 @@ namespace LeonCam2.Services.Users
 
         Task<string> CheckAnswerAsync(LeadingQuestionModel leadingQuestionModel);
 
-        Task ChangeUsernameAsync(string newUsername, string password);
+        Task ChangeUsernameAsync(int userId, ChangeUsernameModel changeUsernameModel);
 
-        Task ChangePasswordAsync(string oldPassword, string newPassword, string confirmNewPassword);
+        Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel);
 
-        Task ResetAccountAsync(string password);
+        Task ResetAccountAsync(int userId, string password);
 
-        Task DeleteAccountAsync(string password);
+        Task DeleteAccountAsync(int userId, string password);
     }
 }
