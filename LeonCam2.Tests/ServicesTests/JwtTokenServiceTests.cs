@@ -47,7 +47,7 @@ namespace LeonCam2.Tests.ServicesTests
                 new Mock<ILogger<JwtTokenService>>().Object,
                 this.options);
 
-            bool result = jwtTokenService.ValidateToken(validToken ? jwtTokenService.CreateToken(1) : Token);
+            bool result = jwtTokenService.ValidateToken(validToken ? jwtTokenService.CreateToken(1) : Token) != null;
 
             Assert.Equal(validToken, result);
         }

@@ -55,10 +55,10 @@ namespace LeonCam2.Services.JwtTokens
 
         public int RemoveInvalidTokensFromBlackList()
         {
-            return this.blackList.RemoveWhere(x => !this.ValidateToken(x));
+            return this.blackList.RemoveWhere(x => this.ValidateToken(x) == null);
         }
 
-        public bool ValidateToken(string token)
+        public ClaimsPrincipal ValidateToken(string token)
         {
             try
             {
@@ -77,14 +77,13 @@ namespace LeonCam2.Services.JwtTokens
                 };
 
                 ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+                return claimsPrincipal;
             }
             catch (Exception ex)
             {
                 this.logger.LogWarning($"Token not passed validation: {token}. Error: {ex}");
-                return false;
+                return null;
             }
-
-            return true;
         }
     }
 }

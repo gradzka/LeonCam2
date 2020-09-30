@@ -5,11 +5,13 @@ namespace LeonCam2.Filters.AuthorizationFilters
     using System;
     using System.Linq;
     using System.Net.Http.Headers;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using LeonCam2.Models;
     using LeonCam2.Services.JwtTokens;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.Primitives;
 
     public class JwtTokenFilter : Attribute, IAsyncAuthorizationFilter
     {
@@ -22,10 +24,8 @@ namespace LeonCam2.Filters.AuthorizationFilters
 
         public Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            IJwtTokenService jwtTokenService = context.HttpContext.RequestServices.GetService(typeof(IJwtTokenService)) as IJwtTokenService;
-
             HttpRequest request = context.HttpContext.Request;
-            if (!request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues authorizationValues))
+            if (!request.Headers.TryGetValue("Authorization", out StringValues authorizationValues))
             {
                 throw new InternalException(MissingAutorizationHader);
             }
@@ -42,12 +42,18 @@ namespace LeonCam2.Filters.AuthorizationFilters
                 throw new InternalException(MissingToken);
             }
 
-            bool correctToken = jwtTokenService.ValidateToken(authorization.Parameter) && !jwtTokenService.CheckIfTokenOnBlackList(authorization.Parameter);
+            IJwtTokenService jwtTokenService = context.HttpContext.RequestServices.GetService(typeof(IJwtTokenService)) as IJwtTokenService;
+
+            ClaimsPrincipal claims = jwtTokenService.ValidateToken(authorization.Parameter);
+
+            bool correctToken = claims != null && !jwtTokenService.CheckIfTokenOnBlackList(authorization.Parameter);
 
             if (!correctToken)
             {
                 throw new InternalException(InvalidToken);
             }
+
+            context.HttpContext.User = claims;
 
             return Task.CompletedTask;
         }
