@@ -15,7 +15,7 @@ namespace LeonCam2
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Localization;
-    using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+    using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -46,8 +46,8 @@ namespace LeonCam2
 
             services.AddControllersWithViews();
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -97,8 +97,10 @@ namespace LeonCam2
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
             app.UseRouting();
 
             app.UseAuthentication();
@@ -117,7 +119,7 @@ namespace LeonCam2
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseAngularCliServer(npmScript: "start");
                 }
             });
         }
