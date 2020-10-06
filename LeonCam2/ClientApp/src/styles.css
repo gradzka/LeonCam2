@@ -1,6 +1,10 @@
-body {
+/*body {
   background: url(./assets/background.svg) #fff;
   background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
+}
+*/
+a {
+  cursor: pointer
 }
