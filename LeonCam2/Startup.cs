@@ -101,6 +101,7 @@ namespace LeonCam2
             {
                 app.UseSpaStaticFiles();
             }
+
             app.UseRouting();
 
             app.UseAuthentication();

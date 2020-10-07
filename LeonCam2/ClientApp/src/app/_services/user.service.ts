@@ -1,14 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  constructor(private http: HttpClient) { }
+  private baseUrl: string;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
 
   getAll() {
-    //return this.http.get<string>(`${environment.apiUrl}/camera/GetCameras`);
-    return this.http.get<string>(`/camera/GetCameras`);
+    return this.http.get<string[]>(`${this.baseUrl}camera/getcameras`);
+  }
+
+  getOne() {
+    return this.http.get<any>(`${this.baseUrl}camera/getuser`);
+  }
+
+  getOneStr() {
+    return this.http.get<string>(`${this.baseUrl}camera/getcamera`, { responseType: 'text' });
   }
 }

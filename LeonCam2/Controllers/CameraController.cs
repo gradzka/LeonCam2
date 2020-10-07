@@ -10,10 +10,22 @@ namespace LeonCam2.Controllers
     [ApiController]
     public class CameraController : ControllerBase
     {
+        [HttpGet("GetCamera")]
+        public IActionResult GetCamera()
+        {
+            return this.Ok("Camera");
+        }
+
         [HttpGet("GetCameras")]
         public IActionResult GetCameras()
         {
-            return this.Ok();
+            return this.Ok(new string[] { "cam1", "cam2" });
+        }
+
+        [HttpGet("GetUser")]
+        public IActionResult GetUser()
+        {
+            return this.Ok(new Models.DB.User() { Username = "user" });
         }
     }
 }
