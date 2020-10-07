@@ -18,6 +18,6 @@ export class UserService {
   }
 
   getOneStr() {
-    return this.http.get<string>(`${this.baseUrl}camera/getcamera`, { responseType: 'text' });
+    return this.http.get(`${this.baseUrl}camera/getcamera`, { responseType: 'text' });
   }
 }
