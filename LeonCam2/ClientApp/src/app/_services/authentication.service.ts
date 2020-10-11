@@ -19,17 +19,35 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  getLeadingQuestion(username: string) {
+    return this.http.post<any>(`${this.baseUrl}users/GetLeadingQuestion`, { username })
+      .pipe(map(data => { return data; }));
+  }
+
   login(username: string, password: string) {
     return this.http.post<any>(`${this.baseUrl}users/login`, { username, password })
-      .pipe(map(user => {
-        localStorage.setItem('currentUser', user.token);
-        this.currentUserSubject.next(user.token);
-        return user.token;
-      }));
+      .pipe(map(user => { return this.setCurrentUser(user.token); }));
+}
+
+  register(username: string, password: string, repeatedPassword: string) {
+    return this.http.post<any>(`${this.baseUrl}users/register`, { username, password, repeatedPassword })
+      .pipe(map(data => { return data; }));
+  }
+
+  checkAnswer(username: string, answer: string) {
+    return this.http.post<any>(`${this.baseUrl}users/checkanswer`, { username, answer })
+      .pipe(map(user => { return this.setCurrentUser(user.token); }));
   }
 
   logout() {
+    this.http.post<any>(`${this.baseUrl}users/logout`, {});
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+  }
+
+  setCurrentUser(token: string) {
+    localStorage.setItem('currentUser', token);
+    this.currentUserSubject.next(token);
+    return token;
   }
 }
