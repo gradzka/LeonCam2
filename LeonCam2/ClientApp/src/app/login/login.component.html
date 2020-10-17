@@ -1,4 +1,4 @@
-<div class="col-md-6 offset-md-3 mt-5">
+<!--<div class="col-md-6 offset-md-3 mt-5">
   <div class="alert alert-info">
     Username: test<br />
     Password: test
@@ -29,4 +29,17 @@
       </form>
     </div>
   </div>
+</div>-->
+<div class="card">
+  <h1 className="title">Login</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <app-input-box id="username" type="text" placeholder="Username"></app-input-box>
+    <app-password-box id="password" placeholder="Password"></app-password-box>
+    <div class="button-container">
+      <button [disabled]="loading" class="btn btn-primary">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Login
+      </button>
+    </div>
+  </form>
 </div>
