@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { LoggedGuard } from './_helpers/logged.guard';
 import { GuestGuard } from './_helpers/guest.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [GuestGuard] },
@@ -35,7 +36,8 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)],
+    RouterModule.forRoot(routes),
+    FontAwesomeModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
