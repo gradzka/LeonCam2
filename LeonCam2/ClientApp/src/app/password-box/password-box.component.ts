@@ -18,6 +18,7 @@ export class PasswordBoxComponent implements OnInit {
 
   eyeClicked: boolean = false;
   ico = faEye;
+  @Input() class: string;
   @Input() id: string;
   @Input() placeholder: string;
   @Input() value: string;

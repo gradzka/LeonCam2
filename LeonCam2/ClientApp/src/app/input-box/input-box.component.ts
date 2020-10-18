@@ -14,6 +14,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 })
 export class InputBoxComponent implements OnInit {
 
+  @Input() class: string;
   @Input() type: string;
   @Input() id: string;
   @Input() placeholder: string;

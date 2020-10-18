@@ -5,7 +5,11 @@ import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/_services/authentication.service';
 
-@Component({ selector: 'app-login', templateUrl: 'login.component.html' })
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['../home/home.component.css', './login.component.css']
+})
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
@@ -16,12 +20,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
-  ) {
-    // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
+    private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
