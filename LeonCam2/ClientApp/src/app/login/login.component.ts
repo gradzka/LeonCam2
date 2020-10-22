@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -14,7 +15,10 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
-  error = '';
+
+  @Input() onTop: boolean = true;
+
+  @ViewChild(NgbPopover) public popover: NgbPopover;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,6 +41,8 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     if (this.loginForm.invalid) {
+      this.popover.ngbPopover = "Type valid data";
+      this.popover.open();
       return;
     }
 
@@ -49,8 +55,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate([returnUrl]);
         },
         error: error => {
-          this.error = error;
           this.loading = false;
+          this.popover.ngbPopover = error;
+          this.popover.open();
         }
       });
   }

@@ -17,7 +17,7 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
 export class PasswordBoxComponent implements OnInit {
 
   eyeClicked: boolean = false;
-  ico = faEye;
+  ico = faEyeSlash;
   @Input() class: string;
   @Input() id: string;
   @Input() placeholder: string;
@@ -32,6 +32,8 @@ export class PasswordBoxComponent implements OnInit {
   }
 
   checkPasswordStrength(event: any) {
+    if (this.withPasswordStrength == false || 'undefined') return;
+
     const hasNumber = value => {
       return new RegExp(/[0-9]/).test(value);
     };

@@ -30,16 +30,25 @@
     </div>
   </div>
 </div>-->
-<div class="card">
-  <h1 className="title">Login</h1>
+<div [class]="onTop ? 'shadow p-3 mb-5 bg-white rounded' : 'card underneath'" >
+  <h1 class="text-center text-dark pb-5 pt-5"> LeonCam
+    <span class="badge text-dark badge-light">2</span>
+  </h1>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <app-input-box id="username" type="text" placeholder="Username"></app-input-box>
     <app-password-box id="password" placeholder="Password"></app-password-box>
-    <div class="button-container">
-      <button [disabled]="loading" class="btn btn-primary">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Login
-      </button>
+    <div class="container pt-5 pb-4">
+      <div class="row">
+        <div class="col pl-4 pr-2">
+          <button class="btn btn-outline-secondary btn-lg w-100">Register</button>
+        </div>
+        <div class="col pl-2 pr-4">
+          <button class="btn btn-primary btn-lg w-100" [disabled]="loading" popoverClass="popover-error-reversed" placement="top" ngbPopover triggers="manual" #popover>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Login
+          </button>
+        </div>
+      </div>
     </div>
   </form>
 </div>
