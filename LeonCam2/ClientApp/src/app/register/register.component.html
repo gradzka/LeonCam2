@@ -1,1 +1,23 @@
-<p>register works!</p>
+<div class="shadow p-3 mb-5 bg-white rounded">
+  <div class="close" tabindex="0" (click)="registerClose.emit()">
+    <fa-icon [icon]="faTimes" ></fa-icon>
+  </div>
+  <h1 class="text-center text-dark pb-5 pt-5">
+    Register
+  </h1>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <app-input-box id="username" type="text" placeholder="Username" autoComplete="new-password"></app-input-box>
+    <app-password-box id="password" placeholder="Password" withPasswordStrength="true" autoComplete="new-password"></app-password-box>
+    <app-password-box id="repeatedPassword" placeholder="Repeat Password" withPasswordStrength="true" autoComplete="new-password"></app-password-box>
+    <div class="container pt-5 pb-4">
+      <div class="row">
+        <div class="col pl-2 pr-4">
+          <button class="btn btn-primary btn-lg w-100" [disabled]="loading" popoverClass="popover-error-reversed" placement="top" ngbPopover triggers="manual" #popover>
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

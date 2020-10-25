@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, Input, ViewChild, EventEmitter } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
 
   @Input() onTop: boolean = true;
+  @Output() registerOpen = new EventEmitter<void>();
 
   @ViewChild(NgbPopover) public popover: NgbPopover;
 
