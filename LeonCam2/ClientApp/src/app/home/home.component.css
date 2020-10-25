@@ -1,8 +1,6 @@
 .card-container {
   position: relative;
-  max-width: 340px;
-  min-width: 280px;
-  width: 100%;
+  width: 330px;
   margin: auto;
 }
 

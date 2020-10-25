@@ -1,7 +1,7 @@
-<div class="container-fluid h-100 px-0">
+<div class="h-100">
   <app-sidebar (sidebarWidthChange)="sidebarWidth=$event" *ngIf="currentUser"></app-sidebar>
-  <div class="main-panel col" style="padding-left: {{sidebarWidth}}px">
-    <div class="content-wrapper">
+  <div class="main-panel" style="padding-left: {{currentUser ? sidebarWidth: 0}}px">
+    <div class="content-wrapper {{currentUser ? '' : 'p-0'}}">
       <router-outlet></router-outlet>
     </div>
   </div>

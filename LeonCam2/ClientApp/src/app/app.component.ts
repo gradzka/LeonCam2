@@ -9,7 +9,7 @@ import { AuthenticationService } from './_services/authentication.service';
 })
 export class AppComponent {
   currentUser: string;
-  sidebarWidth: number = 70
+  sidebarWidth: number = 0;
 
   constructor(
     private router: Router,
