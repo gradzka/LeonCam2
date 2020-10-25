@@ -3,7 +3,7 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faCat } from '@fortawesome/free-solid-svg-icons';
 
 import { AuthenticationService } from '@app/_services/authentication.service';
 
@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
   faTimes = faTimes;
+  mainIcon = faCat;
 
   @Output() registerClose = new EventEmitter<void>();
 
@@ -65,8 +66,7 @@ export class RegisterComponent implements OnInit {
           this.popover.ngbPopover = "Registered";
           this.popover.popoverClass = "popover-success-reversed";
           this.popover.open();
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-          this.router.navigate([returnUrl]);
+          this.loading = false;
         },
         error: error => {
           this.loading = false;

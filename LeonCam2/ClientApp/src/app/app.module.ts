@@ -21,6 +21,7 @@ import { PasswordBoxComponent } from './password-box/password-box.component';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [GuestGuard] },
@@ -49,7 +50,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     FontAwesomeModule,
-    NgbModule],
+    NgbModule,
+    BrowserAnimationsModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
