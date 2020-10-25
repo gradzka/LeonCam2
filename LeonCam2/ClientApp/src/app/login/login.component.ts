@@ -8,8 +8,7 @@ import { AuthenticationService } from '@app/_services/authentication.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['../home/home.component.css', './login.component.css']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;

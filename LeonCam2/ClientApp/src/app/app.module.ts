@@ -5,8 +5,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
@@ -19,7 +17,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InputBoxComponent } from './input-box/input-box.component';
 import { PasswordBoxComponent } from './password-box/password-box.component';
 import { RegisterComponent } from './register/register.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,14 +33,12 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
     LoginComponent,
     DashboardComponent,
     HomeComponent,
     InputBoxComponent,
     PasswordBoxComponent,
     RegisterComponent,
-    ForgotPasswordComponent,
     SidebarComponent,
     FooterComponent
   ],
