@@ -76,3 +76,18 @@ a {
   .popover-success-reversed .arrow:after {
     border-top-color: #78ba3c;
   }
+
+.main-panel {
+  transition: 0.25s padding ease;
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  padding: 1.5rem;
+  flex-grow: 1;
+  width: 100%;
+}

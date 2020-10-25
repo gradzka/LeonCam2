@@ -1,18 +1,8 @@
-<!--<body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+<div class="container-fluid h-100 px-0">
+  <app-sidebar (sidebarWidthChange)="sidebarWidth=$event" *ngIf="currentUser"></app-sidebar>
+  <div class="main-panel col" style="padding-left: {{sidebarWidth}}px">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-</body>-->
-<!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link" routerLink="/" routerLinkActive="active">Home</a>
-    <a class="nav-item nav-link" (click)="logout()">Logout</a>
-  </div>
-</nav>
-
-<!-- main app container -->
-<div class="h-100">
-  <router-outlet></router-outlet>
 </div>
