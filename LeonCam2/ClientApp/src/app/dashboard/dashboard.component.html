@@ -1,4 +1,4 @@
-<div class="card mt-4">
+<!--<div class="card mt-4">
   <h4 class="card-header">You're logged in with Angular 10 & JWT!!</h4>
   <div class="card-body">
     <h3>{{user}}</h3>
@@ -8,4 +8,10 @@
     </ul>
     <h3>{{cam}}</h3>
   </div>
+</div>-->
+
+<div *ngFor="let camera of cameras"
+     ngSortgridItem
+     [ngSortGridItems]="cameras">
+  {{camera.name}}
 </div>

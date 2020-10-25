@@ -37,8 +37,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\shared\models\camera.model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <AdditionalFiles Include="..\Solution Items\stylecop.json" />
 	  <Compile Include="..\Solution Items\GlobalSuppressions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\camera.model.ts" />
   </ItemGroup>
 
   <ItemGroup>

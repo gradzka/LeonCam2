@@ -21,6 +21,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
+import { NgsgModule } from 'ng-sortgrid';
+import { CommonModule } from "@angular/common";
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [GuestGuard] },
@@ -50,7 +52,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FontAwesomeModule,
     NgbModule,
-    BrowserAnimationsModule],
+    BrowserAnimationsModule,
+    NgsgModule,
+    CommonModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
