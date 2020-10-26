@@ -1,0 +1,20 @@
+<div *ngIf="camera" class="dashboard-grid-cell">
+  <div class="container">
+    <div class="row justify-content-center padding-top-bottom-10 no-select">
+      {{camera.name}}
+    </div>
+    <div class="embed-responsive embed-responsive-16by9 root">
+      <div class="embed-responsive-item camera-container"></div>
+      display + PTZ
+    </div>
+    <div class="row justify-content-center padding-top-bottom-10">
+      <app-circle-action-button [icon]="powerOffIcon" [buttonClass]="isOn ? 'leon-green' : 'leon-red'"></app-circle-action-button>
+      <app-circle-action-button [icon]="editIcon"></app-circle-action-button>
+      <app-circle-action-button [icon]="fullScreenIcon"></app-circle-action-button>
+      <app-circle-action-button [icon]="cameraIcon"></app-circle-action-button>
+      <app-circle-action-button [icon]="trashIcon" buttonClass="leon-red"></app-circle-action-button>
+      <!--<app-login *ngIf="!isRegistration" [@openCloseAnimation] (registerOpen)="isRegistration=true"></app-login>-->
+      <!--<CircleActionButton *ngIf=browserHistory.location.pathname !== "/camerafullscreen"  icon={faExpandAlt} onClickAction={() => browserHistory.push('/camerafullscreen', { id: camera.id })} />-->
+    </div>
+  </div>
+</div>

@@ -4,10 +4,13 @@ import { Camera } from '../shared/models/camera.model';
 
 //import { UserService } from '@app/_services/user.service';
 
-@Component({ templateUrl: 'dashboard.component.html' })
+@Component({
+  templateUrl: 'dashboard.component.html',
+  styleUrls: ['dashboard.component.css', '../../../node_modules/ng-sortgrid/styles/ngsg.css'],
+})
 export class DashboardComponent {
+  cameras: Camera[] = [];
   loading = false;
-  cameras : Camera[] = [];
   //cam: string;
   //user: string;
 
@@ -43,6 +46,10 @@ export class DashboardComponent {
     ]
 
     return Array.apply(null, cameras).map((camera, index) => camera);
+  }
+
+  storeNewOrder($event) {
+
   }
 
 }

@@ -23,6 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { NgsgModule } from 'ng-sortgrid';
 import { CommonModule } from "@angular/common";
+import { CameraBoxComponent } from './camera-box/camera-box.component';
+import { CircleActionButtonComponent } from './circle-action-button/circle-action-button.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [GuestGuard] },
@@ -42,7 +44,9 @@ const routes: Routes = [
     PasswordBoxComponent,
     RegisterComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    CameraBoxComponent,
+    CircleActionButtonComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

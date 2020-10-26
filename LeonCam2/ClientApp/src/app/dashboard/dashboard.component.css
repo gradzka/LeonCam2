@@ -1,2 +1,6 @@
-﻿body {
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
 }

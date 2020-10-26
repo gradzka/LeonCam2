@@ -1,17 +1,3 @@
-<!--<div class="card mt-4">
-  <h4 class="card-header">You're logged in with Angular 10 & JWT!!</h4>
-  <div class="card-body">
-    <h3>{{user}}</h3>
-    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-    <ul *ngIf="cameras">
-      <li *ngFor="let camera of cameras">{{camera}}</li>
-    </ul>
-    <h3>{{cam}}</h3>
+  <div class="dashboard-grid">
+    <app-camera-box [camera]="camera" *ngFor="let camera of cameras" ngSortgridItem [ngSortGridItems]="cameras" (sorted)="storeNewOrder($event)"> </app-camera-box>
   </div>
-</div>-->
-
-<div *ngFor="let camera of cameras"
-     ngSortgridItem
-     [ngSortGridItems]="cameras">
-  {{camera.name}}
-</div>

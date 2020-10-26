@@ -91,3 +91,25 @@ a {
   flex-grow: 1;
   width: 100%;
 }
+
+.leon-green {
+  color: #47b060
+}
+
+  .leon-green:hover {
+    color: #5AE178
+  }
+
+.leon-red {
+  color: #be0819
+}
+
+  .leon-red:hover {
+    color: #FA0018
+  }
+
+.no-select {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
