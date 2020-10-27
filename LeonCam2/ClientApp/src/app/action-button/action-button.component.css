@@ -1,0 +1,13 @@
+.ptz-control {
+  border: none;
+  color: #454545;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+}
+
+  .ptz-control :active,
+  .ptz-control :focus,
+  .ptz-control :hover {
+    color: #696969;
+  }

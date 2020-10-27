@@ -25,6 +25,11 @@ import { NgsgModule } from 'ng-sortgrid';
 import { CommonModule } from "@angular/common";
 import { CameraBoxComponent } from './camera-box/camera-box.component';
 import { CircleActionButtonComponent } from './circle-action-button/circle-action-button.component';
+import { CameraPTZComponent } from './camera-ptz/camera-ptz.component';
+import { ActionButtonComponent } from './action-button/action-button.component';
+import { SettingsComponent } from './settings/settings.component';
+import { CameraFullScreenComponent } from './camera-full-screen/camera-full-screen.component';
+import { CameraEditionComponent } from './camera-edition/camera-edition.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [GuestGuard] },
@@ -46,7 +51,12 @@ const routes: Routes = [
     SidebarComponent,
     FooterComponent,
     CameraBoxComponent,
-    CircleActionButtonComponent
+    CircleActionButtonComponent,
+    CameraPTZComponent,
+    ActionButtonComponent,
+    SettingsComponent,
+    CameraFullScreenComponent,
+    CameraEditionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

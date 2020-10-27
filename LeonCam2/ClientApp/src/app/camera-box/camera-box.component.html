@@ -5,14 +5,14 @@
     </div>
     <div class="embed-responsive embed-responsive-16by9 root">
       <div class="embed-responsive-item camera-container"></div>
-      display + PTZ
+      <app-camera-ptz></app-camera-ptz>
     </div>
     <div class="row justify-content-center padding-top-bottom-10">
-      <app-circle-action-button [icon]="powerOffIcon" [buttonClass]="isOn ? 'leon-green' : 'leon-red'"></app-circle-action-button>
+      <app-circle-action-button [icon]="powerOffIcon" [class]="isOn ? 'leon-green' : 'leon-red'"></app-circle-action-button>
       <app-circle-action-button [icon]="editIcon"></app-circle-action-button>
       <app-circle-action-button *ngIf="router.url !== '/camerafullscreen'"  [icon]="fullScreenIcon"></app-circle-action-button>
       <app-circle-action-button [icon]="cameraIcon"></app-circle-action-button>
-      <app-circle-action-button [icon]="trashIcon" buttonClass="leon-red" [callbackFunction]="removeCameraCallback"></app-circle-action-button>
+      <app-circle-action-button [icon]="trashIcon" class="leon-red" [callbackFunction]="removeCameraCallback"></app-circle-action-button>
     </div>
   </div>
 </div>
