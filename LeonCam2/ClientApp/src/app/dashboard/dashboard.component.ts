@@ -48,6 +48,10 @@ export class DashboardComponent {
     return Array.apply(null, cameras).map((camera, index) => camera);
   }
 
+  removeCamera($event) {
+    alert($event.id + $event.name);
+  }
+
   storeNewOrder($event) {
 
   }

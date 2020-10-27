@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
@@ -10,7 +10,7 @@ export class CircleActionButtonComponent implements OnInit {
 
   @Input() icon: IconDefinition;
   @Input() buttonClass: string;
-  @Input() callbackFunction: (args: any) => void;
+  @Input() callbackFunction: Function;
 
   constructor() { }
 
