@@ -41,12 +41,17 @@ export class AuthenticationService {
 
   logout() {
     this.http.post<any>(`${this.baseUrl}users/logout`, {});
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    this.setCurrentUser(null);
   }
 
   setCurrentUser(token: string) {
-    localStorage.setItem('currentUser', token);
+    if (token == null) {
+      localStorage.removeItem('currentUser');
+    }
+    else {
+      localStorage.setItem('currentUser', token);
+    }
+
     this.currentUserSubject.next(token);
     return token;
   }

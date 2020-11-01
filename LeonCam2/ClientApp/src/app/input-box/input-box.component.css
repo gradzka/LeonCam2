@@ -76,3 +76,17 @@
   transition: .2s ease;
   width: 100%;
 }
+
+  .input-container.settings {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 25px;
+  }
+
+    .input-container.settings input:focus ~ label {
+      color: #7BA2BB;
+    }
+
+    .input-container.settings input:valid ~ label, .input-container.settings label {
+      color: #4e758f;
+    }

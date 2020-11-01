@@ -63,6 +63,11 @@ a {
     border-right-color: #d9534f;
   }
 
+  .popover-error-reversed.bs-popover-bottom .arrow:before,
+  .popover-error-reversed.bs-popover-bottom .arrow:after {
+    border-bottom-color: #d9534f;
+  }
+
 .popover-success-reversed {
   border-color: #78ba3c;
   background-color: #78ba3c;

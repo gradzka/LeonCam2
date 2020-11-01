@@ -1,0 +1,16 @@
+.grid-margin {
+    margin-bottom: 25px;
+}
+
+.card {
+    background-color: #00000008;
+}
+
+.card-title {
+    color: #343a40;
+    margin-bottom: 15px;
+}
+
+.card-description {
+    padding: 0.75rem 1rem;
+}
