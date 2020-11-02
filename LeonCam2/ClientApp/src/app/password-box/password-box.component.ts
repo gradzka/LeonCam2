@@ -24,7 +24,7 @@ export class PasswordBoxComponent implements OnInit {
   @Input() value: string;
   @Output() valueChange = new EventEmitter<string>();
   @Input() autoComplete: string;
-  @Input() withPasswordStrength: boolean;
+  @Input() withPasswordStrength: boolean = false;
 
   constructor() { }
 
@@ -32,7 +32,7 @@ export class PasswordBoxComponent implements OnInit {
   }
 
   checkPasswordStrength(event: any) {
-    if (this.withPasswordStrength == false || 'undefined') return;
+    if (this.withPasswordStrength !== true) return;
 
     const hasNumber = value => {
       return new RegExp(/[0-9]/).test(value);

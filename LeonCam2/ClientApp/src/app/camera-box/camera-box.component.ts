@@ -27,6 +27,10 @@ export class CameraBoxComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  editCameraCallback = () => {
+    this.router.navigate(['cameras/edit/' + this.camera.id]);
+  }
+
   removeCameraCallback = () => {
     this.removeCamera.emit(this.camera);
   }

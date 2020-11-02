@@ -7,7 +7,7 @@
           <h4 class="card-title">Change password</h4>
           <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword($event)">
             <app-password-box id="changePasswordOldPassword" placeholder="Old password" class="settings" autoComplete="new-password"></app-password-box>
-            <app-password-box id="changePasswordNewPassword" placeholder="New password" class="settings" withPasswordStrength="true" autoComplete="new-password"></app-password-box>
+            <app-password-box id="changePasswordNewPassword" placeholder="New password" class="settings" [withPasswordStrength]="true" autoComplete="new-password"></app-password-box>
             <app-password-box id="changePasswordConfirmNewPassword" placeholder="Confirm new password" class="settings" autoComplete="new-password"></app-password-box>
             <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changePasswordLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #changePasswordPopover="ngbPopover">
               <span *ngIf="changePasswordLoading" class="spinner-border spinner-border-sm mr-1"></span>
@@ -41,7 +41,7 @@
           <p class="card-description alert alert-danger">All saved cameras will be removed irreversibly!</p>
           <form [formGroup]="resetAccountForm" (ngSubmit)="resetAccount($event)">
             <app-password-box id="resetAccountPassword" placeholder="Password" class="settings" autoComplete="new-password"></app-password-box>
-            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="resetAccountLoading" popoverClass="popover-error-reversed" placement="top" ngbPopover triggers="manual" #resetAccountPopover="ngbPopover">
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="resetAccountLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #resetAccountPopover="ngbPopover">
               <span *ngIf="resetAccountLoading" class="spinner-border spinner-border-sm mr-1"></span>
               Reset
             </button>

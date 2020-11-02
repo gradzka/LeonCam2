@@ -35,6 +35,8 @@ const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [GuestGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [LoggedGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [LoggedGuard] },
+  //{ path: 'cameras/new', component: SettingsComponent, canActivate: [LoggedGuard] },
+  { path: 'cameras/edit/:id', component: CameraEditionComponent, canActivate: [LoggedGuard] },
 
   // otherwise redirect to home
   { path: '**', redirectTo: 'dashboard' }

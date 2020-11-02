@@ -1,1 +1,46 @@
-<p>camera-edition works!</p>
+<div>
+  <h1>
+    Camera edition
+  </h1>
+  <div class="row justify-content-center py-3">
+    <app-circle-action-button [icon]="powerOffIcon" class='leon-green'></app-circle-action-button>
+    <app-circle-action-button id="ping" [icon]="faTableTennisIcon"></app-circle-action-button>
+    <app-circle-action-button [icon]="faExpandAltIcon"></app-circle-action-button>
+    <app-circle-action-button [icon]="faThIcon" class="leon-red"></app-circle-action-button>
+    <app-circle-action-button [icon]="trashIcon" class="leon-red"></app-circle-action-button>
+  </div>
+  <div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Edit camera</h4>
+          <form [formGroup]="editCameraForm" (ngSubmit)="editCamera($event)">
+            <app-input-box id="description" class="settings" type="text" placeholder="Camera description"></app-input-box>
+            <app-input-box id="ip" class="settings" type="text" placeholder="IP address"></app-input-box>
+            <app-input-box id="username" class="settings" type="text" placeholder="Username"></app-input-box>
+            <button type="submit" id="editCamera" class="btn btn-primary btn-lg w-100" [disabled]="editCameraLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #editCameraPopover="ngbPopover">
+              <span *ngIf="editCameraLoading" class="spinner-border spinner-border-sm mr-1"></span>
+              Edit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Change camera password</h4>
+          <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword($event)">
+            <app-password-box id="changePasswordOldPassword" placeholder="Old password" class="settings" autoComplete="new-password"></app-password-box>
+            <app-password-box id="changePasswordNewPassword" placeholder="New password" class="settings" [withPasswordStrength]="true" autoComplete="new-password"></app-password-box>
+            <app-password-box id="changePasswordConfirmNewPassword" placeholder="Confirm new password" class="settings" autoComplete="new-password"></app-password-box>
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changePasswordLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #changePasswordPopover="ngbPopover">
+              <span *ngIf="changePasswordLoading" class="spinner-border spinner-border-sm mr-1"></span>
+              Change
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

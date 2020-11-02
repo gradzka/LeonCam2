@@ -15,12 +15,15 @@ export class SettingsComponent implements OnInit {
   changeUsernameForm: FormGroup;
   changeUsernameLoading = false;
   @ViewChild("changeUsernamePopover") public changeUsernamePopover: NgbPopover;
+
   changePasswordForm: FormGroup;
   changePasswordLoading = false;
   @ViewChild("changePasswordPopover") public changePasswordPopover: NgbPopover;
+
   resetAccountForm: FormGroup;
   resetAccountLoading = false;
   @ViewChild("resetAccountPopover") public resetAccountPopover: NgbPopover;
+
   deleteAccountForm: FormGroup;
   deleteAccountLoading = false;
   @ViewChild("deleteAccountPopover") public deleteAccountPopover: NgbPopover;
