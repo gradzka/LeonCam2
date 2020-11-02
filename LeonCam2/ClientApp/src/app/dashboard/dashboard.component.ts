@@ -49,11 +49,10 @@ export class DashboardComponent {
   }
 
   removeCamera($event) {
-    alert($event.id + $event.name);
+    let idx = this.cameras.map(camera => camera.id).indexOf($event.id);
+    ~idx && this.cameras.splice(idx, 1);
   }
 
   storeNewOrder($event) {
-
   }
-
 }

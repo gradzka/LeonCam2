@@ -8,9 +8,11 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 })
 export class CircleActionButtonComponent implements OnInit {
 
-  @Input() icon: IconDefinition;
   @Input() class: string;
   @Input() callbackFunction: Function;
+  @Input() icon: IconDefinition;
+  @Input() tooltipPlacement: string;
+  @Input() tooltip: string;
 
   constructor() { }
 

@@ -12,12 +12,13 @@ export class CameraBoxComponent implements OnInit {
   cameraIcon = faCamera;
   editIcon = faEdit;
   fullScreenIcon = faExpandAlt;
-  isOn = false;
+  isOn = true;
   loading = false;
   powerOffIcon = faPowerOff;
   trashIcon = faTrash;
 
   @Input() camera: Camera;
+  @Input() isFullScreen: boolean = false;
   @Output() removeCamera = new EventEmitter<Camera>();
 
   constructor(

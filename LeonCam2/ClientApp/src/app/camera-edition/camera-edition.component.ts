@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { faExpandAlt, faPowerOff, faTableTennis, faTh, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Camera } from '../shared/models/camera.model';
 
 @Component({
   selector: 'app-camera-edition',
@@ -10,11 +11,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./camera-edition.component.css']
 })
 export class CameraEditionComponent implements OnInit {
-  cameraId: string;
-  powerOffIcon = faPowerOff;
+  camera: Camera;
   faTableTennisIcon = faTableTennis;
   faExpandAltIcon = faExpandAlt;
   faThIcon = faTh;
+  isOn = true;
+  isOnDashboard = true;
+  powerOffIcon = faPowerOff;
   trashIcon = faTrash;
 
   editCameraForm: FormGroup;
@@ -25,10 +28,11 @@ export class CameraEditionComponent implements OnInit {
   changePasswordLoading = false;
   @ViewChild("changePasswordPopover") public changePasswordPopover: NgbPopover;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {}
+  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.cameraId = this.route.snapshot.paramMap.get('id');
+    //TODO
+    this.camera = new Camera(Number(this.route.snapshot.paramMap.get('id')), "Baby room", "192.168.1.1");
 
     this.editCameraForm = this.formBuilder.group({
       description: ['', Validators.required],
@@ -109,4 +113,13 @@ export class CameraEditionComponent implements OnInit {
     event.preventDefault();
   }
 
+  fullScreenCallback = () => {
+    this.router.navigate(['cameras/fullscreen/' + this.camera.id]);
+  }
+
+  removeCameraCallback = () => {
+    alert(this.camera.id);
+    // Delete from db
+    // Navigate to dashboard
+  }
 }
