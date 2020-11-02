@@ -21,8 +21,6 @@ export class PasswordBoxComponent implements OnInit {
   @Input() class: string;
   @Input() id: string;
   @Input() placeholder: string;
-  @Input() value: string;
-  @Output() valueChange = new EventEmitter<string>();
   @Input() autoComplete: string;
   @Input() withPasswordStrength: boolean = false;
 

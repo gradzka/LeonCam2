@@ -18,8 +18,6 @@ export class InputBoxComponent implements OnInit {
   @Input() type: string;
   @Input() id: string;
   @Input() placeholder: string;
-  @Input() value: string;
-  @Output() valueChange = new EventEmitter<string>();
 
   constructor() { }
 
