@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-camera-full-screen',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./camera-full-screen.component.css']
 })
 export class CameraFullScreenComponent implements OnInit {
+  cameraId: string;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.cameraId = this.route.snapshot.paramMap.get('id');
   }
 
 }

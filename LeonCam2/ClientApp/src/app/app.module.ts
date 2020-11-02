@@ -37,6 +37,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [LoggedGuard] },
   //{ path: 'cameras/new', component: SettingsComponent, canActivate: [LoggedGuard] },
   { path: 'cameras/edit/:id', component: CameraEditionComponent, canActivate: [LoggedGuard] },
+  { path: 'cameras/fullscreen/:id', component: CameraFullScreenComponent, canActivate: [LoggedGuard] },
 
   // otherwise redirect to home
   { path: '**', redirectTo: 'dashboard' }

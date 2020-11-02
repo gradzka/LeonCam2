@@ -5,12 +5,12 @@
     </div>
     <div class="embed-responsive embed-responsive-16by9 root">
       <div class="embed-responsive-item camera-container"></div>
-      <app-camera-ptz></app-camera-ptz>
+      <app-camera-ptz *ngIf="isFullScreenRoute()"></app-camera-ptz>
     </div>
     <div class="row justify-content-center padding-top-bottom-10">
       <app-circle-action-button [icon]="powerOffIcon" [class]="isOn ? 'leon-green' : 'leon-red'"></app-circle-action-button>
       <app-circle-action-button [icon]="editIcon" [callbackFunction]="editCameraCallback"></app-circle-action-button>
-      <app-circle-action-button *ngIf="router.url !== '/camerafullscreen'"  [icon]="fullScreenIcon"></app-circle-action-button>
+      <app-circle-action-button *ngIf="!isFullScreenRoute()"  [icon]="fullScreenIcon" [callbackFunction]="fullScreenCallback"></app-circle-action-button>
       <app-circle-action-button [icon]="cameraIcon"></app-circle-action-button>
       <app-circle-action-button [icon]="trashIcon" class="leon-red" [callbackFunction]="removeCameraCallback"></app-circle-action-button>
     </div>

@@ -31,6 +31,14 @@ export class CameraBoxComponent implements OnInit {
     this.router.navigate(['cameras/edit/' + this.camera.id]);
   }
 
+  fullScreenCallback = () => {
+    this.router.navigate(['cameras/fullscreen/' + this.camera.id]);
+  }
+
+  isFullScreenRoute() {
+    return this.router.url.includes("/fullscreen");
+  }
+
   removeCameraCallback = () => {
     this.removeCamera.emit(this.camera);
   }
