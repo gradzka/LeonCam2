@@ -10,7 +10,7 @@
     <div class="row justify-content-center padding-top-bottom-10">
       <app-circle-action-button [icon]="powerOffIcon" class="{{isOn ? 'leon-green' : 'leon-red'}}" tooltipPlacement="bottom" tooltip="{{isOn ? 'Off' : 'On'}}"></app-circle-action-button>
       <app-circle-action-button [icon]="editIcon" [callbackFunction]="editCameraCallback" tooltipPlacement="bottom" tooltip="Edit"></app-circle-action-button>
-      <app-circle-action-button *ngIf="!isFullScreenRoute()"  [icon]="fullScreenIcon" [callbackFunction]="fullScreenCallback" tooltipPlacement="bottom" tooltip="Full&nbsp;screen"></app-circle-action-button>
+      <app-circle-action-button *ngIf="!isFullScreenRoute()" [icon]="fullScreenIcon" [callbackFunction]="fullScreenCallback" tooltipPlacement="bottom" tooltip="Full&nbsp;screen"></app-circle-action-button>
       <app-circle-action-button [icon]="cameraIcon" tooltipPlacement="bottom" tooltip="Take&nbsp;a&nbsp;photo"></app-circle-action-button>
       <app-circle-action-button [icon]="trashIcon" class="leon-red" [callbackFunction]="removeCameraCallback" tooltipPlacement="bottom" tooltip="Remove"></app-circle-action-button>
     </div>

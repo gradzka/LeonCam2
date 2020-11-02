@@ -7,8 +7,7 @@ import { Camera } from '../shared/models/camera.model';
 
 @Component({
   selector: 'app-camera-edition',
-  templateUrl: './camera-edition.component.html',
-  styleUrls: ['./camera-edition.component.css']
+  templateUrl: './camera-edition.component.html'
 })
 export class CameraEditionComponent implements OnInit {
   camera: Camera;
@@ -28,7 +27,7 @@ export class CameraEditionComponent implements OnInit {
   changePasswordLoading = false;
   @ViewChild("changePasswordPopover") public changePasswordPopover: NgbPopover;
 
-  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {}
+  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     //TODO

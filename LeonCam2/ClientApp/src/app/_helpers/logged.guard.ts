@@ -7,8 +7,8 @@ import { AuthenticationService } from '@app/_services/authentication.service';
 export class LoggedGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService
-  ) { }
+    private authenticationService: AuthenticationService) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this.authenticationService.currentUserValue;

@@ -1,4 +1,4 @@
-﻿.circle {
+.circle {
   background-color: whitesmoke;
   border-radius: 50%;
   width: 40px;
@@ -10,6 +10,6 @@
   justify-content: center;
 }
 
-.circle:hover {
-  background-color: white;
-}
+  .circle:hover {
+    background-color: white;
+  }

@@ -21,9 +21,8 @@ export class CameraBoxComponent implements OnInit {
   @Input() isFullScreen: boolean = false;
   @Output() removeCamera = new EventEmitter<Camera>();
 
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
   }

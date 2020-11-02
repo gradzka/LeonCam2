@@ -27,7 +27,7 @@ export class AuthenticationService {
   login(username: string, password: string) {
     return this.http.post<any>(`${this.baseUrl}users/login`, { username, password })
       .pipe(map(user => { return this.setCurrentUser(user.token); }));
-}
+  }
 
   register(username: string, password: string, repeatedPassword: string) {
     return this.http.post<any>(`${this.baseUrl}users/register`, { username, password, repeatedPassword })

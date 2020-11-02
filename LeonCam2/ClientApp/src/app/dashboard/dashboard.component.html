@@ -1,8 +1,7 @@
-  <div class="dashboard-grid">
-    <app-camera-box
-                    [camera]="camera"
-                    *ngFor="let camera of cameras"
-                    ngSortgridItem [ngSortGridItems]="cameras"
-                    (sorted)="storeNewOrder($event)"
-                    (removeCamera)="removeCamera($event)"> </app-camera-box>
-  </div>
+<div class="dashboard-grid">
+  <app-camera-box [camera]="camera"
+                  *ngFor="let camera of cameras"
+                  ngSortgridItem [ngSortGridItems]="cameras"
+                  (sorted)="storeNewOrder($event)"
+                  (removeCamera)="removeCamera($event)"> </app-camera-box>
+</div>

@@ -9,7 +9,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
     ':enter',
     [
       style({ height: 0, opacity: 0 }),
-      animate('0.5s ease-out', style({ opacity: 1}))
+      animate('0.5s ease-out', style({ opacity: 1 }))
     ]
   )])]
 })

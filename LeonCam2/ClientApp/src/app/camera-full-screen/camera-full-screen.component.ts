@@ -4,8 +4,7 @@ import { Camera } from '../shared/models/camera.model';
 
 @Component({
   selector: 'app-camera-full-screen',
-  templateUrl: './camera-full-screen.component.html',
-  styleUrls: ['./camera-full-screen.component.css']
+  templateUrl: './camera-full-screen.component.html'
 })
 export class CameraFullScreenComponent implements OnInit {
   camera: Camera;

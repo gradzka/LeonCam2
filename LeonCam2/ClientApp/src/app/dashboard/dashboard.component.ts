@@ -19,21 +19,21 @@ export class DashboardComponent {
   ngOnInit() {
     this.loading = true;
     this.cameras = this.getCameras();
-  //  this.userService.getOneStr().pipe(first()).subscribe(
-  //    data => {
-  //      this.loading = false;
-  //      this.cam = data;
-  //    });
-  //  this.userService.getAll().pipe(first()).subscribe(
-  //    data => {
-  //      this.loading = false;
-  //      this.cameras = data;
-  //    });
-  //  this.userService.getOne().pipe(first()).subscribe(
-  //    data => {
-  //      this.loading = false;
-  //      this.user = data.username;
-  //    });
+    //  this.userService.getOneStr().pipe(first()).subscribe(
+    //    data => {
+    //      this.loading = false;
+    //      this.cam = data;
+    //    });
+    //  this.userService.getAll().pipe(first()).subscribe(
+    //    data => {
+    //      this.loading = false;
+    //      this.cameras = data;
+    //    });
+    //  this.userService.getOne().pipe(first()).subscribe(
+    //    data => {
+    //      this.loading = false;
+    //      this.user = data.username;
+    //    });
   }
 
   getCameras() {
