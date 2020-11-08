@@ -1,0 +1,120 @@
+body {
+  background: url(./assets/background.svg) #fff;
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: Open Sans, Arial, sans-serif;
+}
+
+html, body {
+    margin: 0;
+    height: 100%
+}
+
+.d-grid {
+    display: grid;
+}
+
+a {
+  cursor: pointer
+}
+
+.popover-error {
+  border-color: #d9534f;
+}
+
+  .popover-error .popover-body {
+    color: #d9534f;
+  }
+
+  .popover-error .arrow:before {
+    border-top-color: #d9534f;
+  }
+
+.popover-success {
+  border-color: #78ba3c;
+}
+
+  .popover-success .popover-body {
+    color: #78ba3c;
+  }
+
+  .popover-success .arrow:before {
+    border-top-color: #78ba3c;
+  }
+
+.popover-error-reversed {
+  border-color: #d9534f;
+  background-color: #d9534f;
+}
+
+  .popover-error-reversed .popover-body {
+    color: white;
+  }
+
+
+  .popover-error-reversed.bs-popover-top .arrow:before,
+  .popover-error-reversed.bs-popover-top .arrow:after {
+    border-top-color: #d9534f;
+  }
+
+  .popover-error-reversed.bs-popover-right .arrow:before,
+  .popover-error-reversed.bs-popover-right .arrow:after {
+    border-right-color: #d9534f;
+  }
+
+  .popover-error-reversed.bs-popover-bottom .arrow:before,
+  .popover-error-reversed.bs-popover-bottom .arrow:after {
+    border-bottom-color: #d9534f;
+  }
+
+.popover-success-reversed {
+  border-color: #78ba3c;
+  background-color: #78ba3c;
+}
+
+  .popover-success-reversed .popover-body {
+    color: white;
+  }
+
+  .popover-success-reversed .arrow:before,
+  .popover-success-reversed .arrow:after {
+    border-top-color: #78ba3c;
+  }
+
+.main-panel {
+  transition: 0.25s padding ease;
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  padding: 1.5rem;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.leon-green {
+  color: #47b060
+}
+
+  .leon-green:hover {
+    color: #5AE178
+  }
+
+.leon-red {
+  color: #be0819
+}
+
+  .leon-red:hover {
+    color: #FA0018
+  }
+
+.no-select {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

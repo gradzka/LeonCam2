@@ -1,0 +1,41 @@
+<nav class="sidebar sidebar-offcanvas{{sidebarWidth == 70 ? ' sidebar-icon-only' : ''}}" id="sidebar">
+  <div class="text-right sidebar-brand-wrapper d-flex align-items-center">
+    <button class="navbar-toggler navbar-toggler-right align-self-center d-none d-sm-block" type="button" (click)="toggleSidebar()">
+      <fa-icon [icon]="faBars" class="menu-icon"></fa-icon>
+    </button>
+  </div>
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+        <div class="menu-icon">
+          <fa-icon [icon]="faCat"></fa-icon>
+        </div>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/cameras/new" routerLinkActive="active">
+        <div class="menu-icon">
+          <fa-icon [icon]="faPlusCircle"></fa-icon>
+        </div>
+        <span class="menu-title">New camera</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/settings" routerLinkActive="active">
+        <div class="menu-icon">
+          <fa-icon [icon]="faCogs"></fa-icon>
+        </div>
+        <span class="menu-title">Settings</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="logout()">
+        <div class="menu-icon">
+          <fa-icon [icon]="faSignOutAlt"></fa-icon>
+        </div>
+        <span class="menu-title">Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>

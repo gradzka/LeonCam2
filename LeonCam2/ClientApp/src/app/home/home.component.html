@@ -1,0 +1,10 @@
+<div class="container align-items-center d-grid h-75">
+  <div class="row">
+    <div class="col-md-5 offset-md-7 pl-0">
+      <div class="card-container">
+        <app-login *ngIf="!isRegistration" [@openCloseAnimation] (registerOpen)="isRegistration=true"></app-login>
+        <app-register *ngIf="isRegistration" [@openCloseAnimation] (registerClose)="isRegistration=false"></app-register>
+      </div>
+    </div>
+  </div>
+</div>

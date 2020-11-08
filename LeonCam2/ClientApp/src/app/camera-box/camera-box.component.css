@@ -1,0 +1,17 @@
+div.dashboard-grid-cell {
+  width: 320px;
+  margin: 10px;
+}
+
+@media (max-width: 767px) {
+  div.dashboard-grid-cell {
+    width: 260px;
+  }
+}
+
+.embed-responsive-item.camera-container {
+  background-color: #00000010;
+  border-style: outset;
+  border-color: #e6e6e6;
+  border-width: 2px;
+}

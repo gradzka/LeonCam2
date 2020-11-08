@@ -1,0 +1,9 @@
+<div class="h-100">
+  <app-sidebar (sidebarWidthChange)="sidebarWidth=$event" *ngIf="currentUser"></app-sidebar>
+  <div class="main-panel" style="padding-left: {{currentUser ? sidebarWidth: 0}}px">
+    <div class="content-wrapper {{currentUser ? '' : 'p-0'}}">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>
