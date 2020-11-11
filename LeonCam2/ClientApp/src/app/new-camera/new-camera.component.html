@@ -1,10 +1,12 @@
 <div>
-  <h1>New Camera</h1>
-  <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <form [formGroup]="newCameraForm">
+  <h1></h1>
+  <form [formGroup]="newCameraForm" (ngSubmit)="addCamera($event)">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">New Camera</h4>
+            <app-input-box class="settings" id="description" placeholder="Description" type="text"></app-input-box>
             <div class="row">
               <div class="col">
                 <div ngbDropdown>
@@ -17,13 +19,20 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-1">
+              <div class="col-sm-auto">
                 <app-circle-action-button id="searchCameras" tooltip="Search&nbsp;cameras" tooltipPlacement="bottom" [callbackFunction]="searchCamerasCallback" [icon]="icon"></app-circle-action-button>
               </div>
             </div>
-          </form>
+            <app-input-box autoComplete="off" class="settings" id="login" type="text" placeholder="Login"></app-input-box>
+            <app-password-box class="settings" id="password" placeholder="Password" autoComplete="new-password"></app-password-box>
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="addCameraLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #addCameraPopover="ngbPopover">
+              <span *ngIf="addCameraLoading" class="spinner-border spinner-border-sm mr-1"></span>
+              Add camera
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>
+
