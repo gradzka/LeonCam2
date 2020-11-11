@@ -13,11 +13,11 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
   ]
 })
 export class InputBoxComponent implements OnInit {
-
-  @Input() class: string;
-  @Input() type: string;
+  @Input() autoComplete: string;
+  @Input() class: string; 
   @Input() id: string;
   @Input() placeholder: string;
+  @Input() type: string;
 
   constructor() { }
 
