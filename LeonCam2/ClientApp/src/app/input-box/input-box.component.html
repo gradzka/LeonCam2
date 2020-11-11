@@ -1,5 +1,5 @@
 <div [class]="'input-container ' + class">
-  <input type={{type}} id={{id}} required="required" formControlName={{id}} />
+  <input type={{type}} id={{id}} required="required" formControlName={{id}} [autocomplete]="autoComplete ? autoComplete : 'on'"/>
   <label for={{id}}>{{placeholder}}</label>
   <div class="bar"></div>
 </div>
