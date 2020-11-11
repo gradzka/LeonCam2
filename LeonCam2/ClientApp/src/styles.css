@@ -11,12 +11,20 @@ html, body {
     height: 100%
 }
 
+:root {
+  --leon-gray: #b1b2b4;
+}
+
 .d-grid {
     display: grid;
 }
 
 a {
   cursor: pointer
+}
+
+.dropdown-toggle-no-carret::after {
+  display: none;
 }
 
 .popover-error {

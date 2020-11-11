@@ -1,0 +1,29 @@
+<div>
+  <h1>New Camera</h1>
+  <div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="newCameraForm">
+            <div class="row">
+              <div class="col">
+                <div ngbDropdown>
+                  <app-input-box autoComplete="off" class="settings dropdown-toggle-no-carret" id="ip" placeholder="IP address" type="text" ngbDropdownToggle></app-input-box>
+                  <br />
+                  <div class="pre-scrollable overflow-auto w-100" ngbDropdownMenu *ngIf="filteredCameras != 0">
+                    <button type="button" *ngFor="let camera of filteredCameras" ngbDropdownItem (click)="onSelectCamera(camera)">
+                      {{camera}}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-1">
+                <app-circle-action-button id="searchCameras" tooltip="Search&nbsp;cameras" tooltipPlacement="bottom" [callbackFunction]="searchCamerasCallback" [icon]="icon"></app-circle-action-button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

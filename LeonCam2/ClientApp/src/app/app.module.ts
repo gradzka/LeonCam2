@@ -30,12 +30,13 @@ import { ActionButtonComponent } from './action-button/action-button.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CameraFullScreenComponent } from './camera-full-screen/camera-full-screen.component';
 import { CameraEditionComponent } from './camera-edition/camera-edition.component';
+import { NewCameraComponent } from './new-camera/new-camera.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [GuestGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [LoggedGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [LoggedGuard] },
-  //{ path: 'cameras/new', component: SettingsComponent, canActivate: [LoggedGuard] },
+  { path: 'cameras/new', component: NewCameraComponent, canActivate: [LoggedGuard] },
   { path: 'cameras/edit/:id', component: CameraEditionComponent, canActivate: [LoggedGuard] },
   { path: 'cameras/fullscreen/:id', component: CameraFullScreenComponent, canActivate: [LoggedGuard] },
 
@@ -60,7 +61,8 @@ const routes: Routes = [
     ActionButtonComponent,
     SettingsComponent,
     CameraFullScreenComponent,
-    CameraEditionComponent
+    CameraEditionComponent,
+    NewCameraComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
