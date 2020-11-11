@@ -10,7 +10,7 @@
                 <div ngbDropdown>
                   <app-input-box autoComplete="off" class="settings dropdown-toggle-no-carret" id="ip" placeholder="IP address" type="text" ngbDropdownToggle></app-input-box>
                   <br />
-                  <div class="pre-scrollable overflow-auto w-100" ngbDropdownMenu *ngIf="filteredCameras != 0">
+                  <div class="pre-scrollable overflow-auto w-100" ngbDropdownMenu *ngIf="filteredCameras?.length > 0">
                     <button type="button" *ngFor="let camera of filteredCameras" ngbDropdownItem (click)="onSelectCamera(camera)">
                       {{camera}}
                     </button>
