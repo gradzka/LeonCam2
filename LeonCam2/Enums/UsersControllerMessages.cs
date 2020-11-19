@@ -9,6 +9,7 @@ namespace LeonCam2.Enums
         UserRegistrationStarted,
         UserRegistered,
         CheckingAnswerStarted,
+        ChangingUsernameStarted,
         ChangingPasswordStarted,
         ResettingAccountStarted,
         DeletingAccountStarted,

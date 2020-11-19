@@ -41,14 +41,14 @@ namespace LeonCam2.Services.Users
 
         public async Task<string> GetLeadingQuestionAsync(string username)
         {
-            if (string.IsNullOrEmpty(username))
+            if (username.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
             string leadingQuestion = await this.userRepository.GetLeadingQuestionAsync(username).ConfigureAwait(false);
 
-            if (string.IsNullOrEmpty(leadingQuestion))
+            if (leadingQuestion.IsNullOrEmpty())
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.LeadingQuestionEmpty)]);
             }
@@ -67,7 +67,7 @@ namespace LeonCam2.Services.Users
 
             if (user != null)
             {
-                if (user.Password == $"{loginModel.Password}{loginModel.Username}{user.CreationDate}".GetSHA512Hash())
+                if (user.CheckPassword(loginModel.Password))
                 {
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
@@ -112,7 +112,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentNullException(nameof(registerModel));
             }
 
-            if (string.IsNullOrEmpty(registerModel.Username))
+            if (registerModel.Username.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
@@ -122,7 +122,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]);
             }
 
-            if (string.IsNullOrEmpty(registerModel.Password))
+            if (registerModel.Password.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]);
             }
@@ -141,7 +141,6 @@ namespace LeonCam2.Services.Users
             {
                 Username = registerModel.Username,
                 Password = passwordData.GetSHA512Hash(),
-                LeadingQuestion = null,
                 LastLoginAttemptDate = dateTimeNow,
                 AccessFailedCount = 0,
                 CreationDate = dateTimeNow,
@@ -160,12 +159,12 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentNullException(nameof(leadingQuestionModel));
             }
 
-            if (string.IsNullOrEmpty(leadingQuestionModel.Username))
+            if (leadingQuestionModel.Username.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
-            if (string.IsNullOrEmpty(leadingQuestionModel.Answer))
+            if (leadingQuestionModel.Answer.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.AnswerCannotBeEmpty)]);
             }
@@ -206,36 +205,112 @@ namespace LeonCam2.Services.Users
             }
         }
 
-        public Task ChangeUsernameAsync(int userId, ChangeUsernameModel changeUsernameModel)
+        public async Task ChangeUsernameAsync(int userId, ChangeUsernameModel changeUsernameModel)
         {
-            throw new NotImplementedException();
+            this.logger.LogInformation($"ChangeUSername id:{userId} username:{changeUsernameModel.NewUsername}");
+
+            if (changeUsernameModel == null)
+            {
+                throw new ArgumentNullException(nameof(changeUsernameModel));
+            }
+
+            if (changeUsernameModel.NewUsername.IsNullOrEmpty())
+            {
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
+            }
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, changeUsernameModel.Password);
+
+            if (changeUsernameModel.NewUsername == user.Username)
+            {
+                return;
+            }
+
+            if (await this.userRepository.GetUserAsync(changeUsernameModel.NewUsername) != null)
+            {
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]);
+            }
+
+            string passwordData = $"{changeUsernameModel.Password}{changeUsernameModel.NewUsername}{user.CreationDate}";
+
+            user.Username = changeUsernameModel.NewUsername;
+            user.Password = passwordData.GetSHA512Hash();
+            user.ModifiedDate = DateTime.Now;
+
+            await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
         }
 
-        public Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel)
+        public async Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel)
         {
-            throw new NotImplementedException();
+            this.logger.LogInformation($"ChangePassword id:{userId}");
+
+            if (changePasswordModel == null)
+            {
+                throw new ArgumentNullException(nameof(changePasswordModel));
+            }
+
+            if (changePasswordModel.NewPassword != changePasswordModel.ConfirmNewPassword)
+            {
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]);
+            }
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, changePasswordModel.OldPassword);
+
+            string passwordData = $"{changePasswordModel.NewPassword}{user.Username}{user.CreationDate}";
+
+            if (passwordData == user.Password)
+            {
+                return;
+            }
+
+            user.Password = passwordData.GetSHA512Hash();
+            user.ModifiedDate = DateTime.Now;
+
+            await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
         }
 
-        public Task ResetAccountAsync(int userId, string password)
+        public async Task ResetAccountAsync(int userId, string password)
         {
-            throw new NotImplementedException();
+            this.logger.LogInformation($"ResetAccount id:{userId}");
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, password);
         }
 
-        public Task DeleteAccountAsync(int userId, string password)
+        public async Task DeleteAccountAsync(int userId, string password)
         {
-            throw new NotImplementedException();
+            this.logger.LogInformation($"DeleteAccount id:{userId}");
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, password);
+
+            await this.userRepository.DeleteRowAsync(userId).ConfigureAwait(false);
         }
 
-        private async Task<bool> CheckPasswordAsync(int userId, string password)
+        private void CheckUserPassword(User user, string password)
         {
-            var user = await this.userRepository.GetAsync(userId).ConfigureAwait(false);
+            if (!user.CheckPassword(password))
+            {
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.WrongPassword)]);
+            }
+        }
+
+        private async Task<User> GetUser(int userId)
+        {
+            User user = await this.userRepository.GetAsync(userId).ConfigureAwait(false);
 
             if (user == null)
             {
-                return false;
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.UserNotFound)]);
             }
 
-            return user.Password == $"{password}{user.Username}{user.CreationDate}".GetSHA512Hash();
+            return user;
         }
     }
 }

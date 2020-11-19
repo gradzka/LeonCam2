@@ -147,4 +147,10 @@
   <data name="UsernameCannotBeEmpty" xml:space="preserve">
     <value>Username cannot be empty</value>
   </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>Wrong password</value>
+  </data>
 </root>

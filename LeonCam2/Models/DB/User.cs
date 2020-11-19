@@ -4,6 +4,7 @@ namespace LeonCam2.Models.DB
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using LeonCam2.Extensions;
 
     public class User : BaseEntity
     {
@@ -21,5 +22,10 @@ namespace LeonCam2.Models.DB
 
         [Required]
         public int AccessFailedCount { get; set; }
+
+        public bool CheckPassword(string password)
+        {
+            return this.Password == $"{password}{this.Username}{this.CreationDate}".GetSHA512Hash();
+        }
     }
 }

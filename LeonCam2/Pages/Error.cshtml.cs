@@ -3,6 +3,7 @@
 namespace LeonCam2.Pages
 {
     using System.Diagnostics;
+    using LeonCam2.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
@@ -19,7 +20,7 @@ namespace LeonCam2.Pages
 
         public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
+        public bool ShowRequestId => !this.RequestId.IsNullOrEmpty();
 
         public void OnGet()
         {
