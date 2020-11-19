@@ -3,6 +3,7 @@
 namespace LeonCam2.Tests.ServicesTests
 {
     using System.Threading;
+    using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Services.JwtTokens;
     using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             string token = jwtTokenService.CreateToken(1);
 
-            Assert.False(string.IsNullOrEmpty(token));
+            Assert.False(token.IsNullOrEmpty());
         }
 
         [Theory]

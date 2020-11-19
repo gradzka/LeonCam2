@@ -13,5 +13,7 @@ namespace LeonCam2.Enums
         AnswerCannotBeEmpty,
         InproperUsername,
         UsernameAlreadyUsed,
+        WrongPassword,
+        UserNotFound,
     }
 }

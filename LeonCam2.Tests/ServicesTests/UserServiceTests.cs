@@ -4,6 +4,7 @@ namespace LeonCam2.Tests.ServicesTests
 {
     using System;
     using System.Threading.Tasks;
+    using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Models.DB;
     using LeonCam2.Models.Users;
@@ -85,7 +86,7 @@ namespace LeonCam2.Tests.ServicesTests
             else
             {
                 string token = await userService.LoginAsync(loginModel).ConfigureAwait(false);
-                Assert.True(!string.IsNullOrEmpty(token));
+                Assert.True(!token.IsNullOrEmpty());
             }
         }
 
@@ -177,7 +178,7 @@ namespace LeonCam2.Tests.ServicesTests
                 string token = await userService.CheckAnswerAsync(leadingQuestionModel).ConfigureAwait(false);
 
                 Assert.True(testsMethodResult.Exception == null);
-                Assert.True(!string.IsNullOrEmpty(token));
+                Assert.True(!token.IsNullOrEmpty());
             }
             catch (Exception ex)
             {

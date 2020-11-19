@@ -38,7 +38,7 @@ namespace LeonCam2.Controllers
             this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.GettingLeadingQuestionStarted)]);
             this.logger.LogDebug($"Username: {username}");
 
-            if (string.IsNullOrEmpty(username))
+            if (username.IsNullOrEmpty())
             {
                 this.logger.LogError($"{nameof(username)}{IsNullError}");
                 throw new ArgumentException(nameof(username));
@@ -109,7 +109,7 @@ namespace LeonCam2.Controllers
         [HttpPost("ChangeUsername")]
         public async Task<IActionResult> ChangeUsername(ChangeUsernameModel changeUsernameModel)
         {
-            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingPasswordStarted)]);
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingUsernameStarted)]);
             this.logger.LogDebug($"New username: {changeUsernameModel.NewUsername}");
 
             if (changeUsernameModel == null)
@@ -168,7 +168,7 @@ namespace LeonCam2.Controllers
 
         private void Validate(string param, string paramName)
         {
-            if (string.IsNullOrEmpty(param))
+            if (param.IsNullOrEmpty())
             {
                 this.logger.LogError($"{paramName}{IsNullError}");
                 throw new ArgumentException(paramName);

@@ -7,6 +7,7 @@ namespace LeonCam2.Filters.AuthorizationFilters
     using System.Net.Http.Headers;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Services.JwtTokens;
     using Microsoft.AspNetCore.Http;
@@ -37,7 +38,7 @@ namespace LeonCam2.Filters.AuthorizationFilters
                 throw new InternalException(InvalidAuthorizationScheme);
             }
 
-            if (string.IsNullOrEmpty(authorization.Parameter))
+            if (authorization.Parameter.IsNullOrEmpty())
             {
                 throw new InternalException(MissingToken);
             }
