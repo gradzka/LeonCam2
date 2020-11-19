@@ -98,9 +98,9 @@ a {
     color: white;
   }
 
-  .popover-success-reversed .arrow:before,
-  .popover-success-reversed .arrow:after {
-    border-top-color: #78ba3c;
+  .popover-success-reversed.bs-popover-bottom .arrow:before,
+  .popover-success-reversed.bs-popover-bottom .arrow:after {
+    border-bottom-color: #78ba3c;
   }
 
 .main-panel {
