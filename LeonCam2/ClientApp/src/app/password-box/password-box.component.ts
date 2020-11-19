@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 
@@ -23,13 +23,14 @@ export class PasswordBoxComponent implements OnInit {
   @Input() placeholder: string;
   @Input() autoComplete: string;
   @Input() withPasswordStrength: boolean = false;
+  @ViewChild('colorPasswordStrengthBar') bar: ElementRef;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  checkPasswordStrength(event: any) {
+  checkPasswordStrength(passwordValue: string) {
     if (this.withPasswordStrength !== true) return;
 
     const hasNumber = value => {
@@ -42,10 +43,8 @@ export class PasswordBoxComponent implements OnInit {
       return new RegExp(/[!#@$%^&*)(+=._-]/).test(value);
     }
 
-    let bar = event.target.parentNode.getElementsByClassName('password-strength-bar')[1];
-    bar.classList.remove(bar.classList[1]);
+    this.bar.nativeElement.classList.remove(this.bar.nativeElement.classList[1]);
 
-    let passwordValue = event.target.value;
     if (passwordValue.length > 0) {
       let strengths = 0;
       if (passwordValue.length > 5) {
@@ -65,19 +64,19 @@ export class PasswordBoxComponent implements OnInit {
       }
 
       if (strengths === 5) {
-        bar.classList.add('very-strong');
+        this.bar.nativeElement.classList.add('very-strong');
       }
       else if (strengths === 4) {
-        bar.classList.add('strong');
+        this.bar.nativeElement.classList.add('strong');
       }
       else if (strengths === 3) {
-        bar.classList.add('normal');
+        this.bar.nativeElement.classList.add('normal');
       }
       else if (strengths === 2) {
-        bar.classList.add('weak');
+        this.bar.nativeElement.classList.add('weak');
       }
       else {
-        bar.classList.add('very-weak');
+        this.bar.nativeElement.classList.add('very-weak');
       }
     }
   }
