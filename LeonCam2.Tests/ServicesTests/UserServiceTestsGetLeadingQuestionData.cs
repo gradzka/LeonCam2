@@ -6,7 +6,6 @@ namespace LeonCam2.Tests.ServicesTests
     using System.Collections;
     using System.Collections.Generic;
     using LeonCam2.Models;
-    using LeonCam2.Models.Users;
 
     public class UserServiceTestsGetLeadingQuestionData : IEnumerable<object[]>
     {

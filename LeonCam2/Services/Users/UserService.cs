@@ -14,11 +14,10 @@ namespace LeonCam2.Services.Users
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Microsoft.IdentityModel.Tokens;
 
     public class UserService : IUserService
     {
-        private static readonly string UserIsRegisteredInfo = "User is registered...";
+        private static readonly string RegisteringUserInfo = "Registering user...";
 
         private readonly ILogger<UserService> logger;
         private readonly IStringLocalizer<UserService> localizer;
@@ -128,7 +127,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]);
             }
 
-            this.logger.LogInformation(UserIsRegisteredInfo);
+            this.logger.LogInformation(RegisteringUserInfo);
             DateTime dateTimeNow = DateTime.Now;
 
             if (await this.userRepository.GetUserAsync(registerModel.Username) != null)

@@ -3,6 +3,8 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { CameraService } from '../_services/camera.service';
+import { Camera } from '../shared/models/camera.model';
 
 @Component({
   selector: 'app-new-camera',
@@ -20,7 +22,8 @@ export class NewCameraComponent implements OnInit {
   @ViewChild("addCameraPopover") public addCameraPopover: NgbPopover;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cameraService: CameraService
   ) { }
 
   ngOnInit() {
@@ -50,24 +53,33 @@ export class NewCameraComponent implements OnInit {
       return;
     }
 
-    //this.addCameraLoading = true;
-    //this.userService.changeUsername(this.newCameraControls.changeUsernameNewUsername.value, this.newCameraControls.changeUsernamePassword.value)
-    //  .pipe(first())
-    //  .subscribe({
-    //    next: () => {
-    //      this.newCameraControls.changeUsernamePassword.setValue("");
-    //      this.addCameraPopover.ngbPopover = "Success";
-    //      this.addCameraPopover.popoverClass = "popover-success-reversed";
-    //      this.addCameraPopover.open();
-    //      this.addCameraLoading = false;
-    //    },
-    //    error: error => {
-    //      this.addCameraLoading = false;
-    //      this.addCameraPopover.popoverClass = "popover-error-reversed";
-    //      this.addCameraPopover.ngbPopover = error === "Unexpected error" ? "Add New Camera Error" : error;
-    //      this.addCameraPopover.open();
-    //    }
-    //  });
+    this.addCameraLoading = true;
+    this.cameraService.addCamera(
+      new Camera(
+        -1,
+        this.newCameraControls.description.value,
+        this.newCameraControls.ip.value,
+        this.newCameraControls.login.value,
+        this.newCameraControls.password.value))
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.newCameraControls.description.setValue("");
+          this.newCameraControls.ip.setValue("");
+          this.newCameraControls.login.setValue("");
+          this.newCameraControls.password.setValue("");
+          this.addCameraPopover.ngbPopover = "Success";
+          this.addCameraPopover.popoverClass = "popover-success-reversed";
+          this.addCameraPopover.open();
+          this.addCameraLoading = false;
+        },
+        error: error => {
+          this.addCameraLoading = false;
+          this.addCameraPopover.popoverClass = "popover-error-reversed";
+          this.addCameraPopover.ngbPopover = error === "Unexpected error" ? "Add New Camera Error" : error;
+          this.addCameraPopover.open();
+        }
+      });
 
     event.preventDefault();
   }
@@ -87,10 +99,11 @@ export class NewCameraComponent implements OnInit {
   }
 
   onSelectCamera(event) {
-      this.newCameraControls.ip.setValue(event);
+    this.newCameraControls.ip.setValue(event);
   }
 
   searchCamerasCallback = () => {
     this.getCameras();
+    event.preventDefault();
   }
 }
