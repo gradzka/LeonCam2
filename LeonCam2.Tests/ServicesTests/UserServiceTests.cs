@@ -20,22 +20,21 @@ namespace LeonCam2.Tests.ServicesTests
 
     public class UserServiceTests
     {
-        private static readonly string JwtKey = "SecretSecret key";
         private static readonly string TestUser = "test";
-        private static readonly string TestQuestion = "Question";
-        private static readonly string TestPassword = "51A670987F4C067329A37CD8C8A493C38F49A0FE8BA1EE67FCB830EA681332F69FC7DB87AA4627E3A2735798F5DCC209A1D90CCA0C95DECA685F3CC7E6AD72E6";
-        private static readonly string TestDate = "2020-03-29 15:00:42.9685001";
 
         private readonly IOptions<Settings> options;
         private readonly StringLocalizer<UserService> localizer;
 
         public UserServiceTests()
         {
+            const string TestDate = "2020-03-29 15:00:42.9685001";
+            const string TestPassword = "51A670987F4C067329A37CD8C8A493C38F49A0FE8BA1EE67FCB830EA681332F69FC7DB87AA4627E3A2735798F5DCC209A1D90CCA0C95DECA685F3CC7E6AD72E6";
+
             this.User = new User()
             {
                 Username = TestUser,
                 Password = TestPassword,
-                LeadingQuestion = TestQuestion,
+                LeadingQuestion = "Question",
                 LeadingQuestionAnswer = TestPassword,
                 LastLoginAttemptDate = DateTime.Parse(TestDate),
                 AccessFailedCount = 0,
@@ -44,7 +43,7 @@ namespace LeonCam2.Tests.ServicesTests
                 ModifiedDate = DateTime.Parse(TestDate),
             };
 
-            Settings settings = new Settings() { JwtKey = JwtKey, MaxNumberOfLoginAttempts = 1 };
+            Settings settings = new Settings() { JwtKey = "SecretSecret key", MaxNumberOfLoginAttempts = 1 };
             var options = new Mock<IOptions<Settings>>();
             options.Setup(x => x.Value).Returns(settings);
             this.options = options.Object;
@@ -184,6 +183,127 @@ namespace LeonCam2.Tests.ServicesTests
             {
                 Assert.True(testsMethodResult.Exception != null);
                 Assert.Equal(ex.GetType(), testsMethodResult.Exception.GetType());
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(UserServiceTestsChangePasswordData))]
+        public async void ChangePassword_Test(int userId, ChangePasswordModel changePasswordModel, TestsMethodResult testsMethodResult)
+        {
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetAsync(It.IsAny<int>())).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetAsync(2)).Returns(Task.FromResult(this.User));
+
+            userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
+
+            var userService = new UserService(
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                new Mock<IOptions<Settings>>().Object,
+                this.localizer,
+                new Mock<IJwtTokenService>().Object);
+
+            try
+            {
+                await userService.ChangePasswordAsync(userId, changePasswordModel).ConfigureAwait(false);
+                Assert.Null(testsMethodResult.Exception);
+            }
+            catch (Exception ex)
+            {
+                Assert.NotNull(testsMethodResult.Exception);
+                Assert.Equal(testsMethodResult.Exception.GetType(), ex.GetType());
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(UserServiceTestsChangeUsernameData))]
+        public async void ChangeUsername_Test(int userId, ChangeUsernameModel changeUsernameModel, TestsMethodResult testsMethodResult)
+        {
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetAsync(It.IsAny<int>())).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetAsync(2)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetUserAsync(It.IsAny<string>())).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetUserAsync(TestUser)).Returns(Task.FromResult(this.User));
+            userRepository.Setup(x => x.GetUserAsync("a")).Returns(Task.FromResult(new User()));
+
+            userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
+
+            var userService = new UserService(
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                new Mock<IOptions<Settings>>().Object,
+                this.localizer,
+                new Mock<IJwtTokenService>().Object);
+
+            try
+            {
+                await userService.ChangeUsernameAsync(userId, changeUsernameModel).ConfigureAwait(false);
+                Assert.Null(testsMethodResult.Exception);
+            }
+            catch (Exception ex)
+            {
+                Assert.NotNull(testsMethodResult.Exception);
+                Assert.Equal(testsMethodResult.Exception.GetType(), ex.GetType());
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(UserServiceTestsResetAccountData))]
+        public async void ResetAccount_Test(int userId, string password, TestsMethodResult testsMethodResult)
+        {
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetAsync(It.IsAny<int>())).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetAsync(2)).Returns(Task.FromResult(this.User));
+
+            var userService = new UserService(
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                new Mock<IOptions<Settings>>().Object,
+                this.localizer,
+                new Mock<IJwtTokenService>().Object);
+
+            try
+            {
+                await userService.ResetAccountAsync(userId, password).ConfigureAwait(false);
+                Assert.Null(testsMethodResult.Exception);
+            }
+            catch (Exception ex)
+            {
+                Assert.NotNull(testsMethodResult.Exception);
+                Assert.Equal(testsMethodResult.Exception.GetType(), ex.GetType());
+                Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(UserServiceTestsDeleteAccountData))]
+        public async void DeleteAccount_Test(int userId, string password, TestsMethodResult testsMethodResult)
+        {
+            var userRepository = new Mock<IUserRepository>();
+            userRepository.Setup(x => x.GetAsync(It.IsAny<int>())).Returns(Task.FromResult<User>(default));
+            userRepository.Setup(x => x.GetAsync(2)).Returns(Task.FromResult(this.User));
+
+            userRepository.Setup(x => x.DeleteRowAsync(It.IsAny<int>()));
+
+            var userService = new UserService(
+                userRepository.Object,
+                new Mock<ILogger<UserService>>().Object,
+                new Mock<IOptions<Settings>>().Object,
+                this.localizer,
+                new Mock<IJwtTokenService>().Object);
+
+            try
+            {
+                await userService.DeleteAccountAsync(userId, password).ConfigureAwait(false);
+                Assert.Null(testsMethodResult.Exception);
+            }
+            catch (Exception ex)
+            {
+                Assert.NotNull(testsMethodResult.Exception);
+                Assert.Equal(testsMethodResult.Exception.GetType(), ex.GetType());
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
         }
