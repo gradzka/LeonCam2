@@ -38,11 +38,11 @@ export class DashboardComponent {
 
   getCameras() {
     let cameras = [
-      new Camera(1, "Baby room", "192.168.1.1"),
-      new Camera(2, "Living room", "192.168.1.2"),
-      new Camera(3, "Front door", "192.168.1.3"),
-      new Camera(4, "Garage", "192.168.1.4"),
-      new Camera(5, "Garden", "192.168.1.5")
+      new Camera(1, "Baby room", "192.168.1.1", "x", "y"),
+      new Camera(2, "Living room", "192.168.1.2", "x", "y"),
+      new Camera(3, "Front door", "192.168.1.3", "x", "y"),
+      new Camera(4, "Garage", "192.168.1.4", "x", "y"),
+      new Camera(5, "Garden", "192.168.1.5", "x", "y")
     ]
 
     return Array.apply(null, cameras).map((camera, index) => camera);

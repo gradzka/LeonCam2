@@ -18,7 +18,7 @@ namespace LeonCam2.Services.Users
 
     public class UserService : IUserService
     {
-        private static readonly string UserIsRegisteredInfo = "User is registered...";
+        private static readonly string RegisteringUserInfo = "Registering user...";
 
         private readonly ICryptoService cryptoService;
         private readonly ILogger<UserService> logger;
@@ -131,7 +131,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]);
             }
 
-            this.logger.LogInformation(UserIsRegisteredInfo);
+            this.logger.LogInformation(RegisteringUserInfo);
             DateTime dateTimeNow = DateTime.Now;
 
             if (await this.userRepository.GetUserAsync(registerModel.Username) != null)

@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\shared\models\camera.model.ts" />
+    <None Remove="ClientApp\src\app\_services\camera.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\camera.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_services\camera.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +58,10 @@
     <EmbeddedResource Update="Resources\Services\Users\UserService.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\Messages\Controllers\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

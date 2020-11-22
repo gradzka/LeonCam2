@@ -7,10 +7,10 @@ namespace LeonCam2.Models.DB
     public class Camera : BaseEntity
     {
         [Required]
-        public string Name { get; set; }
+        public string Description { get; set; }
 
         [Required]
-        public string IPAddress { get; set; }
+        public string Ip { get; set; }
 
         [Required]
         public string Login { get; set; }

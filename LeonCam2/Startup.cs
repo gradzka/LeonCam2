@@ -9,7 +9,9 @@ namespace LeonCam2
     using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models;
     using LeonCam2.Repositories;
+    using LeonCam2.Repositories.Cameras;
     using LeonCam2.Services;
+    using LeonCam2.Services.Cameras;
     using LeonCam2.Services.JwtTokens;
     using LeonCam2.Services.Security;
     using LeonCam2.Services.Users;
@@ -65,6 +67,12 @@ namespace LeonCam2
             services.AddScoped<ICryptoService, CryptoService>();
 
             services.AddHostedService<TimedBackgroundService>();
+
+            services.AddScoped<ICameraService, CameraService>();
+
+            services.AddScoped<ICryptoService, CryptoService>();
+
+            services.AddScoped<ICameraRepository, CameraRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
