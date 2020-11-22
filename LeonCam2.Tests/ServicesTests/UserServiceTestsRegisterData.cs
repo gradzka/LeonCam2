@@ -5,14 +5,29 @@ namespace LeonCam2.Tests.ServicesTests
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using LeonCam2.Enums;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
+    using LeonCam2.Services.Users;
+    using Microsoft.Extensions.Localization;
+    using Microsoft.Extensions.Logging.Abstractions;
+    using Microsoft.Extensions.Options;
 
     public class UserServiceTestsRegisterData : IEnumerable<object[]>
     {
         private static readonly string TestUser = "newtest";
         private static readonly string AlreadyUsedTestUser = "test";
         private static readonly string RegisterModel = "registerModel";
+
+        private readonly StringLocalizer<UserService> localizer;
+
+        public UserServiceTestsRegisterData()
+        {
+            this.localizer = new StringLocalizer<UserService>(
+                new ResourceManagerStringLocalizerFactory(
+                    Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
+                    NullLoggerFactory.Instance));
+        }
 
         public IEnumerator<object[]> GetEnumerator()
         {
@@ -25,25 +40,25 @@ namespace LeonCam2.Tests.ServicesTests
             yield return new object[]
             {
                 new RegisterModel(),
-                new TestsMethodResult() { Exception = new ArgumentException("Username cannot be empty"), Result = false },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]), Result = false },
             };
 
             yield return new object[]
 {
                 new RegisterModel() { Username = AlreadyUsedTestUser, Password = TestUser, RepeatedPassword = TestUser },
-                new TestsMethodResult() { Exception = new InternalException("Username is already used"), Result = false },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]), Result = false },
 };
 
             yield return new object[]
             {
                 new RegisterModel() { Username = TestUser },
-                new TestsMethodResult() { Exception = new ArgumentException("Password cannot be empty"), Result = false },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]), Result = false },
             };
 
             yield return new object[]
             {
                 new RegisterModel() { Username = TestUser, Password = string.Empty, RepeatedPassword = TestUser },
-                new TestsMethodResult() { Exception = new ArgumentException("Passwords must be the same"), Result = false },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]), Result = false },
             };
 
             yield return new object[]

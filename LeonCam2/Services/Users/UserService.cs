@@ -207,12 +207,12 @@ namespace LeonCam2.Services.Users
 
         public async Task ChangeUsernameAsync(int userId, ChangeUsernameModel changeUsernameModel)
         {
-            this.logger.LogInformation($"ChangeUSername id:{userId} username:{changeUsernameModel.NewUsername}");
-
             if (changeUsernameModel == null)
             {
                 throw new ArgumentNullException(nameof(changeUsernameModel));
             }
+
+            this.logger.LogInformation($"ChangeUsername id:{userId} username:{changeUsernameModel.NewUsername}");
 
             if (changeUsernameModel.NewUsername.IsNullOrEmpty())
             {
