@@ -11,6 +11,7 @@ namespace LeonCam2.Services.Users
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
     using LeonCam2.Services.JwtTokens;
+    using LeonCam2.Services.Security;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
@@ -19,6 +20,7 @@ namespace LeonCam2.Services.Users
     {
         private static readonly string UserIsRegisteredInfo = "User is registered...";
 
+        private readonly ICryptoService cryptoService;
         private readonly ILogger<UserService> logger;
         private readonly IStringLocalizer<UserService> localizer;
         private readonly Settings settings;
@@ -30,13 +32,15 @@ namespace LeonCam2.Services.Users
             ILogger<UserService> logger,
             IOptions<Settings> settings,
             IStringLocalizer<UserService> localizer,
-            IJwtTokenService jwtTokenService)
+            IJwtTokenService jwtTokenService,
+            ICryptoService cryptoService)
         {
             this.userRepository = userRepository;
             this.logger = logger;
             this.settings = settings.Value;
             this.localizer = localizer;
             this.jwtTokenService = jwtTokenService;
+            this.cryptoService = cryptoService;
         }
 
         public async Task<string> GetLeadingQuestionAsync(string username)
@@ -140,7 +144,7 @@ namespace LeonCam2.Services.Users
             User user = new User
             {
                 Username = registerModel.Username,
-                Password = passwordData.GetSHA512Hash(),
+                Password = this.cryptoService.GetSHA512Hash(passwordData),
                 LastLoginAttemptDate = dateTimeNow,
                 AccessFailedCount = 0,
                 CreationDate = dateTimeNow,
@@ -173,7 +177,7 @@ namespace LeonCam2.Services.Users
 
             if (user != null)
             {
-                if (user.LeadingQuestionAnswer == $"{leadingQuestionModel.Answer}{leadingQuestionModel.Username}{user.CreationDate}".GetSHA512Hash())
+                if (user.LeadingQuestionAnswer == this.cryptoService.GetSHA512Hash($"{leadingQuestionModel.Answer}{leadingQuestionModel.Username}{user.CreationDate}"))
                 {
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
@@ -236,7 +240,7 @@ namespace LeonCam2.Services.Users
             string passwordData = $"{changeUsernameModel.Password}{changeUsernameModel.NewUsername}{user.CreationDate}";
 
             user.Username = changeUsernameModel.NewUsername;
-            user.Password = passwordData.GetSHA512Hash();
+            user.Password = this.cryptoService.GetSHA512Hash(passwordData);
             user.ModifiedDate = DateTime.Now;
 
             await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
@@ -267,7 +271,7 @@ namespace LeonCam2.Services.Users
                 return;
             }
 
-            user.Password = passwordData.GetSHA512Hash();
+            user.Password = this.cryptoService.GetSHA512Hash(passwordData);
             user.ModifiedDate = DateTime.Now;
 
             await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
