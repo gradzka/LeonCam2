@@ -4,7 +4,7 @@ namespace LeonCam2.Models.DB
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using LeonCam2.Extensions;
+    using LeonCam2.Services.Security;
 
     public class User : BaseEntity
     {
@@ -25,7 +25,7 @@ namespace LeonCam2.Models.DB
 
         public bool CheckPassword(string password)
         {
-            return this.Password == $"{password}{this.Username}{this.CreationDate}".GetSHA512Hash();
+            return this.Password == new CryptoService().GetSHA512Hash($"{password}{this.Username}{this.CreationDate}");
         }
     }
 }
