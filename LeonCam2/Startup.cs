@@ -11,6 +11,7 @@ namespace LeonCam2
     using LeonCam2.Repositories;
     using LeonCam2.Services;
     using LeonCam2.Services.JwtTokens;
+    using LeonCam2.Services.Security;
     using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -60,6 +61,8 @@ namespace LeonCam2
             services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
             services.AddScoped<JwtTokenFilter>();
+
+            services.AddScoped<ICryptoService, CryptoService>();
 
             services.AddHostedService<TimedBackgroundService>();
         }

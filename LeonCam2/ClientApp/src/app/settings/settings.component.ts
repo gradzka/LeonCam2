@@ -61,7 +61,7 @@ export class SettingsComponent implements OnInit {
     this.changeUsernamePopover.close();
 
     if (this.changeUsernameForm.invalid) {
-      this.changeUsernamePopover.ngbPopover = "Type valid data2";
+      this.changeUsernamePopover.ngbPopover = "Type valid data";
       this.changeUsernamePopover.popoverClass = "popover-error-reversed";
       this.changeUsernamePopover.open();
       return;

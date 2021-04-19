@@ -11,15 +11,16 @@ namespace LeonCam2.Services.Users
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
     using LeonCam2.Services.JwtTokens;
+    using LeonCam2.Services.Security;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Microsoft.IdentityModel.Tokens;
 
     public class UserService : IUserService
     {
         private static readonly string UserIsRegisteredInfo = "User is registered...";
 
+        private readonly ICryptoService cryptoService;
         private readonly ILogger<UserService> logger;
         private readonly IStringLocalizer<UserService> localizer;
         private readonly Settings settings;
@@ -31,25 +32,27 @@ namespace LeonCam2.Services.Users
             ILogger<UserService> logger,
             IOptions<Settings> settings,
             IStringLocalizer<UserService> localizer,
-            IJwtTokenService jwtTokenService)
+            IJwtTokenService jwtTokenService,
+            ICryptoService cryptoService)
         {
             this.userRepository = userRepository;
             this.logger = logger;
             this.settings = settings.Value;
             this.localizer = localizer;
             this.jwtTokenService = jwtTokenService;
+            this.cryptoService = cryptoService;
         }
 
         public async Task<string> GetLeadingQuestionAsync(string username)
         {
-            if (string.IsNullOrEmpty(username))
+            if (username.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
             string leadingQuestion = await this.userRepository.GetLeadingQuestionAsync(username).ConfigureAwait(false);
 
-            if (string.IsNullOrEmpty(leadingQuestion))
+            if (leadingQuestion.IsNullOrEmpty())
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.LeadingQuestionEmpty)]);
             }
@@ -68,7 +71,7 @@ namespace LeonCam2.Services.Users
 
             if (user != null)
             {
-                if (user.Password == $"{loginModel.Password}{loginModel.Username}{user.CreationDate}".GetSHA512Hash())
+                if (user.CheckPassword(loginModel.Password))
                 {
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
@@ -103,7 +106,7 @@ namespace LeonCam2.Services.Users
 
         public void Logout(string token)
         {
-            this.jwtTokenService.AddTokenToBlackList(token);
+            this.jwtTokenService.AddTokenToBlockedList(token);
         }
 
         public async Task RegisterAsync(RegisterModel registerModel)
@@ -113,7 +116,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentNullException(nameof(registerModel));
             }
 
-            if (string.IsNullOrEmpty(registerModel.Username))
+            if (registerModel.Username.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
@@ -123,7 +126,7 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]);
             }
 
-            if (string.IsNullOrEmpty(registerModel.Password))
+            if (registerModel.Password.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]);
             }
@@ -141,8 +144,7 @@ namespace LeonCam2.Services.Users
             User user = new User
             {
                 Username = registerModel.Username,
-                Password = passwordData.GetSHA512Hash(),
-                LeadingQuestion = null,
+                Password = this.cryptoService.GetSHA512Hash(passwordData),
                 LastLoginAttemptDate = dateTimeNow,
                 AccessFailedCount = 0,
                 CreationDate = dateTimeNow,
@@ -161,12 +163,12 @@ namespace LeonCam2.Services.Users
                 throw new ArgumentNullException(nameof(leadingQuestionModel));
             }
 
-            if (string.IsNullOrEmpty(leadingQuestionModel.Username))
+            if (leadingQuestionModel.Username.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
             }
 
-            if (string.IsNullOrEmpty(leadingQuestionModel.Answer))
+            if (leadingQuestionModel.Answer.IsNullOrEmpty())
             {
                 throw new ArgumentException(this.localizer[nameof(UserServiceMessages.AnswerCannotBeEmpty)]);
             }
@@ -175,7 +177,7 @@ namespace LeonCam2.Services.Users
 
             if (user != null)
             {
-                if (user.LeadingQuestionAnswer == $"{leadingQuestionModel.Answer}{leadingQuestionModel.Username}{user.CreationDate}".GetSHA512Hash())
+                if (user.LeadingQuestionAnswer == this.cryptoService.GetSHA512Hash($"{leadingQuestionModel.Answer}{leadingQuestionModel.Username}{user.CreationDate}"))
                 {
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
@@ -205,6 +207,114 @@ namespace LeonCam2.Services.Users
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperUsername)]);
             }
+        }
+
+        public async Task ChangeUsernameAsync(int userId, ChangeUsernameModel changeUsernameModel)
+        {
+            if (changeUsernameModel == null)
+            {
+                throw new ArgumentNullException(nameof(changeUsernameModel));
+            }
+
+            this.logger.LogInformation($"ChangeUsername id:{userId} username:{changeUsernameModel.NewUsername}");
+
+            if (changeUsernameModel.NewUsername.IsNullOrEmpty())
+            {
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
+            }
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, changeUsernameModel.Password);
+
+            if (changeUsernameModel.NewUsername == user.Username)
+            {
+                return;
+            }
+
+            if (await this.userRepository.GetUserAsync(changeUsernameModel.NewUsername) != null)
+            {
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]);
+            }
+
+            string passwordData = $"{changeUsernameModel.Password}{changeUsernameModel.NewUsername}{user.CreationDate}";
+
+            user.Username = changeUsernameModel.NewUsername;
+            user.Password = this.cryptoService.GetSHA512Hash(passwordData);
+            user.ModifiedDate = DateTime.Now;
+
+            await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public async Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel)
+        {
+            this.logger.LogInformation($"ChangePassword id:{userId}");
+
+            if (changePasswordModel == null)
+            {
+                throw new ArgumentNullException(nameof(changePasswordModel));
+            }
+
+            if (changePasswordModel.NewPassword != changePasswordModel.ConfirmNewPassword)
+            {
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]);
+            }
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, changePasswordModel.OldPassword);
+
+            string passwordData = $"{changePasswordModel.NewPassword}{user.Username}{user.CreationDate}";
+
+            if (passwordData == user.Password)
+            {
+                return;
+            }
+
+            user.Password = this.cryptoService.GetSHA512Hash(passwordData);
+            user.ModifiedDate = DateTime.Now;
+
+            await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public async Task ResetAccountAsync(int userId, string password)
+        {
+            this.logger.LogInformation($"ResetAccount id:{userId}");
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, password);
+        }
+
+        public async Task DeleteAccountAsync(int userId, string password)
+        {
+            this.logger.LogInformation($"DeleteAccount id:{userId}");
+
+            User user = await this.GetUser(userId);
+
+            this.CheckUserPassword(user, password);
+
+            await this.userRepository.DeleteRowAsync(userId).ConfigureAwait(false);
+        }
+
+        private void CheckUserPassword(User user, string password)
+        {
+            if (!user.CheckPassword(password))
+            {
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.WrongPassword)]);
+            }
+        }
+
+        private async Task<User> GetUser(int userId)
+        {
+            User user = await this.userRepository.GetAsync(userId).ConfigureAwait(false);
+
+            if (user == null)
+            {
+                throw new InternalException(this.localizer[nameof(UserServiceMessages.UserNotFound)]);
+            }
+
+            return user;
         }
     }
 }

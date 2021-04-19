@@ -46,12 +46,12 @@ namespace LeonCam2.Repositories
             return await this.connection.QueryAsync<T>($"SELECT * FROM {this.TableName}");
         }
 
-        public async Task DeleteRowAsync(Guid id)
+        public async Task DeleteRowAsync(int id)
         {
             await this.connection.ExecuteAsync($"DELETE FROM {this.TableName} WHERE Id=@Id", new { Id = id });
         }
 
-        public async Task<T> GetAsync(Guid id)
+        public async Task<T> GetAsync(int id)
         {
             return await this.connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {this.TableName} WHERE Id=@Id", new { Id = id }) ?? throw new KeyNotFoundException($"{this.TableName} with id [{id}] could not be found.");
         }

@@ -16,23 +16,23 @@ namespace LeonCam2.Services.JwtTokens
     {
         private readonly ILogger<JwtTokenService> logger;
         private readonly Settings settings;
-        private readonly HashSet<string> blackList;
+        private readonly HashSet<string> blockedList;
 
         public JwtTokenService(ILogger<JwtTokenService> logger, IOptions<Settings> settings)
         {
             this.logger = logger;
             this.settings = settings.Value;
-            this.blackList = new HashSet<string>();
+            this.blockedList = new HashSet<string>();
         }
 
-        public void AddTokenToBlackList(string token)
+        public void AddTokenToBlockedList(string token)
         {
-            this.blackList.Add(token);
+            this.blockedList.Add(token);
         }
 
-        public bool CheckIfTokenOnBlackList(string token)
+        public bool CheckIfTokenOnBlockedList(string token)
         {
-            return this.blackList.Contains(token);
+            return this.blockedList.Contains(token);
         }
 
         public string CreateToken(int userId)
@@ -53,12 +53,12 @@ namespace LeonCam2.Services.JwtTokens
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
 
-        public int RemoveInvalidTokensFromBlackList()
+        public int RemoveInvalidTokensFromBlockedList()
         {
-            return this.blackList.RemoveWhere(x => !this.ValidateToken(x));
+            return this.blockedList.RemoveWhere(x => this.ValidateToken(x) == null);
         }
 
-        public bool ValidateToken(string token)
+        public ClaimsPrincipal ValidateToken(string token)
         {
             try
             {
@@ -77,14 +77,13 @@ namespace LeonCam2.Services.JwtTokens
                 };
 
                 ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+                return claimsPrincipal;
             }
             catch (Exception ex)
             {
                 this.logger.LogWarning($"Token not passed validation: {token}. Error: {ex}");
-                return false;
+                return null;
             }
-
-            return true;
         }
     }
 }

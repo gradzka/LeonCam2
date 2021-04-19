@@ -7,6 +7,7 @@ namespace LeonCam2.Controllers
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using LeonCam2.Enums;
+    using LeonCam2.Extensions;
     using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
@@ -37,7 +38,7 @@ namespace LeonCam2.Controllers
             this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.GettingLeadingQuestionStarted)]);
             this.logger.LogDebug($"Username: {username}");
 
-            if (string.IsNullOrEmpty(username))
+            if (username.IsNullOrEmpty())
             {
                 this.logger.LogError($"{nameof(username)}{IsNullError}");
                 throw new ArgumentException(nameof(username));
@@ -102,6 +103,76 @@ namespace LeonCam2.Controllers
             }
 
             return this.Ok(new { token = await this.userService.CheckAnswerAsync(leadingQuestionModel).ConfigureAwait(false) });
+        }
+
+        [JwtTokenFilter]
+        [HttpPost("ChangeUsername")]
+        public async Task<IActionResult> ChangeUsername(ChangeUsernameModel changeUsernameModel)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingUsernameStarted)]);
+            this.logger.LogDebug($"New username: {changeUsernameModel.NewUsername}");
+
+            if (changeUsernameModel == null)
+            {
+                this.logger.LogError($"{nameof(changeUsernameModel)}{IsNullError}");
+                throw new ArgumentNullException(nameof(changeUsernameModel));
+            }
+
+            await this.userService.ChangeUsernameAsync(this.GetLoggedUserId(), changeUsernameModel).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        [JwtTokenFilter]
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ChangingPasswordStarted)]);
+
+            if (changePasswordModel == null)
+            {
+                this.logger.LogError($"{nameof(changePasswordModel)}{IsNullError}");
+                throw new ArgumentNullException(nameof(changePasswordModel));
+            }
+
+            await this.userService.ChangePasswordAsync(this.GetLoggedUserId(), changePasswordModel).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        [JwtTokenFilter]
+        [HttpPost("ResetAccount")]
+        public async Task<IActionResult> ResetAccount([FromBody] string password)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.ResettingAccountStarted)]);
+
+            this.Validate(password, nameof(password));
+
+            await this.userService.ResetAccountAsync(this.GetLoggedUserId(), password).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        [JwtTokenFilter]
+        [HttpPost("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount([FromBody] string password)
+        {
+            this.logger.LogInformation(this.localizer[nameof(UsersControllerMessages.DeletingAccountStarted)]);
+
+            this.Validate(password, nameof(password));
+
+            await this.userService.DeleteAccountAsync(this.GetLoggedUserId(), password).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        private void Validate(string param, string paramName)
+        {
+            if (param.IsNullOrEmpty())
+            {
+                this.logger.LogError($"{paramName}{IsNullError}");
+                throw new ArgumentException(paramName);
+            }
         }
     }
 }

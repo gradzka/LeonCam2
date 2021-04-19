@@ -12,6 +12,6 @@ namespace LeonCam2.Models
 
         public int MaxNumberOfLoginAttempts { get; set; } = 3;
 
-        public double BlackListControlIntervalInHours { get; set; } = 24;
+        public double BlockedListControlIntervalInHours { get; set; } = 24;
     }
 }

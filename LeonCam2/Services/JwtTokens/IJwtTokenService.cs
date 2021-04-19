@@ -2,16 +2,18 @@
 
 namespace LeonCam2.Services.JwtTokens
 {
+    using System.Security.Claims;
+
     public interface IJwtTokenService
     {
         string CreateToken(int userId);
 
-        void AddTokenToBlackList(string token);
+        void AddTokenToBlockedList(string token);
 
-        bool CheckIfTokenOnBlackList(string token);
+        bool CheckIfTokenOnBlockedList(string token);
 
-        int RemoveInvalidTokensFromBlackList();
+        int RemoveInvalidTokensFromBlockedList();
 
-        bool ValidateToken(string token);
+        ClaimsPrincipal ValidateToken(string token);
     }
 }
