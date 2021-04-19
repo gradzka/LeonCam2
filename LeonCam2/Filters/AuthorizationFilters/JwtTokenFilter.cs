@@ -47,7 +47,7 @@ namespace LeonCam2.Filters.AuthorizationFilters
 
             ClaimsPrincipal claims = jwtTokenService.ValidateToken(authorization.Parameter);
 
-            bool correctToken = claims != null && !jwtTokenService.CheckIfTokenOnBlackList(authorization.Parameter);
+            bool correctToken = claims != null && !jwtTokenService.CheckIfTokenOnBlockedList(authorization.Parameter);
 
             if (!correctToken)
             {

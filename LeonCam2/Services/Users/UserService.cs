@@ -106,7 +106,7 @@ namespace LeonCam2.Services.Users
 
         public void Logout(string token)
         {
-            this.jwtTokenService.AddTokenToBlackList(token);
+            this.jwtTokenService.AddTokenToBlockedList(token);
         }
 
         public async Task RegisterAsync(RegisterModel registerModel)

@@ -8,11 +8,11 @@ namespace LeonCam2.Services.JwtTokens
     {
         string CreateToken(int userId);
 
-        void AddTokenToBlackList(string token);
+        void AddTokenToBlockedList(string token);
 
-        bool CheckIfTokenOnBlackList(string token);
+        bool CheckIfTokenOnBlockedList(string token);
 
-        int RemoveInvalidTokensFromBlackList();
+        int RemoveInvalidTokensFromBlockedList();
 
         ClaimsPrincipal ValidateToken(string token);
     }

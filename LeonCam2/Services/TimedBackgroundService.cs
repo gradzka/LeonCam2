@@ -30,7 +30,7 @@ namespace LeonCam2.Services
         {
             this.logger.LogInformation($"{nameof(TimedBackgroundService)} is starting.");
 
-            this.timer = new Timer(this.DoWork, null, TimeSpan.Zero, TimeSpan.FromHours(this.settings.BlackListControlIntervalInHours));
+            this.timer = new Timer(this.DoWork, null, TimeSpan.Zero, TimeSpan.FromHours(this.settings.BlockedListControlIntervalInHours));
 
             return Task.CompletedTask;
         }
@@ -51,8 +51,8 @@ namespace LeonCam2.Services
 
         private void DoWork(object state)
         {
-            int removed = this.jwtTokenService.RemoveInvalidTokensFromBlackList();
-            this.logger.LogTrace($"Removed {removed} jwtTokens from blacklist");
+            int removed = this.jwtTokenService.RemoveInvalidTokensFromBlockedList();
+            this.logger.LogTrace($"Removed {removed} jwtTokens from blockedlist");
         }
     }
 }

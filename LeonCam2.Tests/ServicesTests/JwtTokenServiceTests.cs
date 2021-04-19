@@ -54,21 +54,21 @@ namespace LeonCam2.Tests.ServicesTests
         }
 
         [Fact]
-        public void AddTokenToBlackList_Test()
+        public void AddTokenToBlockedList_Test()
         {
             var jwtTokenService = new JwtTokenService(
                 new Mock<ILogger<JwtTokenService>>().Object,
                 this.options);
 
-            jwtTokenService.AddTokenToBlackList(Token);
+            jwtTokenService.AddTokenToBlockedList(Token);
 
-            Assert.True(jwtTokenService.CheckIfTokenOnBlackList(Token));
+            Assert.True(jwtTokenService.CheckIfTokenOnBlockedList(Token));
         }
 
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void CheckIfTokenOnBlackList_Test(bool addToList)
+        public void CheckIfTokenOnBlockedList_Test(bool addToList)
         {
             var jwtTokenService = new JwtTokenService(
                 new Mock<ILogger<JwtTokenService>>().Object,
@@ -76,35 +76,35 @@ namespace LeonCam2.Tests.ServicesTests
 
             if (addToList)
             {
-                jwtTokenService.AddTokenToBlackList(Token);
+                jwtTokenService.AddTokenToBlockedList(Token);
             }
 
-            bool result = jwtTokenService.CheckIfTokenOnBlackList(Token);
+            bool result = jwtTokenService.CheckIfTokenOnBlockedList(Token);
 
             Assert.Equal(addToList, result);
         }
 
         [Fact]
-        public void RemoveInvalidTokensFromBlackList_Test()
+        public void RemoveInvalidTokensFromBlockedList_Test()
         {
             var jwtTokenService = new JwtTokenService(
                 new Mock<ILogger<JwtTokenService>>().Object,
                 this.options);
 
-            int result = jwtTokenService.RemoveInvalidTokensFromBlackList();
+            int result = jwtTokenService.RemoveInvalidTokensFromBlockedList();
 
             Assert.Equal(0, result);
 
-            jwtTokenService.AddTokenToBlackList(Token);
-            jwtTokenService.AddTokenToBlackList(jwtTokenService.CreateToken(1));
+            jwtTokenService.AddTokenToBlockedList(Token);
+            jwtTokenService.AddTokenToBlockedList(jwtTokenService.CreateToken(1));
 
-            result = jwtTokenService.RemoveInvalidTokensFromBlackList();
+            result = jwtTokenService.RemoveInvalidTokensFromBlockedList();
 
             Assert.Equal(1, result);
 
             Thread.Sleep(10000);
 
-            result = jwtTokenService.RemoveInvalidTokensFromBlackList();
+            result = jwtTokenService.RemoveInvalidTokensFromBlockedList();
 
             Assert.Equal(1, result);
         }
