@@ -72,6 +72,17 @@ namespace LeonCam2.Services.Security
             }
         }
 
+        public string GetSHA256Hash(string input)
+        {
+            if (input == null)
+            {
+                return null;
+            }
+
+            using SHA256 sHA256 = SHA256.Create();
+            return BitConverter.ToString(sHA256.ComputeHash(Encoding.Default.GetBytes(input))).Replace("-", string.Empty);
+        }
+
         public string GetSHA512Hash(string input)
         {
             if (input == null)

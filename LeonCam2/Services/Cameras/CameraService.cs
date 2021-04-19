@@ -3,6 +3,7 @@
 namespace LeonCam2.Services.Cameras
 {
     using System;
+    using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace LeonCam2.Services.Cameras
         private readonly ICameraRepository cameraRepository;
         private readonly ICryptoService cryptoService;
         private readonly IStringLocalizer<CameraService> localizer;
+        private readonly IStringLocalizer regexLocalizer;
         private readonly ILogger<CameraService> logger;
 
         public CameraService(
@@ -30,12 +32,14 @@ namespace LeonCam2.Services.Cameras
             IStringLocalizer<CameraService> localizer,
             ILogger<CameraService> logger,
             IUserRepository userRepository,
-            ICryptoService cryptoService)
+            ICryptoService cryptoService,
+            IStringLocalizerFactory stringLocalizerFactory)
         {
             this.cameraRepository = cameraRepository;
             this.localizer = localizer;
             this.logger = logger;
             this.cryptoService = cryptoService;
+            this.regexLocalizer = stringLocalizerFactory.Create("Regex", System.Reflection.Assembly.GetExecutingAssembly().GetName().Name);
         }
 
         public async Task AddCameraAsync(CameraModel cameraModel)
@@ -61,8 +65,9 @@ namespace LeonCam2.Services.Cameras
 
         private byte[] GetCryptoKey(string login, string password)
         {
-            string part1 = this.cryptoService.GetSHA512Hash($"{password}{login}");
-            return Encoding.UTF8.GetBytes(this.cryptoService.GetSHA512Hash($"{part1}{login}"));
+            string part1 = this.cryptoService.GetSHA256Hash($"{password}{login}");
+            string sha256Hash = this.cryptoService.GetSHA256Hash($"{part1}{login}");
+            return Enumerable.Range(0, sha256Hash.Length / 2).Select(x => Convert.ToByte(sha256Hash.Substring(x * 2, 2), 16)).ToArray();
         }
 
         private void ValidateCameraModel(CameraModel cameraModel)
@@ -77,8 +82,8 @@ namespace LeonCam2.Services.Cameras
             cameraModel.Login.VerifyNotNullOrEmpty(nameof(cameraModel.Login), this.localizer[nameof(CameraServiceMessage.LoginCannotBeEmpty)]);
             cameraModel.Password.VerifyNotNullOrEmpty(nameof(cameraModel.Password), this.localizer[nameof(CameraServiceMessage.PasswordCannotBeEmpty)]);
 
-            Regex ipv4Regex = new Regex(this.localizer[nameof(Enums.Regex.Ipv4Pattern)]);
-            Regex ipv6Regex = new Regex(this.localizer[nameof(Enums.Regex.Ipv6Pattern)]);
+            Regex ipv4Regex = new Regex(this.regexLocalizer[nameof(Enums.Regex.Ipv4Pattern)]);
+            Regex ipv6Regex = new Regex(this.regexLocalizer[nameof(Enums.Regex.Ipv6Pattern)]);
 
             if (!(ipv4Regex.IsMatch(cameraModel.Ip) || ipv6Regex.IsMatch(cameraModel.Ip)))
             {
