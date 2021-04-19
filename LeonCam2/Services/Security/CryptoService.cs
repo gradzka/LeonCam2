@@ -71,7 +71,7 @@ namespace LeonCam2.Services.Security
                 }
             }
         }
-        
+
         public string GetSHA512Hash(string input)
         {
             if (input == null)

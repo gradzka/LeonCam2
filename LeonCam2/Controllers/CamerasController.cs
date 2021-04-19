@@ -1,4 +1,4 @@
-﻿// CameraController.cs by Gradzka & Kazimierczak
+﻿// CamerasController.cs by Gradzka & Kazimierczak
 
 namespace LeonCam2.Controllers
 {

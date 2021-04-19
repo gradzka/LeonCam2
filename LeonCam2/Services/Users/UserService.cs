@@ -71,7 +71,7 @@ namespace LeonCam2.Services.Users
 
             if (user != null)
             {
-                if (user.CheckPassword(loginModel.Password))
+                if (this.CheckPassword(loginModel.Password, user))
                 {
                     if (user.LastLoginAttemptDate > DateTime.Now.AddMinutes(-this.settings.BlockTimeInMinutes) && user.AccessFailedCount >= this.settings.MaxNumberOfLoginAttempts)
                     {
@@ -299,10 +299,15 @@ namespace LeonCam2.Services.Users
 
         private void CheckUserPassword(User user, string password)
         {
-            if (!user.CheckPassword(password))
+            if (!this.CheckPassword(password, user))
             {
                 throw new InternalException(this.localizer[nameof(UserServiceMessages.WrongPassword)]);
             }
+        }
+
+        private bool CheckPassword(string password, User user)
+        {
+            return user.Password == this.cryptoService.GetSHA512Hash($"{password}{user.Username}{user.CreationDate}");
         }
 
         private async Task<User> GetUser(int userId)

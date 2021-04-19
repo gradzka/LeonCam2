@@ -61,8 +61,8 @@ namespace LeonCam2.Services.Cameras
 
         private byte[] GetCryptoKey(string login, string password)
         {
-            string part1 = this.cryptoService.Hash($"{password}{login}");
-            return Encoding.UTF8.GetBytes(this.cryptoService.Hash($"{part1}{login}"));
+            string part1 = this.cryptoService.GetSHA512Hash($"{password}{login}");
+            return Encoding.UTF8.GetBytes(this.cryptoService.GetSHA512Hash($"{part1}{login}"));
         }
 
         private void ValidateCameraModel(CameraModel cameraModel)

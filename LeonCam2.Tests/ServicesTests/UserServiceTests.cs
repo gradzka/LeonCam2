@@ -25,6 +25,7 @@ namespace LeonCam2.Tests.ServicesTests
 
         private readonly IOptions<Settings> options;
         private readonly StringLocalizer<UserService> localizer;
+        private readonly StringLocalizer<CryptoService> cryptoServiceLocalizer;
 
         public UserServiceTests()
         {
@@ -53,6 +54,11 @@ namespace LeonCam2.Tests.ServicesTests
                 new ResourceManagerStringLocalizerFactory(
                     Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
                     NullLoggerFactory.Instance));
+
+            this.cryptoServiceLocalizer = new StringLocalizer<CryptoService>(
+                new ResourceManagerStringLocalizerFactory(
+                    Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
+                    NullLoggerFactory.Instance));
         }
 
         public User User { get; set; }
@@ -72,7 +78,7 @@ namespace LeonCam2.Tests.ServicesTests
                 this.options,
                 this.localizer,
                 new JwtTokenService(null, this.options),
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             if (loginModel == null)
             {
@@ -106,7 +112,7 @@ namespace LeonCam2.Tests.ServicesTests
                 new Mock<IOptions<Settings>>().Object,
                 this.localizer,
                 new Mock<IJwtTokenService>().Object,
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             if (registerModel == null)
             {
@@ -143,7 +149,7 @@ namespace LeonCam2.Tests.ServicesTests
                 this.options,
                 this.localizer,
                 new Mock<IJwtTokenService>().Object,
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             try
             {
@@ -175,7 +181,7 @@ namespace LeonCam2.Tests.ServicesTests
                 this.options,
                 this.localizer,
                 new JwtTokenService(null, this.options),
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             try
             {
@@ -208,7 +214,7 @@ namespace LeonCam2.Tests.ServicesTests
                 new Mock<IOptions<Settings>>().Object,
                 this.localizer,
                 new Mock<IJwtTokenService>().Object,
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             try
             {
@@ -242,7 +248,7 @@ namespace LeonCam2.Tests.ServicesTests
                 new Mock<IOptions<Settings>>().Object,
                 this.localizer,
                 new Mock<IJwtTokenService>().Object,
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             try
             {
@@ -271,7 +277,7 @@ namespace LeonCam2.Tests.ServicesTests
                 new Mock<IOptions<Settings>>().Object,
                 this.localizer,
                 new Mock<IJwtTokenService>().Object,
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             try
             {
@@ -302,7 +308,7 @@ namespace LeonCam2.Tests.ServicesTests
                 new Mock<IOptions<Settings>>().Object,
                 this.localizer,
                 new Mock<IJwtTokenService>().Object,
-                new CryptoService());
+                new CryptoService(this.cryptoServiceLocalizer));
 
             try
             {
