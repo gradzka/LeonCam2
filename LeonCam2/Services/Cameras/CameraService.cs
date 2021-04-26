@@ -26,6 +26,7 @@ namespace LeonCam2.Services.Cameras
         private readonly IStringLocalizer<CameraService> localizer;
         private readonly IStringLocalizer regexLocalizer;
         private readonly ILogger<CameraService> logger;
+        private readonly IUserRepository userRepository;
 
         public CameraService(
             ICameraRepository cameraRepository,
@@ -38,11 +39,12 @@ namespace LeonCam2.Services.Cameras
             this.cameraRepository = cameraRepository;
             this.localizer = localizer;
             this.logger = logger;
+            this.userRepository = userRepository;
             this.cryptoService = cryptoService;
             this.regexLocalizer = stringLocalizerFactory.Create("Regex", System.Reflection.Assembly.GetExecutingAssembly().GetName().Name);
         }
 
-        public async Task AddCameraAsync(CameraModel cameraModel)
+        public async Task AddCameraAsync(CameraModel cameraModel, int userId)
         {
             this.ValidateCameraModel(cameraModel);
 
@@ -50,14 +52,21 @@ namespace LeonCam2.Services.Cameras
 
             DateTime dateTimeNow = DateTime.Now;
 
+            User user = await this.userRepository.GetAsync(userId);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException(this.localizer[nameof(CameraServiceMessage.InvalidUserId)]);
+            }
+
             Camera camera = new Camera
             {
                 Description = cameraModel.Description,
                 Ip = cameraModel.Ip,
                 Login = cameraModel.Login,
-                Password = this.cryptoService.Encrypt(Encoding.UTF8.GetBytes(cameraModel.Password), this.GetCryptoKey(cameraModel.Login, cameraModel.Password)),
+                Password = this.cryptoService.Encrypt(Encoding.UTF8.GetBytes(cameraModel.Password), this.GetCryptoKey(user.Username, user.Password)),
                 CreationDate = dateTimeNow,
                 ModifiedDate = dateTimeNow,
+                UserId = userId,
             };
 
             await this.cameraRepository.InsertAsync(camera).ConfigureAwait(false);

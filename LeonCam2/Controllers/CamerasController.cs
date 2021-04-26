@@ -4,6 +4,7 @@ namespace LeonCam2.Controllers
 {
     using System;
     using System.Threading.Tasks;
+    using LeonCam2.Extensions;
     using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models.Cameras;
     using LeonCam2.Services.Cameras;
@@ -53,7 +54,7 @@ namespace LeonCam2.Controllers
                 throw new ArgumentNullException(nameof(camera));
             }
 
-            await this.cameraService.AddCameraAsync(camera).ConfigureAwait(false);
+            await this.cameraService.AddCameraAsync(camera, this.GetLoggedUserId()).ConfigureAwait(false);
 
             return this.Ok();
         }
