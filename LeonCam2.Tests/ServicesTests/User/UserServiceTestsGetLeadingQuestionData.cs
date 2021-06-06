@@ -1,23 +1,25 @@
-﻿// UserServiceTestsDeleteAccountData.cs by Gradzka & Kazimierczak
+﻿// UserServiceTestsGetLeadingQuestionData.cs by Gradzka & Kazimierczak
 
 namespace LeonCam2.Tests.ServicesTests
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
-    using LeonCam2.Enums;
+    using LeonCam2.Enums.Services;
     using LeonCam2.Models;
     using LeonCam2.Services.Users;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging.Abstractions;
     using Microsoft.Extensions.Options;
 
-    public class UserServiceTestsDeleteAccountData : IEnumerable<object[]>
+    public class UserServiceTestsGetLeadingQuestionData : IEnumerable<object[]>
     {
-        private static readonly string TestPassword = "test";
+        private static readonly string TestUser = "test";
+        private static readonly string InvalidTestUser = "testInvalid";
 
         private readonly StringLocalizer<UserService> localizer;
 
-        public UserServiceTestsDeleteAccountData()
+        public UserServiceTestsGetLeadingQuestionData()
         {
             this.localizer = new StringLocalizer<UserService>(
                 new ResourceManagerStringLocalizerFactory(
@@ -29,23 +31,20 @@ namespace LeonCam2.Tests.ServicesTests
         {
             yield return new object[]
             {
-                0,
                 null,
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.UserNotFound)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]) },
             };
 
             yield return new object[]
             {
-                2,
-                string.Empty,
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.WrongPassword)]) },
+                TestUser,
+                new TestsMethodResult() { Result = "Question" },
             };
 
             yield return new object[]
             {
-                2,
-                TestPassword,
-                new TestsMethodResult() { Result = true },
+                InvalidTestUser,
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.LeadingQuestionEmpty)]) },
             };
         }
 

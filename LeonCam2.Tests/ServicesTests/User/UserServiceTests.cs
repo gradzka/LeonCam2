@@ -28,7 +28,7 @@ namespace LeonCam2.Tests.ServicesTests
 
         private readonly IOptions<Settings> options;
         private readonly StringLocalizer<UserService> localizer;
-        private readonly StringLocalizer<CryptoService> cryptoServiceLocalizer;
+        private readonly IStringLocalizerFactory stringLocalizerFactory;
 
         public UserServiceTests()
         {
@@ -53,15 +53,11 @@ namespace LeonCam2.Tests.ServicesTests
             options.Setup(x => x.Value).Returns(settings);
             this.options = options.Object;
 
-            this.localizer = new StringLocalizer<UserService>(
-                new ResourceManagerStringLocalizerFactory(
-                    Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
-                    NullLoggerFactory.Instance));
+            this.stringLocalizerFactory = new ResourceManagerStringLocalizerFactory(
+                Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
+                NullLoggerFactory.Instance);
 
-            this.cryptoServiceLocalizer = new StringLocalizer<CryptoService>(
-                new ResourceManagerStringLocalizerFactory(
-                    Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
-                    NullLoggerFactory.Instance));
+            this.localizer = new StringLocalizer<UserService>(this.stringLocalizerFactory);
         }
 
         public User User { get; set; }
@@ -289,10 +285,8 @@ namespace LeonCam2.Tests.ServicesTests
                 this.options,
                 this.localizer,
                 new JwtTokenService(null, this.options),
-                new CryptoService(this.cryptoServiceLocalizer),
-                new CameraService(cameraRepository.Object, null, null, userRepository, null, new ResourceManagerStringLocalizerFactory(
-                    Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
-                    NullLoggerFactory.Instance)));
+                new CryptoService(new StringLocalizer<CryptoService>(this.stringLocalizerFactory)),
+                new CameraService(cameraRepository.Object, null, null, userRepository, null, this.stringLocalizerFactory));
         }
     }
 }

@@ -5,7 +5,7 @@ namespace LeonCam2.Tests.ServicesTests
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using LeonCam2.Enums;
+    using LeonCam2.Enums.Services;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
@@ -40,43 +40,43 @@ namespace LeonCam2.Tests.ServicesTests
             yield return new object[]
             {
                 new LeadingQuestionModel(),
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]) },
             };
 
             yield return new object[]
             {
                 new LeadingQuestionModel() { Username = TestUser, Answer = null },
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.AnswerCannotBeEmpty)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.AnswerCannotBeEmpty)]) },
             };
 
             yield return new object[]
             {
                 new LeadingQuestionModel() { Username = TestUser, Answer = string.Empty },
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.AnswerCannotBeEmpty)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.AnswerCannotBeEmpty)]) },
             };
 
             yield return new object[]
             {
                 new LeadingQuestionModel() { Username = null, Answer = TestUser },
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]) },
             };
 
             yield return new object[]
             {
                 new LeadingQuestionModel() { Username = string.Empty, Answer = TestUser },
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]) },
             };
 
             yield return new object[]
             {
                 new LeadingQuestionModel() { Username = InvalidTestUser, Answer = InvalidTestUser },
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.InproperUsername)]) },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.InproperUsername)]) },
             };
 
             yield return new object[]
             {
                 new LeadingQuestionModel() { Username = TestUser, Answer = InvalidTestUser },
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]) },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.InvalidAnswer)]) },
             };
 
             yield return new object[]

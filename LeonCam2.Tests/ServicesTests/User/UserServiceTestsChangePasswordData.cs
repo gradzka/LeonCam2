@@ -5,7 +5,7 @@ namespace LeonCam2.Tests.ServicesTests
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using LeonCam2.Enums;
+    using LeonCam2.Enums.Services;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
@@ -43,21 +43,21 @@ namespace LeonCam2.Tests.ServicesTests
             {
                 0,
                 new ChangePasswordModel() { NewPassword = TestPassword, ConfirmNewPassword = NewPassword },
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.PasswordsMustBeTheSame)]) },
             };
 
             yield return new object[]
             {
                 0,
                 new ChangePasswordModel(),
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.UserNotFound)]) },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.UserNotFound)]) },
             };
 
             yield return new object[]
             {
                 2,
                 new ChangePasswordModel() { OldPassword = string.Empty },
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.WrongPassword)]) },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.WrongPassword)]) },
             };
 
             yield return new object[]

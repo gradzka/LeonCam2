@@ -1,8 +1,8 @@
-﻿// UserServiceMessages.cs by Gradzka & Kazimierczak
+﻿// UserServiceMessage.cs by Gradzka & Kazimierczak
 
-namespace LeonCam2.Enums
+namespace LeonCam2.Enums.Services
 {
-    public enum UserServiceMessages
+    public enum UserServiceMessage
     {
         UsernameCannotBeEmpty,
         LeadingQuestionEmpty,

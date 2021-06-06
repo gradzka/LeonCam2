@@ -5,7 +5,7 @@ namespace LeonCam2.Services.Users
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using LeonCam2.Enums;
+    using LeonCam2.Enums.Services;
     using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Models.DB;
@@ -52,14 +52,14 @@ namespace LeonCam2.Services.Users
         {
             if (username.IsNullOrEmpty())
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]);
             }
 
             string leadingQuestion = await this.userRepository.GetLeadingQuestionAsync(username).ConfigureAwait(false);
 
             if (leadingQuestion.IsNullOrEmpty())
             {
-                throw new InternalException(this.localizer[nameof(UserServiceMessages.LeadingQuestionEmpty)]);
+                throw new InternalException(this.localizer[nameof(UserServiceMessage.LeadingQuestionEmpty)]);
             }
 
             return leadingQuestion;
@@ -83,7 +83,7 @@ namespace LeonCam2.Services.Users
                         user.LastLoginAttemptDate = DateTime.Now;
                         await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
-                        throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
+                        throw new InternalException(this.localizer[nameof(UserServiceMessage.InvalidAnswer)]);
                     }
                     else
                     {
@@ -100,12 +100,12 @@ namespace LeonCam2.Services.Users
                     user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
                     await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
-                    throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperLoginData)]);
+                    throw new InternalException(this.localizer[nameof(UserServiceMessage.InproperLoginData)]);
                 }
             }
             else
             {
-                throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperLoginData)]);
+                throw new InternalException(this.localizer[nameof(UserServiceMessage.InproperLoginData)]);
             }
         }
 
@@ -123,17 +123,17 @@ namespace LeonCam2.Services.Users
 
             if (registerModel.Username.IsNullOrEmpty())
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]);
             }
 
             if (registerModel.Password != registerModel.RepeatedPassword)
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.PasswordsMustBeTheSame)]);
             }
 
             if (registerModel.Password.IsNullOrEmpty())
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.PasswordCannotBeEmpty)]);
             }
 
             this.logger.LogInformation(RegisteringUserInfo);
@@ -141,7 +141,7 @@ namespace LeonCam2.Services.Users
 
             if (await this.userRepository.GetUserAsync(registerModel.Username) != null)
             {
-                throw new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]);
+                throw new InternalException(this.localizer[nameof(UserServiceMessage.UsernameAlreadyUsed)]);
             }
 
             string passwordData = $"{registerModel.Password}{registerModel.Username}{dateTimeNow}";
@@ -170,12 +170,12 @@ namespace LeonCam2.Services.Users
 
             if (leadingQuestionModel.Username.IsNullOrEmpty())
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]);
             }
 
             if (leadingQuestionModel.Answer.IsNullOrEmpty())
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.AnswerCannotBeEmpty)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.AnswerCannotBeEmpty)]);
             }
 
             var user = await this.userRepository.GetUserAsync(leadingQuestionModel.Username).ConfigureAwait(false);
@@ -188,7 +188,7 @@ namespace LeonCam2.Services.Users
                     {
                         user.LastLoginAttemptDate = DateTime.Now;
                         await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
-                        throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
+                        throw new InternalException(this.localizer[nameof(UserServiceMessage.InvalidAnswer)]);
                     }
                     else
                     {
@@ -205,12 +205,12 @@ namespace LeonCam2.Services.Users
                     user.AccessFailedCount = Math.Min(this.settings.MaxNumberOfLoginAttempts, user.AccessFailedCount + 1);
                     await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
-                    throw new InternalException(this.localizer[nameof(UserServiceMessages.InvalidAnswer)]);
+                    throw new InternalException(this.localizer[nameof(UserServiceMessage.InvalidAnswer)]);
                 }
             }
             else
             {
-                throw new InternalException(this.localizer[nameof(UserServiceMessages.InproperUsername)]);
+                throw new InternalException(this.localizer[nameof(UserServiceMessage.InproperUsername)]);
             }
         }
 
@@ -225,7 +225,7 @@ namespace LeonCam2.Services.Users
 
             if (changeUsernameModel.NewUsername.IsNullOrEmpty())
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]);
             }
 
             User user = await this.GetUser(userId);
@@ -239,7 +239,7 @@ namespace LeonCam2.Services.Users
 
             if (await this.userRepository.GetUserAsync(changeUsernameModel.NewUsername) != null)
             {
-                throw new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]);
+                throw new InternalException(this.localizer[nameof(UserServiceMessage.UsernameAlreadyUsed)]);
             }
 
             string passwordData = $"{changeUsernameModel.Password}{changeUsernameModel.NewUsername}{user.CreationDate}";
@@ -266,7 +266,7 @@ namespace LeonCam2.Services.Users
 
             if (changePasswordModel.NewPassword != changePasswordModel.ConfirmNewPassword)
             {
-                throw new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]);
+                throw new ArgumentException(this.localizer[nameof(UserServiceMessage.PasswordsMustBeTheSame)]);
             }
 
             User user = await this.GetUser(userId);
@@ -314,7 +314,7 @@ namespace LeonCam2.Services.Users
         {
             if (!this.CheckPassword(password, user))
             {
-                throw new InternalException(this.localizer[nameof(UserServiceMessages.WrongPassword)]);
+                throw new InternalException(this.localizer[nameof(UserServiceMessage.WrongPassword)]);
             }
         }
 
@@ -336,7 +336,7 @@ namespace LeonCam2.Services.Users
 
             if (user == null)
             {
-                throw new InternalException(this.localizer[nameof(UserServiceMessages.UserNotFound)]);
+                throw new InternalException(this.localizer[nameof(UserServiceMessage.UserNotFound)]);
             }
 
             return user;
