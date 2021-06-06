@@ -255,13 +255,6 @@ namespace LeonCam2.Services.Users
             await this.cameraService.RefreshCameraCryptoKeyAsync(userId, oldCryptoKey, this.GetCryptoKey(user.Username, user.Password));
         }
 
-        private byte[] GetCryptoKey(string login, string password)
-        {
-            string part1 = this.cryptoService.GetSHA256Hash($"{password}{login}");
-            string sha256Hash = this.cryptoService.GetSHA256Hash($"{part1}{login}");
-            return Enumerable.Range(0, sha256Hash.Length / 2).Select(x => Convert.ToByte(sha256Hash.Substring(x * 2, 2), 16)).ToArray();
-        }
-
         public async Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel)
         {
             this.logger.LogInformation($"ChangePassword id:{userId}");
@@ -328,6 +321,13 @@ namespace LeonCam2.Services.Users
         private bool CheckPassword(string password, User user)
         {
             return user.Password == this.cryptoService.GetSHA512Hash($"{password}{user.Username}{user.CreationDate}");
+        }
+
+        private byte[] GetCryptoKey(string login, string password)
+        {
+            string part1 = this.cryptoService.GetSHA256Hash($"{password}{login}");
+            string sha256Hash = this.cryptoService.GetSHA256Hash($"{part1}{login}");
+            return Enumerable.Range(0, sha256Hash.Length / 2).Select(x => Convert.ToByte(sha256Hash.Substring(x * 2, 2), 16)).ToArray();
         }
 
         private async Task<User> GetUser(int userId)

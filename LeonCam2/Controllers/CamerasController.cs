@@ -17,15 +17,11 @@ namespace LeonCam2.Controllers
     [ApiController]
     public class CamerasController : ControllerBase
     {
-        private readonly ILogger<CamerasController> logger;
-        private readonly IStringLocalizer<CamerasController> localizer;
         private readonly ICameraService cameraService;
 
-        public CamerasController(ICameraService cameraService, ILogger<CamerasController> logger, IStringLocalizer<CamerasController> localizer)
+        public CamerasController(ICameraService cameraService)
         {
             this.cameraService = cameraService;
-            this.logger = logger;
-            this.localizer = localizer;
         }
 
         [HttpGet("GetCamera")]

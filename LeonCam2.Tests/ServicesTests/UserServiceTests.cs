@@ -3,12 +3,14 @@
 namespace LeonCam2.Tests.ServicesTests
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using LeonCam2.Extensions;
     using LeonCam2.Models;
     using LeonCam2.Models.DB;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
+    using LeonCam2.Repositories.Cameras;
     using LeonCam2.Services.Cameras;
     using LeonCam2.Services.JwtTokens;
     using LeonCam2.Services.Security;
@@ -73,14 +75,7 @@ namespace LeonCam2.Tests.ServicesTests
             userRepository.Setup(x => x.GetUserAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                this.options,
-                this.localizer,
-                new JwtTokenService(null, this.options),
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             if (loginModel == null)
             {
@@ -108,14 +103,7 @@ namespace LeonCam2.Tests.ServicesTests
             userRepository.Setup(x => x.GetUserAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.InsertAsync(It.IsAny<User>()));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                new Mock<IOptions<Settings>>().Object,
-                this.localizer,
-                new Mock<IJwtTokenService>().Object,
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             if (registerModel == null)
             {
@@ -146,14 +134,7 @@ namespace LeonCam2.Tests.ServicesTests
             userRepository.Setup(x => x.GetLeadingQuestionAsync(TestUser)).Returns(Task.FromResult(this.User.LeadingQuestion));
             userRepository.Setup(x => x.GetLeadingQuestionAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<string>(default));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                this.options,
-                this.localizer,
-                new Mock<IJwtTokenService>().Object,
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             try
             {
@@ -179,14 +160,7 @@ namespace LeonCam2.Tests.ServicesTests
             userRepository.Setup(x => x.GetUserAsync(It.Is<string>(x => x != TestUser))).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                this.options,
-                this.localizer,
-                new JwtTokenService(null, this.options),
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             try
             {
@@ -213,14 +187,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                new Mock<IOptions<Settings>>().Object,
-                this.localizer,
-                new Mock<IJwtTokenService>().Object,
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             try
             {
@@ -248,14 +215,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             userRepository.Setup(x => x.UpdateAsync(It.IsAny<User>()));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                new Mock<IOptions<Settings>>().Object,
-                this.localizer,
-                new Mock<IJwtTokenService>().Object,
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             try
             {
@@ -278,14 +238,7 @@ namespace LeonCam2.Tests.ServicesTests
             userRepository.Setup(x => x.GetAsync(It.IsAny<int>())).Returns(Task.FromResult<User>(default));
             userRepository.Setup(x => x.GetAsync(2)).Returns(Task.FromResult(this.User));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                new Mock<IOptions<Settings>>().Object,
-                this.localizer,
-                new Mock<IJwtTokenService>().Object,
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             try
             {
@@ -310,14 +263,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             userRepository.Setup(x => x.DeleteRowAsync(It.IsAny<int>()));
 
-            var userService = new UserService(
-                userRepository.Object,
-                new Mock<ILogger<UserService>>().Object,
-                new Mock<IOptions<Settings>>().Object,
-                this.localizer,
-                new Mock<IJwtTokenService>().Object,
-                new CryptoService(this.cryptoServiceLocalizer),
-                new Mock<CameraService>().Object);
+            IUserService userService = this.GetUserService(userRepository.Object);
 
             try
             {
@@ -330,6 +276,23 @@ namespace LeonCam2.Tests.ServicesTests
                 Assert.Equal(testsMethodResult.Exception.GetType(), ex.GetType());
                 Assert.Equal(testsMethodResult.Exception.Message, ex.Message);
             }
+        }
+
+        private IUserService GetUserService(IUserRepository userRepository)
+        {
+            var cameraRepository = new Mock<ICameraRepository>();
+            cameraRepository.Setup(x => x.GetUserCamerasAsync(It.IsAny<int>())).Returns(Task.FromResult(Enumerable.Empty<Camera>()));
+
+            return new UserService(
+                userRepository,
+                new Mock<ILogger<UserService>>().Object,
+                this.options,
+                this.localizer,
+                new JwtTokenService(null, this.options),
+                new CryptoService(this.cryptoServiceLocalizer),
+                new CameraService(cameraRepository.Object, null, null, userRepository, null, new ResourceManagerStringLocalizerFactory(
+                    Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
+                    NullLoggerFactory.Instance)));
         }
     }
 }

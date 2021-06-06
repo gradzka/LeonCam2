@@ -31,8 +31,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Enums\Messages\Controllers\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Enums\Messages\Controllers\**" />
+    <EmbeddedResource Remove="Enums\Messages\Controllers\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Enums\Messages\Controllers\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -58,10 +62,6 @@
     <EmbeddedResource Update="Resources\Services\Users\UserService.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Enums\Messages\Controllers\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
