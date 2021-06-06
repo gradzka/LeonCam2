@@ -4,9 +4,9 @@ namespace LeonCam2.Services.Security
 {
     public interface ICryptoService
     {
-        string Decrypt(byte[] input, byte[] key);
+        string Decrypt(string input, byte[] key);
 
-        string Encrypt(byte[] input, byte[] key);
+        string Encrypt(string input, byte[] key);
 
         string GetSHA256Hash(string input);
 

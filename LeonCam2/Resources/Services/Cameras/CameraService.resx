@@ -120,6 +120,9 @@
   <data name="DescriptionCannotBeEmpty" xml:space="preserve">
     <value>Description cannot be empty</value>
   </data>
+  <data name="InvalidUserId" xml:space="preserve">
+    <value>Invalid user</value>
+  </data>
   <data name="IpCannotBeEmpty" xml:space="preserve">
     <value>IP cannot be empty</value>
   </data>

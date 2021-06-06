@@ -20,7 +20,7 @@ namespace LeonCam2.Services.Security
             this.localizer = localizer;
         }
 
-        public string Decrypt(byte[] input, byte[] key)
+        public string Decrypt(string input, byte[] key)
         {
             input.VerifyNotNullOrEmpty(nameof(input), this.localizer[nameof(CryptoServiceMessage.InvalidInput)]);
             key.VerifyNotNullOrEmpty(nameof(key), this.localizer[nameof(CryptoServiceMessage.InvalidKey)]);
@@ -32,7 +32,7 @@ namespace LeonCam2.Services.Security
 
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-                using (MemoryStream memoryStream = new MemoryStream(input))
+                using (MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(input)))
                 {
                     using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                     {
@@ -45,7 +45,7 @@ namespace LeonCam2.Services.Security
             }
         }
 
-        public string Encrypt(byte[] input, byte[] key)
+        public string Encrypt(string input, byte[] key)
         {
             input.VerifyNotNullOrEmpty(nameof(input), this.localizer[nameof(CryptoServiceMessage.InvalidInput)]);
             key.VerifyNotNullOrEmpty(nameof(key), this.localizer[nameof(CryptoServiceMessage.InvalidKey)]);
@@ -66,7 +66,7 @@ namespace LeonCam2.Services.Security
                             streamWriter.Write(input);
                         }
 
-                        return Encoding.UTF8.GetString(memoryStream.ToArray());
+                        return Convert.ToBase64String(memoryStream.ToArray());
                     }
                 }
             }

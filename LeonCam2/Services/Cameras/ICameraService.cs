@@ -7,6 +7,8 @@ namespace LeonCam2.Services.Cameras
 
     public interface ICameraService
     {
-        Task AddCameraAsync(CameraModel cameraModel);
+        Task AddCameraAsync(CameraModel cameraModel, int userId);
+
+        Task RefreshCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey);
     }
 }

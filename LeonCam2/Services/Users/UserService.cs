@@ -3,6 +3,7 @@
 namespace LeonCam2.Services.Users
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using LeonCam2.Enums;
     using LeonCam2.Extensions;
@@ -10,6 +11,7 @@ namespace LeonCam2.Services.Users
     using LeonCam2.Models.DB;
     using LeonCam2.Models.Users;
     using LeonCam2.Repositories;
+    using LeonCam2.Services.Cameras;
     using LeonCam2.Services.JwtTokens;
     using LeonCam2.Services.Security;
     using Microsoft.Extensions.Localization;
@@ -20,6 +22,7 @@ namespace LeonCam2.Services.Users
     {
         private static readonly string RegisteringUserInfo = "Registering user...";
 
+        private readonly ICameraService cameraService;
         private readonly ICryptoService cryptoService;
         private readonly ILogger<UserService> logger;
         private readonly IStringLocalizer<UserService> localizer;
@@ -33,7 +36,8 @@ namespace LeonCam2.Services.Users
             IOptions<Settings> settings,
             IStringLocalizer<UserService> localizer,
             IJwtTokenService jwtTokenService,
-            ICryptoService cryptoService)
+            ICryptoService cryptoService,
+            ICameraService cameraService)
         {
             this.userRepository = userRepository;
             this.logger = logger;
@@ -41,6 +45,7 @@ namespace LeonCam2.Services.Users
             this.localizer = localizer;
             this.jwtTokenService = jwtTokenService;
             this.cryptoService = cryptoService;
+            this.cameraService = cameraService;
         }
 
         public async Task<string> GetLeadingQuestionAsync(string username)
@@ -239,11 +244,22 @@ namespace LeonCam2.Services.Users
 
             string passwordData = $"{changeUsernameModel.Password}{changeUsernameModel.NewUsername}{user.CreationDate}";
 
+            byte[] oldCryptoKey = this.GetCryptoKey(user.Username, user.Password);
+
             user.Username = changeUsernameModel.NewUsername;
             user.Password = this.cryptoService.GetSHA512Hash(passwordData);
             user.ModifiedDate = DateTime.Now;
 
             await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
+
+            await this.cameraService.RefreshCameraCryptoKeyAsync(userId, oldCryptoKey, this.GetCryptoKey(user.Username, user.Password));
+        }
+
+        private byte[] GetCryptoKey(string login, string password)
+        {
+            string part1 = this.cryptoService.GetSHA256Hash($"{password}{login}");
+            string sha256Hash = this.cryptoService.GetSHA256Hash($"{part1}{login}");
+            return Enumerable.Range(0, sha256Hash.Length / 2).Select(x => Convert.ToByte(sha256Hash.Substring(x * 2, 2), 16)).ToArray();
         }
 
         public async Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel)
@@ -271,10 +287,14 @@ namespace LeonCam2.Services.Users
                 return;
             }
 
+            byte[] oldCryptoKey = this.GetCryptoKey(user.Username, user.Password);
+
             user.Password = this.cryptoService.GetSHA512Hash(passwordData);
             user.ModifiedDate = DateTime.Now;
 
             await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
+
+            await this.cameraService.RefreshCameraCryptoKeyAsync(userId, oldCryptoKey, this.GetCryptoKey(user.Username, user.Password));
         }
 
         public async Task ResetAccountAsync(int userId, string password)

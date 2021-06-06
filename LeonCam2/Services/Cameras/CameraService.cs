@@ -3,8 +3,8 @@
 namespace LeonCam2.Services.Cameras
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using LeonCam2.Enums.Messages.Services;
@@ -63,13 +63,32 @@ namespace LeonCam2.Services.Cameras
                 Description = cameraModel.Description,
                 Ip = cameraModel.Ip,
                 Login = cameraModel.Login,
-                Password = this.cryptoService.Encrypt(Encoding.UTF8.GetBytes(cameraModel.Password), this.GetCryptoKey(user.Username, user.Password)),
+                Password = this.cryptoService.Encrypt(cameraModel.Password, this.GetCryptoKey(user.Username, user.Password)),
                 CreationDate = dateTimeNow,
                 ModifiedDate = dateTimeNow,
                 UserId = userId,
             };
 
             await this.cameraRepository.InsertAsync(camera).ConfigureAwait(false);
+        }
+
+        public async Task RefreshCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey)
+        {
+            User user = await this.userRepository.GetAsync(userId);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException(this.localizer[nameof(CameraServiceMessage.InvalidUserId)]);
+            }
+
+            IEnumerable<Camera> cameras = await this.cameraRepository.GetUserCamerasAsync(userId);
+
+            foreach (Camera camera in cameras)
+            {
+                string password = this.cryptoService.Decrypt(camera.Password, oldCryptoKey);
+                camera.Password = this.cryptoService.Encrypt(password, newCryptoKey);
+                camera.ModifiedDate = DateTime.Now;
+                await this.cameraRepository.UpdateAsync(camera);
+            }
         }
 
         private byte[] GetCryptoKey(string login, string password)
