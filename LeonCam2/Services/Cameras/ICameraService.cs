@@ -9,6 +9,6 @@ namespace LeonCam2.Services.Cameras
     {
         Task AddCameraAsync(CameraModel cameraModel, int userId);
 
-        Task RefreshCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey);
+        Task UpdateCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey);
     }
 }

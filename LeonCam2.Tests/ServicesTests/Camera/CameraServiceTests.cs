@@ -115,7 +115,7 @@ namespace LeonCam2.Tests.ServicesTests
 
             try
             {
-                await cameraService.RefreshCameraCryptoKeyAsync(userId, oldCryptoKey, newCryptoKey).ConfigureAwait(false);
+                await cameraService.UpdateCameraCryptoKeyAsync(userId, oldCryptoKey, newCryptoKey).ConfigureAwait(false);
 
                 Assert.True(testsMethodResult.Exception == null);
             }

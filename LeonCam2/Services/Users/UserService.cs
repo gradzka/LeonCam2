@@ -252,7 +252,7 @@ namespace LeonCam2.Services.Users
 
             await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
-            await this.cameraService.RefreshCameraCryptoKeyAsync(userId, oldCryptoKey, this.GetCryptoKey(user.Username, user.Password));
+            await this.cameraService.UpdateCameraCryptoKeyAsync(userId, oldCryptoKey, this.GetCryptoKey(user.Username, user.Password));
         }
 
         public async Task ChangePasswordAsync(int userId, ChangePasswordModel changePasswordModel)
@@ -287,7 +287,7 @@ namespace LeonCam2.Services.Users
 
             await this.userRepository.UpdateAsync(user).ConfigureAwait(false);
 
-            await this.cameraService.RefreshCameraCryptoKeyAsync(userId, oldCryptoKey, this.GetCryptoKey(user.Username, user.Password));
+            await this.cameraService.UpdateCameraCryptoKeyAsync(userId, oldCryptoKey, this.GetCryptoKey(user.Username, user.Password));
         }
 
         public async Task ResetAccountAsync(int userId, string password)

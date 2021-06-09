@@ -72,7 +72,7 @@ namespace LeonCam2.Services.Cameras
             await this.cameraRepository.InsertAsync(camera).ConfigureAwait(false);
         }
 
-        public async Task RefreshCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey)
+        public async Task UpdateCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey)
         {
             User user = await this.userRepository.GetAsync(userId);
             if (user == null)
