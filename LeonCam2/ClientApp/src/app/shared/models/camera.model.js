@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Camera = /** @class */ (function () {
-    function Camera(id, name, ipAddress) {
+    function Camera(id, description, ip, login, password) {
         this.id = id;
-        this.name = name;
-        this.ipAddress = ipAddress;
+        this.description = description;
+        this.ip = ip;
+        this.login = login;
+        this.password = password;
     }
     return Camera;
 }());

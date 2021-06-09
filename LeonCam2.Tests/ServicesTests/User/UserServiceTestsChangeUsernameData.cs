@@ -5,7 +5,7 @@ namespace LeonCam2.Tests.ServicesTests
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using LeonCam2.Enums;
+    using LeonCam2.Enums.Services;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
@@ -43,21 +43,21 @@ namespace LeonCam2.Tests.ServicesTests
             {
                 0,
                 new ChangeUsernameModel(),
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]) },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]) },
             };
 
             yield return new object[]
             {
                 0,
                 new ChangeUsernameModel() { NewUsername = TestUser, Password = null },
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.UserNotFound)]) },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.UserNotFound)]) },
             };
 
             yield return new object[]
             {
                 2,
                 new ChangeUsernameModel() { NewUsername = TestUser, Password = string.Empty },
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.WrongPassword)]) },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.WrongPassword)]) },
             };
 
             yield return new object[]
@@ -71,7 +71,7 @@ namespace LeonCam2.Tests.ServicesTests
             {
                 2,
                 new ChangeUsernameModel() { NewUsername = TakenUser, Password = TestPassword },
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]) },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.UsernameAlreadyUsed)]) },
             };
 
             yield return new object[]

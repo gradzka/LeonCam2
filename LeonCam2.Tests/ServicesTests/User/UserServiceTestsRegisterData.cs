@@ -5,7 +5,7 @@ namespace LeonCam2.Tests.ServicesTests
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using LeonCam2.Enums;
+    using LeonCam2.Enums.Services;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
@@ -40,25 +40,25 @@ namespace LeonCam2.Tests.ServicesTests
             yield return new object[]
             {
                 new RegisterModel(),
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.UsernameCannotBeEmpty)]), Result = false },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.UsernameCannotBeEmpty)]), Result = false },
             };
 
             yield return new object[]
 {
                 new RegisterModel() { Username = AlreadyUsedTestUser, Password = TestUser, RepeatedPassword = TestUser },
-                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.UsernameAlreadyUsed)]), Result = false },
+                new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.UsernameAlreadyUsed)]), Result = false },
 };
 
             yield return new object[]
             {
                 new RegisterModel() { Username = TestUser },
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordCannotBeEmpty)]), Result = false },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.PasswordCannotBeEmpty)]), Result = false },
             };
 
             yield return new object[]
             {
                 new RegisterModel() { Username = TestUser, Password = string.Empty, RepeatedPassword = TestUser },
-                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessages.PasswordsMustBeTheSame)]), Result = false },
+                new TestsMethodResult() { Exception = new ArgumentException(this.localizer[nameof(UserServiceMessage.PasswordsMustBeTheSame)]), Result = false },
             };
 
             yield return new object[]

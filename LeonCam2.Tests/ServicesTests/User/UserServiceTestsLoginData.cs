@@ -5,7 +5,7 @@ namespace LeonCam2.Tests.ServicesTests
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using LeonCam2.Enums;
+    using LeonCam2.Enums.Services;
     using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
@@ -30,7 +30,7 @@ namespace LeonCam2.Tests.ServicesTests
                     Options.Create(new LocalizationOptions { ResourcesPath = "Resources" }),
                     NullLoggerFactory.Instance));
 
-            this.resultWithInternalException = new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessages.InproperLoginData)]), Result = false };
+            this.resultWithInternalException = new TestsMethodResult() { Exception = new InternalException(this.localizer[nameof(UserServiceMessage.InproperLoginData)]), Result = false };
         }
 
         public IEnumerator<object[]> GetEnumerator()

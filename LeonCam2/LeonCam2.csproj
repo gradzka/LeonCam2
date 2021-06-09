@@ -31,13 +31,18 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Enums\Messages\Controllers\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Enums\Messages\Controllers\**" />
+    <EmbeddedResource Remove="Enums\Messages\Controllers\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Enums\Messages\Controllers\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\shared\models\camera.model.ts" />
+    <None Remove="ClientApp\src\app\_services\camera.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +52,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\camera.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_services\camera.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -31,7 +31,7 @@ export class CameraEditionComponent implements OnInit {
 
   ngOnInit(): void {
     //TODO
-    this.camera = new Camera(Number(this.route.snapshot.paramMap.get('id')), "Baby room", "192.168.1.1");
+    this.camera = new Camera(Number(this.route.snapshot.paramMap.get('id')), "Baby room", "192.168.1.1", "x", "y");
 
     this.editCameraForm = this.formBuilder.group({
       description: ['', Validators.required],
