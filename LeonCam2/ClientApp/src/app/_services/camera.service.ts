@@ -21,4 +21,9 @@ export class CameraService {
     return this.http.post<any>(`${this.baseUrl}cameras/addCamera`, JSON.stringify(camera), this.httpOptions)
       .pipe(map(data => { return data; }));
   }
+
+  discover() {
+    return this.http.get<any>(`${this.baseUrl}cameras/discover`, this.httpOptions)
+      .pipe(map(data => { return data; }));
+  }
 }

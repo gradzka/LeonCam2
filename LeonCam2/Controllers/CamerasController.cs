@@ -2,15 +2,16 @@
 
 namespace LeonCam2.Controllers
 {
-    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using LeonCam2.Extensions;
     using LeonCam2.Filters.AuthorizationFilters;
     using LeonCam2.Models.Cameras;
     using LeonCam2.Services.Cameras;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Localization;
-    using Microsoft.Extensions.Logging;
+    using OnvifDiscovery.Interfaces;
+    using OnvifDiscovery.Models;
 
     [JwtTokenFilter]
     [Route("[controller]")]
@@ -18,10 +19,12 @@ namespace LeonCam2.Controllers
     public class CamerasController : ControllerBase
     {
         private readonly ICameraService cameraService;
+        private readonly IDiscovery discoveryService;
 
-        public CamerasController(ICameraService cameraService)
+        public CamerasController(ICameraService cameraService, IDiscovery discoveryService)
         {
             this.cameraService = cameraService;
+            this.discoveryService = discoveryService;
         }
 
         [HttpGet("GetCamera")]
@@ -45,14 +48,17 @@ namespace LeonCam2.Controllers
         [HttpPost("AddCamera")]
         public async Task<IActionResult> AddCamera([FromBody]CameraModel camera)
         {
-            if (camera == null)
-            {
-                throw new ArgumentNullException(nameof(camera));
-            }
-
             await this.cameraService.AddCameraAsync(camera, this.GetLoggedUserId()).ConfigureAwait(false);
 
             return this.Ok();
+        }
+
+        [HttpGet("Discover")]
+        public async Task<IActionResult> Discover()
+        {
+            IEnumerable<DiscoveryDevice> onvifDevices = await this.discoveryService.Discover(1);
+
+            return this.Ok(onvifDevices.Select(x => x.Address));
         }
     }
 }
