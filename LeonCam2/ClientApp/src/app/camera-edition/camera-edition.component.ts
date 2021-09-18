@@ -4,6 +4,8 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camera } from '../shared/models/camera.model';
+import { CameraService } from '../_services/camera.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-camera-edition',
@@ -27,17 +29,32 @@ export class CameraEditionComponent implements OnInit {
   changePasswordLoading = false;
   @ViewChild("changePasswordPopover") public changePasswordPopover: NgbPopover;
 
-  constructor(private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private cameraService: CameraService) { }
 
   ngOnInit(): void {
-    //TODO
-    this.camera = new Camera(Number(this.route.snapshot.paramMap.get('id')), "Baby room", "192.168.1.1", "x", "y");
-
     this.editCameraForm = this.formBuilder.group({
       description: ['', Validators.required],
       ip: ['', Validators.required],
       username: ['', Validators.required]
     });
+
+    this.cameraService.get(Number(this.route.snapshot.paramMap.get('id')))
+      .pipe(first())
+      .subscribe({
+        next: data => {
+          this.camera = data;
+          this.editCameraControls.description.setValue(this.camera.description);
+          this.editCameraControls.ip.setValue(this.camera.ip);
+          this.editCameraControls.username.setValue(this.camera.login);
+        },
+        error: error => {
+          this.camera = null;
+        }
+      });    
 
     this.changePasswordForm = this.formBuilder.group({
       changePasswordOldPassword: ['', Validators.required],
@@ -47,12 +64,12 @@ export class CameraEditionComponent implements OnInit {
   }
 
   get changePasswordControls() { return this.changePasswordForm.controls; }
-  get editCameraControls() { return this.changePasswordForm.controls; }
+  get editCameraControls() { return this.editCameraForm.controls; }
 
   editCamera(event) {
     this.editCameraPopover.close();
 
-    if (this.changePasswordForm.invalid) {
+    if (this.editCameraForm.invalid) {
       this.editCameraPopover.ngbPopover = "Type valid data";
       this.editCameraPopover.popoverClass = "popover-error-reversed";
       this.editCameraPopover.open();
@@ -69,6 +86,31 @@ export class CameraEditionComponent implements OnInit {
     //}
 
     this.editCameraLoading = true;
+
+    this.cameraService.editCamera(
+      new Camera(
+        this.camera.id,
+        this.editCameraControls.description.value,
+        this.editCameraControls.ip.value,
+        this.editCameraControls.username.value,
+        null))
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.editCameraPopover.ngbPopover = "Success";
+          this.editCameraPopover.popoverClass = "popover-success-reversed";
+          this.editCameraPopover.open();
+          this.editCameraLoading = false;
+        },
+        error: error => {
+          this.editCameraLoading = false;
+          this.editCameraPopover.popoverClass = "popover-error-reversed";
+          this.editCameraPopover.ngbPopover = error === "Unexpected error" ? "Edit Camera Error" : error;
+          this.editCameraPopover.open();
+        }
+      });
+
+    event.preventDefault();
   }
 
   changePassword(event) {

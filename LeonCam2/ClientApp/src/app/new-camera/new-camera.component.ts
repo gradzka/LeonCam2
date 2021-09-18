@@ -89,13 +89,19 @@ export class NewCameraComponent implements OnInit {
   }
 
   getCameras() {
-    let cameras =
-      ["191.168.1.1", "162.168.1.1", "162.165.1.1", "162.166.1.1", "255.255.255.255",
-        "191.168.1.1", "162.168.1.1", "162.165.1.1", "162.166.1.1", "255.255.255.255",
-        "191.168.1.1", "162.168.1.1", "162.165.1.1", "162.166.1.1", "255.255.255.255"];
+    this.cameraService.discover()
+      .pipe(first())
+      .subscribe({
+        next: data => {
+          this.searchedCameras = data;
+          this.filteredCameras = this.searchedCameras;
 
-    this.searchedCameras = Array.apply(null, cameras).map((cam, index) => cam);
-    this.filteredCameras = this.searchedCameras;
+        },
+        error: error => {
+          this.searchedCameras = null;
+          this.filteredCameras = this.searchedCameras;
+        }
+      });
   }
 
   onSelectCamera(event) {
