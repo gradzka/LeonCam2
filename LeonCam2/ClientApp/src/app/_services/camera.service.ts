@@ -22,6 +22,16 @@ export class CameraService {
       .pipe(map(data => { return data; }));
   }
 
+  get(id: number) {
+    return this.http.get<any>(`${this.baseUrl}cameras/get/${id}`, this.httpOptions)
+      .pipe(map(data => { return data; }));
+  }
+
+  getUserCameras() {
+    return this.http.get<Camera[]>(`${this.baseUrl}cameras/GetUserCameras`, this.httpOptions)
+      .pipe(map(data => { return data; }));
+  }
+
   discover() {
     return this.http.get<any>(`${this.baseUrl}cameras/discover`, this.httpOptions)
       .pipe(map(data => { return data; }));

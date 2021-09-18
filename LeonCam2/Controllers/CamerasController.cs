@@ -27,17 +27,11 @@ namespace LeonCam2.Controllers
             this.discoveryService = discoveryService;
         }
 
-        [HttpGet("GetCamera")]
-        public IActionResult GetCamera()
-        {
-            return this.Ok("Camera");
-        }
+        [HttpGet("Get/{id}")]
+        public async Task<IActionResult> GetAsync(int id) => this.Ok(await this.cameraService.GetAsync(id, this.GetLoggedUserId()));
 
-        [HttpGet("GetCameras")]
-        public IActionResult GetCameras()
-        {
-            return this.Ok(new string[] { "cam1", "cam2" });
-        }
+        [HttpGet("GetUserCameras")]
+        public async Task<IActionResult> GetUserCamerasAsync() => this.Ok(await this.cameraService.GetUserCamerasAsync(this.GetLoggedUserId()));
 
         [HttpGet("GetUser")]
         public IActionResult GetUser()

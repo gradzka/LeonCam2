@@ -72,6 +72,21 @@ namespace LeonCam2.Services.Cameras
             await this.cameraRepository.InsertAsync(camera).ConfigureAwait(false);
         }
 
+        public async Task<Camera> GetAsync(int id, int userId)
+        {
+            Camera camera = await this.cameraRepository.GetAsync(id)
+                ?? throw new UnauthorizedAccessException(this.localizer[nameof(CameraServiceMessage.InvalidCameraId)]);
+
+            if (camera.UserId != userId)
+            {
+                throw new UnauthorizedAccessException(this.localizer[nameof(CameraServiceMessage.InvalidUserId)]);
+            }
+
+            return camera;
+        }
+
+        public async Task<IEnumerable<Camera>> GetUserCamerasAsync(int userId) => await this.cameraRepository.GetUserCamerasAsync(userId);
+
         public async Task UpdateCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey)
         {
             User user = await this.userRepository.GetAsync(userId);
