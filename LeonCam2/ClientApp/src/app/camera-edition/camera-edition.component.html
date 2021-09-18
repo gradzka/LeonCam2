@@ -4,7 +4,7 @@
   </h1>
   <div class="row justify-content-center pt-2 pb-5">
     <app-circle-action-button [icon]="powerOffIcon" class="{{isOn ? 'leon-green' : 'leon-red'}}" tooltipPlacement="bottom" tooltip="{{isOn ? 'Off' : 'On'}}"></app-circle-action-button>
-    <app-circle-action-button id="ping" [icon]="faTableTennisIcon" tooltipPlacement="bottom" tooltip="Ping"></app-circle-action-button>
+    <app-circle-action-button id="ping" [icon]="faTableTennisIcon" [callbackFunction]="pingCallback" tooltipPlacement="bottom" tooltip="Ping"></app-circle-action-button>
     <app-circle-action-button [icon]="faExpandAltIcon" [callbackFunction]="fullScreenCallback" tooltipPlacement="bottom" tooltip="Full&nbsp;screen"></app-circle-action-button>
     <app-circle-action-button [icon]="faThIcon" class="{{isOnDashboard ? 'leon-green' : 'leon-red'}}" tooltipPlacement="bottom" tooltip="{{isOnDashboard ? 'Remove&nbsp;from&nbsp;dashboard' : 'Add&nbsp;to&nbsp;dashboard'}}"></app-circle-action-button>
     <app-circle-action-button [icon]="trashIcon" class="leon-red" tooltipPlacement="bottom" tooltip="Remove" [callbackFunction]="removeCameraCallback"></app-circle-action-button>
