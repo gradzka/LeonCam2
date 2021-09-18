@@ -29,16 +29,4 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}users/deleteAccount`, { password })
       .pipe(map(data => { return data; }));
   };
-
-  getAll() {
-    return this.http.get<string[]>(`${this.baseUrl}camera/getcameras`);
-  }
-
-  getOne() {
-    return this.http.get<any>(`${this.baseUrl}camera/getuser`);
-  }
-
-  getOneStr() {
-    return this.http.get(`${this.baseUrl}camera/getcamera`, { responseType: 'text' });
-  }
 }

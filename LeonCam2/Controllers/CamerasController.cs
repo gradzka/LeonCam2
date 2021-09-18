@@ -33,16 +33,19 @@ namespace LeonCam2.Controllers
         [HttpGet("GetUserCameras")]
         public async Task<IActionResult> GetUserCamerasAsync() => this.Ok(await this.cameraService.GetUserCamerasAsync(this.GetLoggedUserId()));
 
-        [HttpGet("GetUser")]
-        public IActionResult GetUser()
-        {
-            return this.Ok(new Models.DB.User() { Username = "user" });
-        }
 
         [HttpPost("AddCamera")]
         public async Task<IActionResult> AddCamera([FromBody]CameraModel camera)
         {
             await this.cameraService.AddCameraAsync(camera, this.GetLoggedUserId()).ConfigureAwait(false);
+
+            return this.Ok();
+        }
+
+        [HttpPost("EditCamera")]
+        public async Task<IActionResult> EditCamera([FromBody]CameraEditModel camera)
+        {
+            await this.cameraService.EditCameraAsync(camera, this.GetLoggedUserId()).ConfigureAwait(false);
 
             return this.Ok();
         }

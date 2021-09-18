@@ -86,6 +86,31 @@ export class CameraEditionComponent implements OnInit {
     //}
 
     this.editCameraLoading = true;
+
+    this.cameraService.editCamera(
+      new Camera(
+        this.camera.id,
+        this.editCameraControls.description.value,
+        this.editCameraControls.ip.value,
+        this.editCameraControls.username.value,
+        null))
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.editCameraPopover.ngbPopover = "Success";
+          this.editCameraPopover.popoverClass = "popover-success-reversed";
+          this.editCameraPopover.open();
+          this.editCameraLoading = false;
+        },
+        error: error => {
+          this.editCameraLoading = false;
+          this.editCameraPopover.popoverClass = "popover-error-reversed";
+          this.editCameraPopover.ngbPopover = error === "Unexpected error" ? "Edit Camera Error" : error;
+          this.editCameraPopover.open();
+        }
+      });
+
+    event.preventDefault();
   }
 
   changePassword(event) {

@@ -22,6 +22,11 @@ export class CameraService {
       .pipe(map(data => { return data; }));
   }
 
+  editCamera(camera: Camera) {
+    return this.http.post<any>(`${this.baseUrl}cameras/editCamera`, JSON.stringify(camera), this.httpOptions)
+      .pipe(map(data => { return data; }));
+  }
+
   get(id: number) {
     return this.http.get<any>(`${this.baseUrl}cameras/get/${id}`, this.httpOptions)
       .pipe(map(data => { return data; }));

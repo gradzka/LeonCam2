@@ -19,6 +19,7 @@ namespace LeonCam2.Services.Cameras
 
     public class CameraService : ICameraService
     {
+        private static readonly string EditingCameraInfo = "Editing camera...";
         private static readonly string RegisteringCameraInfo = "Registering camera...";
 
         private readonly ICameraRepository cameraRepository;
@@ -72,6 +73,29 @@ namespace LeonCam2.Services.Cameras
             await this.cameraRepository.InsertAsync(camera).ConfigureAwait(false);
         }
 
+        public async Task EditCameraAsync(CameraEditModel cameraModel, int userId)
+        {
+            this.ValidateCameraModel(cameraModel);
+
+            this.logger.LogInformation(EditingCameraInfo);
+
+            DateTime dateTimeNow = DateTime.Now;
+
+            User user = await this.userRepository.GetAsync(userId);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException(this.localizer[nameof(CameraServiceMessage.InvalidUserId)]);
+            }
+
+            Camera camera = this.GetAsync(cameraModel.Id, userId).GetAwaiter().GetResult();
+            camera.Description = cameraModel.Description;
+            camera.Ip = cameraModel.Ip;
+            camera.Login = cameraModel.Login;
+            camera.ModifiedDate = dateTimeNow;
+
+            await this.cameraRepository.UpdateAsync(camera).ConfigureAwait(false);
+        }
+
         public async Task<Camera> GetAsync(int id, int userId)
         {
             Camera camera = await this.cameraRepository.GetAsync(id)
@@ -113,7 +137,7 @@ namespace LeonCam2.Services.Cameras
             return Enumerable.Range(0, sha256Hash.Length / 2).Select(x => Convert.ToByte(sha256Hash.Substring(x * 2, 2), 16)).ToArray();
         }
 
-        private void ValidateCameraModel(CameraModel cameraModel)
+        private void ValidateCameraModel(CameraBaseModel cameraModel)
         {
             if (cameraModel == null)
             {
@@ -123,7 +147,11 @@ namespace LeonCam2.Services.Cameras
             cameraModel.Description.VerifyNotNullOrEmpty(nameof(cameraModel.Description), this.localizer[nameof(CameraServiceMessage.DescriptionCannotBeEmpty)]);
             cameraModel.Ip.VerifyNotNullOrEmpty(nameof(cameraModel.Ip), this.localizer[nameof(CameraServiceMessage.IpCannotBeEmpty)]);
             cameraModel.Login.VerifyNotNullOrEmpty(nameof(cameraModel.Login), this.localizer[nameof(CameraServiceMessage.LoginCannotBeEmpty)]);
-            cameraModel.Password.VerifyNotNullOrEmpty(nameof(cameraModel.Password), this.localizer[nameof(CameraServiceMessage.PasswordCannotBeEmpty)]);
+
+            if (cameraModel is CameraModel model)
+            {
+                model.Password.VerifyNotNullOrEmpty(nameof(model.Password), this.localizer[nameof(CameraServiceMessage.PasswordCannotBeEmpty)]);
+            }
 
             Regex ipv4Regex = new Regex(this.regexLocalizer[nameof(Enums.Regex.Ipv4Pattern)]);
             Regex ipv6Regex = new Regex(this.regexLocalizer[nameof(Enums.Regex.Ipv6Pattern)]);
