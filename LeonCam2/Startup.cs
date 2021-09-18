@@ -23,6 +23,8 @@ namespace LeonCam2
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
+    using OnvifDiscovery;
+    using OnvifDiscovery.Interfaces;
 
     public class Startup
     {
@@ -71,6 +73,8 @@ namespace LeonCam2
             services.AddScoped<ICameraService, CameraService>();
 
             services.AddScoped<ICryptoService, CryptoService>();
+
+            services.AddScoped<IDiscovery, Discovery>();
 
             services.AddScoped<ICameraRepository, CameraRepository>();
         }
