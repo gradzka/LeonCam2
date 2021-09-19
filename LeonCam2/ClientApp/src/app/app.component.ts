@@ -27,7 +27,7 @@ export class AppComponent {
 
 
   showStandard() {
-    this.toastService.show('I am a standard toast');
+    this.toastService.show('I am a standard toast!!!!!!!!!!!!!!!!');
   }
 
   showSuccess() {

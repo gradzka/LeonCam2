@@ -1,10 +1,9 @@
 <ngb-toast *ngFor="let toast of toastService.toasts"
            [class]="toast.classname"
-           [autohide]="autohide"
+           [autohide]="true"
            [delay]="toast.delay || 5000"
-           (mouseenter)="autohide = false"
-           (mouseleave)="autohide = true"
-           (hidden)="toastService.remove(toast)">
+           (hidden)="toastService.remove(toast)"
+           style="width:200px">
   <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
     <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
   </ng-template>
