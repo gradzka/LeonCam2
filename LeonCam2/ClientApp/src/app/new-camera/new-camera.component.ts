@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { CameraService } from '../_services/camera.service';
 import { Camera } from '../shared/models/camera.model';
+import { ToastService } from '../toasts/toast.service';
 
 @Component({
   selector: 'app-new-camera',
@@ -19,11 +19,10 @@ export class NewCameraComponent implements OnInit {
   newCameraForm: FormGroup;
   searchedCameras: string[];
 
-  @ViewChild("addCameraPopover") public addCameraPopover: NgbPopover;
-
   constructor(
     private formBuilder: FormBuilder,
-    private cameraService: CameraService
+    private cameraService: CameraService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -44,12 +43,8 @@ export class NewCameraComponent implements OnInit {
   get newCameraControls() { return this.newCameraForm.controls; }
 
   addCamera(event) {
-    this.addCameraPopover.close();
-
     if (this.newCameraForm.invalid) {
-      this.addCameraPopover.ngbPopover = "Type valid data";
-      this.addCameraPopover.popoverClass = "popover-error-reversed";
-      this.addCameraPopover.open();
+      this.toastService.showDanger("Type valid data");
       return;
     }
 
@@ -68,16 +63,12 @@ export class NewCameraComponent implements OnInit {
           this.newCameraControls.ip.setValue("");
           this.newCameraControls.login.setValue("");
           this.newCameraControls.password.setValue("");
-          this.addCameraPopover.ngbPopover = "Success";
-          this.addCameraPopover.popoverClass = "popover-success-reversed";
-          this.addCameraPopover.open();
+          this.toastService.showSuccess("Success");
           this.addCameraLoading = false;
         },
         error: error => {
           this.addCameraLoading = false;
-          this.addCameraPopover.popoverClass = "popover-error-reversed";
-          this.addCameraPopover.ngbPopover = error === "Unexpected error" ? "Add New Camera Error" : error;
-          this.addCameraPopover.open();
+          this.toastService.showDanger(error === "Unexpected error" ? "Add New Camera Error" : error);
         }
       });
 

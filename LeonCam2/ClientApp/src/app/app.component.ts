@@ -35,7 +35,7 @@ export class AppComponent {
   }
 
   showDanger() {
-    this.toastService.showDanger("Danger");
+    this.toastService.showError("Error toasr");
   }
 
   showWarning() {

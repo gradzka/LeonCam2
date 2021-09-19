@@ -20,8 +20,8 @@ export class ToastService {
     this.show(text, { classname: 'bg-success text-light', delay: 10000 });
   }
 
-  showDanger(text: string) {
-    this.show(text, { classname: 'bg-danger text-light', delay: 15000 });
+  showError(text: string) {
+    this.show(text, { classname: 'bg-danger text-light', delay: 10000 });
   }
 
   showWarning(text: string) {

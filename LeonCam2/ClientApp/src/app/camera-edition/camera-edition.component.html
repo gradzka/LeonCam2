@@ -18,7 +18,7 @@
             <app-input-box id="description" class="settings" type="text" placeholder="Camera description"></app-input-box>
             <app-input-box id="ip" class="settings" type="text" placeholder="IP address"></app-input-box>
             <app-input-box id="username" class="settings" type="text" placeholder="Username"></app-input-box>
-            <button type="submit" id="editCamera" class="btn btn-primary btn-lg w-100" [disabled]="editCameraLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #editCameraPopover="ngbPopover">
+            <button type="submit" id="editCamera" class="btn btn-primary btn-lg w-100" [disabled]="editCameraLoading">
               <span *ngIf="editCameraLoading" class="spinner-border spinner-border-sm mr-1"></span>
               Edit
             </button>
@@ -34,7 +34,7 @@
             <app-password-box id="changePasswordOldPassword" placeholder="Old password" class="settings" autoComplete="new-password"></app-password-box>
             <app-password-box id="changePasswordNewPassword" placeholder="New password" class="settings" [withPasswordStrength]="true" autoComplete="new-password"></app-password-box>
             <app-password-box id="changePasswordConfirmNewPassword" placeholder="Confirm new password" class="settings" autoComplete="new-password"></app-password-box>
-            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changePasswordLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #changePasswordPopover="ngbPopover">
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changePasswordLoading">
               <span *ngIf="changePasswordLoading" class="spinner-border spinner-border-sm mr-1"></span>
               Change
             </button>

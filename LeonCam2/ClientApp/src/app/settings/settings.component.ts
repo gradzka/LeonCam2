@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { UserService } from '@app/_services/user.service';
 import { AuthenticationService } from '@app/_services/authentication.service';
+import { ToastService } from '../toasts/toast.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,25 +13,22 @@ import { AuthenticationService } from '@app/_services/authentication.service';
 export class SettingsComponent implements OnInit {
   changeUsernameForm: FormGroup;
   changeUsernameLoading = false;
-  @ViewChild("changeUsernamePopover") public changeUsernamePopover: NgbPopover;
 
   changePasswordForm: FormGroup;
   changePasswordLoading = false;
-  @ViewChild("changePasswordPopover") public changePasswordPopover: NgbPopover;
 
   resetAccountForm: FormGroup;
   resetAccountLoading = false;
-  @ViewChild("resetAccountPopover") public resetAccountPopover: NgbPopover;
 
   deleteAccountForm: FormGroup;
   deleteAccountLoading = false;
-  @ViewChild("deleteAccountPopover") public deleteAccountPopover: NgbPopover;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private userService: UserService) {
+    private userService: UserService,
+    private toastService: ToastService) {
   }
 
   ngOnInit() {
@@ -58,12 +55,8 @@ export class SettingsComponent implements OnInit {
   get deleteAccountControls() { return this.deleteAccountForm.controls; }
 
   changeUsername(event) {
-    this.changeUsernamePopover.close();
-
     if (this.changeUsernameForm.invalid) {
-      this.changeUsernamePopover.ngbPopover = "Type valid data";
-      this.changeUsernamePopover.popoverClass = "popover-error-reversed";
-      this.changeUsernamePopover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
@@ -73,16 +66,12 @@ export class SettingsComponent implements OnInit {
       .subscribe({
         next: () => {
           this.changeUsernameControls.changeUsernamePassword.setValue("");
-          this.changeUsernamePopover.ngbPopover = "Success";
-          this.changeUsernamePopover.popoverClass = "popover-success-reversed";
-          this.changeUsernamePopover.open();
+          this.toastService.showSuccess("Success");
           this.changeUsernameLoading = false;
         },
         error: error => {
           this.changeUsernameLoading = false;
-          this.changeUsernamePopover.popoverClass = "popover-error-reversed";
-          this.changeUsernamePopover.ngbPopover = error === "Unexpected error" ? "Change Username Error" : error;
-          this.changeUsernamePopover.open();
+          this.toastService.showError(error === "Unexpected error" ? "Change Username Error" : error);
         }
       });
 
@@ -90,19 +79,13 @@ export class SettingsComponent implements OnInit {
   }
 
   changePassword(event) {
-    this.changePasswordPopover.close();
-
     if (this.changePasswordForm.invalid) {
-      this.changePasswordPopover.ngbPopover = "Type valid data";
-      this.changePasswordPopover.popoverClass = "popover-error-reversed";
-      this.changePasswordPopover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
     if (this.changePasswordControls.changePasswordNewPassword.value !== this.changePasswordControls.changePasswordConfirmNewPassword.value) {
-      this.changePasswordPopover.ngbPopover = "Passwords differ";
-      this.changePasswordPopover.popoverClass = "popover-error-reversed";
-      this.changePasswordPopover.open();
+      this.toastService.showError("Passwords differ");
       return;
     }
 
@@ -114,16 +97,12 @@ export class SettingsComponent implements OnInit {
           this.changePasswordControls.changePasswordOldPassword.setValue("");
           this.changePasswordControls.changePasswordNewPassword.setValue("");
           this.changePasswordControls.changePasswordConfirmNewPassword.setValue("");
-          this.changePasswordPopover.ngbPopover = "Success";
-          this.changePasswordPopover.popoverClass = "popover-success-reversed";
-          this.changePasswordPopover.open();
+          this.toastService.showSuccess("Success");
           this.changePasswordLoading = false;
         },
         error: error => {
           this.changePasswordLoading = false;
-          this.changePasswordPopover.popoverClass = "popover-error-reversed";
-          this.changePasswordPopover.ngbPopover = error === "Unexpected error" ? "Change Password Error" : error;
-          this.changePasswordPopover.open();
+          this.toastService.showError(error === "Unexpected error" ? "Change Password Error" : error);
         }
       });
 
@@ -131,12 +110,8 @@ export class SettingsComponent implements OnInit {
   }
 
   resetAccount(event) {
-    this.resetAccountPopover.close();
-
     if (this.resetAccountForm.invalid) {
-      this.resetAccountPopover.ngbPopover = "Type valid data";
-      this.resetAccountPopover.popoverClass = "popover-error-reversed";
-      this.resetAccountPopover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
@@ -146,16 +121,12 @@ export class SettingsComponent implements OnInit {
       .subscribe({
         next: () => {
           this.resetAccountControls.resetAccountPassword.setValue("");
-          this.resetAccountPopover.ngbPopover = "Success";
-          this.resetAccountPopover.popoverClass = "popover-success-reversed";
-          this.resetAccountPopover.open();
+          this.toastService.showSuccess("Success");
           this.resetAccountLoading = false;
         },
         error: error => {
           this.resetAccountLoading = false;
-          this.resetAccountPopover.popoverClass = "popover-error-reversed";
-          this.resetAccountPopover.ngbPopover = error === "Unexpected error" ? "Reset Account Error" : error;
-          this.resetAccountPopover.open();
+          this.toastService.showError(error === "Unexpected error" ? "Reset Account Error" : error);
         }
       });
 
@@ -163,12 +134,8 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteAccount(event) {
-    this.deleteAccountPopover.close();
-
     if (this.deleteAccountForm.invalid) {
-      this.deleteAccountPopover.ngbPopover = "Type valid data";
-      this.deleteAccountPopover.popoverClass = "popover-error-reversed";
-      this.deleteAccountPopover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
@@ -178,9 +145,7 @@ export class SettingsComponent implements OnInit {
       .subscribe({
         next: () => {
           this.deleteAccountControls.resetAccountPassword.setValue("");
-          this.deleteAccountPopover.ngbPopover = "Success";
-          this.deleteAccountPopover.popoverClass = "popover-success-reversed";
-          this.deleteAccountPopover.open();
+          this.toastService.showSuccess("Success");
           this.deleteAccountLoading = false;
 
           this.authenticationService.setCurrentUser(null);
@@ -188,9 +153,7 @@ export class SettingsComponent implements OnInit {
         },
         error: error => {
           this.deleteAccountLoading = false;
-          this.deleteAccountPopover.popoverClass = "popover-error-reversed";
-          this.deleteAccountPopover.ngbPopover = error === "Unexpected error" ? "Delete Account Error" : error;
-          this.deleteAccountPopover.open();
+          this.toastService.showError(error === "Unexpected error" ? "Delete Account Error" : error);
         }
       });
 

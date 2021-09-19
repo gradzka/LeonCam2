@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faExpandAlt, faPowerOff, faTableTennis, faTh, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camera } from '../shared/models/camera.model';
 import { CameraService } from '../_services/camera.service';
 import { first } from 'rxjs/operators';
+import { ToastService } from '../toasts/toast.service';
 
 @Component({
   selector: 'app-camera-edition',
@@ -23,17 +23,16 @@ export class CameraEditionComponent implements OnInit {
 
   editCameraForm: FormGroup;
   editCameraLoading = false;
-  @ViewChild("editCameraPopover") public editCameraPopover: NgbPopover;
 
   changePasswordForm: FormGroup;
   changePasswordLoading = false;
-  @ViewChild("changePasswordPopover") public changePasswordPopover: NgbPopover;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private cameraService: CameraService) { }
+    private cameraService: CameraService,
+    private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.editCameraForm = this.formBuilder.group({
@@ -67,21 +66,15 @@ export class CameraEditionComponent implements OnInit {
   get editCameraControls() { return this.editCameraForm.controls; }
 
   editCamera(event) {
-    this.editCameraPopover.close();
-
     if (this.editCameraForm.invalid) {
-      this.editCameraPopover.ngbPopover = "Type valid data";
-      this.editCameraPopover.popoverClass = "popover-error-reversed";
-      this.editCameraPopover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
     //IP address regex: TODO
 
     //if (this.editCameraControls.changePasswordNewPassword.value !== this.editCameraControls.changePasswordConfirmNewPassword.value) {
-    //  this.editCameraPopover.ngbPopover = "Passwords differ";
-    //  this.editCameraPopover.popoverClass = "popover-error-reversed";
-    //  this.editCameraPopover.open();
+    //  this.toastService.showError("Passwords differ");
     //  return;
     //}
 
@@ -97,16 +90,12 @@ export class CameraEditionComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.editCameraPopover.ngbPopover = "Success";
-          this.editCameraPopover.popoverClass = "popover-success-reversed";
-          this.editCameraPopover.open();
+          this.toastService.showSuccess("Success");
           this.editCameraLoading = false;
         },
         error: error => {
           this.editCameraLoading = false;
-          this.editCameraPopover.popoverClass = "popover-error-reversed";
-          this.editCameraPopover.ngbPopover = error === "Unexpected error" ? "Edit Camera Error" : error;
-          this.editCameraPopover.open();
+          this.toastService.showError(error === "Unexpected error" ? "Edit Camera Error" : error);
         }
       });
 
@@ -114,19 +103,13 @@ export class CameraEditionComponent implements OnInit {
   }
 
   changePassword(event) {
-    this.changePasswordPopover.close();
-
     if (this.changePasswordForm.invalid) {
-      this.changePasswordPopover.ngbPopover = "Type valid data";
-      this.changePasswordPopover.popoverClass = "popover-error-reversed";
-      this.changePasswordPopover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
     if (this.changePasswordControls.changePasswordNewPassword.value !== this.changePasswordControls.changePasswordConfirmNewPassword.value) {
-      this.changePasswordPopover.ngbPopover = "Passwords differ";
-      this.changePasswordPopover.popoverClass = "popover-error-reversed";
-      this.changePasswordPopover.open();
+      this.toastService.showError("Passwords differ");
       return;
     }
 
@@ -138,16 +121,12 @@ export class CameraEditionComponent implements OnInit {
     //      this.changePasswordControls.changePasswordOldPassword.setValue("");
     //      this.changePasswordControls.changePasswordNewPassword.setValue("");
     //      this.changePasswordControls.changePasswordConfirmNewPassword.setValue("");
-    //      this.changePasswordPopover.ngbPopover = "Success";
-    //      this.changePasswordPopover.popoverClass = "popover-success-reversed";
-    //      this.changePasswordPopover.open();
+    //      this.toastService.showSuccess("Success");
     //      this.changePasswordLoading = false;
     //    },
     //    error: error => {
     //      this.changePasswordLoading = false;
-    //      this.changePasswordPopover.popoverClass = "popover-error-reversed";
-    //      this.changePasswordPopover.ngbPopover = error === "Unexpected error" ? "Change Password Error" : error;
-    //      this.changePasswordPopover.open();
+    //      this.toastService.showError(error === "Unexpected error" ? "Change Password Error" : error);
     //    }
     //  });
 
