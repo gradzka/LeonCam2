@@ -13,6 +13,8 @@
         Danger Danger !
       </ng-template>
       <button class="btn btn-danger" (click)="showDanger(dangerTpl)" ngbTooltip="Will disappear in 15s">Danger toast</button>&nbsp;
+      <button class="btn btn-warning" (click)="showWarning()" ngbTooltip="Will disappear in 10s">Warning toast</button>&nbsp;
+      <button class="btn btn-primary" (click)="showInfo()" ngbTooltip="Will disappear in 5s">Info toast</button>&nbsp;
 
       <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 

@@ -27,14 +27,22 @@ export class AppComponent {
 
 
   showStandard() {
-    this.toastService.show('I am a standard toast!!!!!!!!!!!!!!!!');
+    this.toastService.showStandard('I am a standard toast!!!!!!!!!!!!!!!!');
   }
 
   showSuccess() {
-    this.toastService.show('I am a success toast', { classname: 'bg-success text-light', delay: 10000 });
+    this.toastService.showSuccess('I am a success toast');
   }
 
-  showDanger(dangerTpl) {
-    this.toastService.show(dangerTpl, { classname: 'bg-danger text-light', delay: 15000 });
+  showDanger() {
+    this.toastService.showDanger("Danger");
+  }
+
+  showWarning() {
+    this.toastService.showWarning("Warning");
+  }
+
+  showInfo() {
+    this.toastService.showInfo("Info");
   }
 }
