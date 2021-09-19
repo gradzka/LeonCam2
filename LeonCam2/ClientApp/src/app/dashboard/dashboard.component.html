@@ -3,5 +3,9 @@
                   *ngFor="let camera of cameras"
                   ngSortgridItem [ngSortGridItems]="cameras"
                   (sorted)="storeNewOrder($event)"
-                  (removeCamera)="removeCamera($event)"> </app-camera-box>
+                  (removeCamera)="removeCamera($event)">
+  </app-camera-box>
+  <a *ngIf="cameras.length == 0" class="btn btn-primary btn-lg position-absolute" routerLink="/cameras/new" style="top: 35%;">
+    Add new camera
+  </a>
 </div>
