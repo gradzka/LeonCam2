@@ -31,6 +31,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { CameraFullScreenComponent } from './camera-full-screen/camera-full-screen.component';
 import { CameraEditionComponent } from './camera-edition/camera-edition.component';
 import { NewCameraComponent } from './new-camera/new-camera.component';
+import { ToastsComponent } from './toasts/toasts.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [GuestGuard] },
@@ -62,7 +63,8 @@ const routes: Routes = [
     SettingsComponent,
     CameraFullScreenComponent,
     CameraEditionComponent,
-    NewCameraComponent
+    NewCameraComponent,
+    ToastsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
