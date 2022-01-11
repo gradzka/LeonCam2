@@ -44,7 +44,7 @@ export class NewCameraComponent implements OnInit {
 
   addCamera(event) {
     if (this.newCameraForm.invalid) {
-      this.toastService.showDanger("Type valid data");
+      this.toastService.showError("Type valid data");
       return;
     }
 
@@ -68,7 +68,7 @@ export class NewCameraComponent implements OnInit {
         },
         error: error => {
           this.addCameraLoading = false;
-          this.toastService.showDanger(error === "Unexpected error" ? "Add New Camera Error" : error);
+          this.toastService.showError(error === "Unexpected error" ? "Add New Camera Error" : error);
         }
       });
 
