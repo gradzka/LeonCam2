@@ -158,6 +158,27 @@ export class CameraEditionComponent implements OnInit {
     this.router.navigate(['cameras/fullscreen/' + this.camera.id]);
   }
 
+  pingCallback = () => {
+    this.cameraService.pingCamera(this.camera.id)
+      .pipe(first())
+      .subscribe({
+        next: data => {
+          /*this.editCameraPopover.ngbPopover = "Success";
+          this.editCameraPopover.popoverClass = "popover-success-reversed";
+          this.editCameraPopover.open();
+          this.editCameraLoading = false;*/
+        },
+        error: error => {
+          /*this.editCameraLoading = false;
+          this.editCameraPopover.popoverClass = "popover-error-reversed";
+          this.editCameraPopover.ngbPopover = error === "Unexpected error" ? "Edit Camera Error" : error;
+          this.editCameraPopover.open();*/
+        }
+      });
+
+    event.preventDefault();
+  }
+
   removeCameraCallback = () => {
     alert(this.camera.id);
     // Delete from db

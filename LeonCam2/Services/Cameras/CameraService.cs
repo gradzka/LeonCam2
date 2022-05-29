@@ -16,6 +16,8 @@ namespace LeonCam2.Services.Cameras
     using LeonCam2.Services.Security;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
+    using Onvif.Core.Client;
+    using Camera = Models.DB.Camera;
 
     public class CameraService : ICameraService
     {
@@ -110,6 +112,25 @@ namespace LeonCam2.Services.Cameras
         }
 
         public async Task<IEnumerable<Camera>> GetUserCamerasAsync(int userId) => await this.cameraRepository.GetUserCamerasAsync(userId);
+
+        public async Task<bool> PingAsync(int id, int userId)
+        {
+            Camera camera = await this.GetAsync(id, userId);
+
+            User user = await this.userRepository.GetAsync(userId);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException(this.localizer[nameof(CameraServiceMessage.InvalidUserId)]);
+            }
+
+            var onvifCamera = Onvif.Core.Client.Camera.Create(
+                new Account(
+                    camera.Ip,
+                    camera.Login,
+                    this.cryptoService.Decrypt(camera.Password, this.GetCryptoKey(user.Username, user.Password))), ex => { });
+
+            return onvifCamera != null;
+        }
 
         public async Task UpdateCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey)
         {

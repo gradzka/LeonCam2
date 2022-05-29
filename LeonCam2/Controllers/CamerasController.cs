@@ -29,7 +29,7 @@ namespace LeonCam2.Controllers
 
         [HttpGet("Get/{id}")]
         public async Task<IActionResult> GetAsync(int id) => this.Ok(await this.cameraService.GetAsync(id, this.GetLoggedUserId()));
-
+        
         [HttpGet("GetUserCameras")]
         public async Task<IActionResult> GetUserCamerasAsync() => this.Ok(await this.cameraService.GetUserCamerasAsync(this.GetLoggedUserId()));
 
@@ -57,5 +57,8 @@ namespace LeonCam2.Controllers
 
             return this.Ok(onvifDevices.Select(x => x.Address));
         }
+
+        [HttpGet("Ping/{id}")]
+        public async Task<IActionResult> PingAsync(int id) => this.Ok(await this.cameraService.PingAsync(id, this.GetLoggedUserId()));
     }
 }

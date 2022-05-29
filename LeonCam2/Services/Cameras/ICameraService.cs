@@ -17,6 +17,8 @@ namespace LeonCam2.Services.Cameras
 
         Task<IEnumerable<Camera>> GetUserCamerasAsync(int userId);
 
+        Task<bool> PingAsync(int id, int userId);
+
         Task UpdateCameraCryptoKeyAsync(int userId, byte[] oldCryptoKey, byte[] newCryptoKey);
     }
 }
