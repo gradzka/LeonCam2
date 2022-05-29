@@ -3,6 +3,7 @@
 namespace LeonCam2.Services.Users
 {
     using System.Threading.Tasks;
+    using LeonCam2.Models;
     using LeonCam2.Models.Users;
 
     public interface IUserService

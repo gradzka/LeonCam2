@@ -11,6 +11,8 @@ namespace LeonCam2.Services.Cameras
     {
         Task AddCameraAsync(CameraModel cameraModel, int userId);
 
+        Task ChangePasswordAsync(int userId, CameraEditPasswordModel changePasswordModel);
+
         Task EditCameraAsync(CameraEditModel cameraModel, int userId);
 
         Task<Camera> GetAsync(int id, int userId);

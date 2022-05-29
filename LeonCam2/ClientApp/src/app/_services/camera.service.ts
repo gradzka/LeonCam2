@@ -27,6 +27,11 @@ export class CameraService {
       .pipe(map(data => { return data; }));
   }
 
+  changePassword(id: number, oldPassword: string, newPassword: string, confirmNewPassword: string) {
+    return this.http.post<any>(`${this.baseUrl}cameras/changePassword`, { id, oldPassword, newPassword, confirmNewPassword })
+      .pipe(map(data => { return data; }));
+  }
+
   get(id: number) {
     return this.http.get<any>(`${this.baseUrl}cameras/get/${id}`, this.httpOptions)
       .pipe(map(data => { return data; }));

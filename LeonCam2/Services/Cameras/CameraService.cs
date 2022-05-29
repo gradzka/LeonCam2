@@ -9,6 +9,7 @@ namespace LeonCam2.Services.Cameras
     using System.Threading.Tasks;
     using LeonCam2.Enums.Messages.Services;
     using LeonCam2.Extensions;
+    using LeonCam2.Models;
     using LeonCam2.Models.Cameras;
     using LeonCam2.Models.DB;
     using LeonCam2.Repositories;
@@ -73,6 +74,37 @@ namespace LeonCam2.Services.Cameras
             await this.cameraRepository.InsertAsync(camera).ConfigureAwait(false);
         }
 
+        public async Task ChangePasswordAsync(int userId, CameraEditPasswordModel changePasswordModel)
+        {
+            this.logger.LogInformation($"ChangePassword cameraId:{changePasswordModel.Id}");
+
+            if (changePasswordModel == null)
+            {
+                throw new ArgumentNullException(nameof(changePasswordModel));
+            }
+
+            if (changePasswordModel.NewPassword != changePasswordModel.ConfirmNewPassword)
+            {
+                throw new ArgumentException(this.localizer[nameof(CameraServiceMessage.PasswordsMustBeTheSame)]);
+            }
+
+            Camera camera = await this.GetAsync(changePasswordModel.Id, userId);
+
+            User user = await this.userRepository.GetAsync(userId);
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException(this.localizer[nameof(CameraServiceMessage.InvalidUserId)]);
+            }
+
+            byte[] cryptoKey = this.GetCryptoKey(user.Username, user.Password);
+
+            this.CheckCameraPassword(camera, changePasswordModel.OldPassword, cryptoKey);
+
+            camera.Password = this.cryptoService.Encrypt(changePasswordModel.NewPassword, cryptoKey);
+            camera.ModifiedDate = DateTime.Now;
+            await this.cameraRepository.UpdateAsync(camera);
+        }
+
         public async Task EditCameraAsync(CameraEditModel cameraModel, int userId)
         {
             this.ValidateCameraModel(cameraModel);
@@ -127,6 +159,14 @@ namespace LeonCam2.Services.Cameras
                 camera.Password = this.cryptoService.Encrypt(password, newCryptoKey);
                 camera.ModifiedDate = DateTime.Now;
                 await this.cameraRepository.UpdateAsync(camera);
+            }
+        }
+
+        private void CheckCameraPassword(Camera camera, string password, byte[] cryptoKey)
+        {
+            if (password != this.cryptoService.Decrypt(camera.Password, cryptoKey))
+            {
+                throw new InternalException(this.localizer[nameof(CameraServiceMessage.WrongPassword)]);
             }
         }
 

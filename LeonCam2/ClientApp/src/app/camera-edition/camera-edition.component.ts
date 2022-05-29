@@ -131,25 +131,25 @@ export class CameraEditionComponent implements OnInit {
     }
 
     this.changePasswordLoading = true;
-    //this.userService.changePassword(this.changePasswordControls.changePasswordOldPassword.value, this.changePasswordControls.changePasswordNewPassword.value, this.changePasswordControls.changePasswordConfirmNewPassword.value)
-    //  .pipe(first())
-    //  .subscribe({
-    //    next: () => {
-    //      this.changePasswordControls.changePasswordOldPassword.setValue("");
-    //      this.changePasswordControls.changePasswordNewPassword.setValue("");
-    //      this.changePasswordControls.changePasswordConfirmNewPassword.setValue("");
-    //      this.changePasswordPopover.ngbPopover = "Success";
-    //      this.changePasswordPopover.popoverClass = "popover-success-reversed";
-    //      this.changePasswordPopover.open();
-    //      this.changePasswordLoading = false;
-    //    },
-    //    error: error => {
-    //      this.changePasswordLoading = false;
-    //      this.changePasswordPopover.popoverClass = "popover-error-reversed";
-    //      this.changePasswordPopover.ngbPopover = error === "Unexpected error" ? "Change Password Error" : error;
-    //      this.changePasswordPopover.open();
-    //    }
-    //  });
+    this.cameraService.changePassword(this.camera.id, this.changePasswordControls.changePasswordOldPassword.value, this.changePasswordControls.changePasswordNewPassword.value, this.changePasswordControls.changePasswordConfirmNewPassword.value)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.changePasswordControls.changePasswordOldPassword.setValue("");
+          this.changePasswordControls.changePasswordNewPassword.setValue("");
+          this.changePasswordControls.changePasswordConfirmNewPassword.setValue("");
+          this.changePasswordPopover.ngbPopover = "Success";
+          this.changePasswordPopover.popoverClass = "popover-success-reversed";
+          this.changePasswordPopover.open();
+          this.changePasswordLoading = false;
+        },
+        error: error => {
+          this.changePasswordLoading = false;
+          this.changePasswordPopover.popoverClass = "popover-error-reversed";
+          this.changePasswordPopover.ngbPopover = error === "Unexpected error" ? "Change Password Error" : error;
+          this.changePasswordPopover.open();
+        }
+      });
 
     event.preventDefault();
   }
