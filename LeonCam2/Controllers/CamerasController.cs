@@ -33,7 +33,6 @@ namespace LeonCam2.Controllers
         [HttpGet("GetUserCameras")]
         public async Task<IActionResult> GetUserCamerasAsync() => this.Ok(await this.cameraService.GetUserCamerasAsync(this.GetLoggedUserId()));
 
-
         [HttpPost("AddCamera")]
         public async Task<IActionResult> AddCamera([FromBody]CameraModel camera)
         {

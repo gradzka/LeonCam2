@@ -9,7 +9,7 @@
             <app-password-box id="changePasswordOldPassword" placeholder="Old password" class="settings" autoComplete="new-password"></app-password-box>
             <app-password-box id="changePasswordNewPassword" placeholder="New password" class="settings" [withPasswordStrength]="true" autoComplete="new-password"></app-password-box>
             <app-password-box id="changePasswordConfirmNewPassword" placeholder="Confirm new password" class="settings" autoComplete="new-password"></app-password-box>
-            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changePasswordLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #changePasswordPopover="ngbPopover">
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changePasswordLoading">
               <span *ngIf="changePasswordLoading" class="spinner-border spinner-border-sm mr-1"></span>
               Change
             </button>
@@ -24,7 +24,7 @@
           <form [formGroup]="changeUsernameForm" (ngSubmit)="changeUsername($event)">
             <app-input-box id="changeUsernameNewUsername" type="text" placeholder="New username" class="settings"></app-input-box>
             <app-password-box id="changeUsernamePassword" placeholder="Password" class="settings" autoComplete="new-password"></app-password-box>
-            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changeUsernameLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #changeUsernamePopover="ngbPopover">
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="changeUsernameLoading">
               <span *ngIf="changeUsernameLoading" class="spinner-border spinner-border-sm mr-1"></span>
               Change
             </button>
@@ -41,7 +41,7 @@
           <p class="card-description alert alert-danger">All saved cameras will be permanently deleted</p>
           <form [formGroup]="resetAccountForm" (ngSubmit)="resetAccount($event)">
             <app-password-box id="resetAccountPassword" placeholder="Password" class="settings" autoComplete="new-password"></app-password-box>
-            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="resetAccountLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #resetAccountPopover="ngbPopover">
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="resetAccountLoading">
               <span *ngIf="resetAccountLoading" class="spinner-border spinner-border-sm mr-1"></span>
               Reset
             </button>
@@ -56,7 +56,7 @@
           <p class="card-description alert alert-danger">Your account will be permanently deleted</p>
           <form [formGroup]="deleteAccountForm" (ngSubmit)="deleteAccount($event)">
             <app-password-box id="deleteAccountPassword" placeholder="Password" class="settings" autoComplete="new-password"></app-password-box>
-            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="deleteAccountLoading" popoverClass="popover-error-reversed" placement="bottom" ngbPopover triggers="manual" #deleteAccountPopover="ngbPopover">
+            <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="deleteAccountLoading">
               <span *ngIf="deleteAccountLoading" class="spinner-border spinner-border-sm mr-1"></span>
               Delete
             </button>

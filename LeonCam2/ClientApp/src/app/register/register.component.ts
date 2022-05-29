@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { faTimes, faCat } from '@fortawesome/free-solid-svg-icons';
 
 import { AuthenticationService } from '@app/_services/authentication.service';
+import { ToastService } from '../toasts/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -20,11 +19,10 @@ export class RegisterComponent implements OnInit {
 
   @Output() registerClose = new EventEmitter<void>();
 
-  @ViewChild(NgbPopover) public popover: NgbPopover;
-
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private toastService: ToastService) {
   }
 
   ngOnInit() {
@@ -40,16 +38,12 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.invalid) {
-      this.popover.ngbPopover = "Type valid data";
-      this.popover.popoverClass = "popover-error-reversed";
-      this.popover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
     if (this.f.password.value !== this.f.repeatedPassword.value) {
-      this.popover.ngbPopover = "Passwords differ";
-      this.popover.popoverClass = "popover-error-reversed";
-      this.popover.open();
+      this.toastService.showError("Passwords differ");
       return;
     }
 
@@ -60,16 +54,12 @@ export class RegisterComponent implements OnInit {
         next: () => {
           this.f.password.setValue("");
           this.f.repeatedPassword.setValue("");
-          this.popover.ngbPopover = "Registered";
-          this.popover.popoverClass = "popover-success-reversed";
-          this.popover.open();
+          this.toastService.showSuccess("Registered");
           this.loading = false;
         },
         error: error => {
           this.loading = false;
-          this.popover.popoverClass = "popover-error-reversed";
-          this.popover.ngbPopover = error === "Unexpected error" ? "Sign-Up Error" : error;
-          this.popover.open();
+          this.toastService.showSuccess(error === "Unexpected error" ? "Sign-Up Error" : error);
         }
       });
   }

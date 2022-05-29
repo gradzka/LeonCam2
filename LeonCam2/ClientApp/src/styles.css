@@ -40,69 +40,6 @@ a {
   display: none;
 }
 
-.popover-error {
-  border-color: #d9534f;
-}
-
-  .popover-error .popover-body {
-    color: #d9534f;
-  }
-
-  .popover-error .arrow:before {
-    border-top-color: #d9534f;
-  }
-
-.popover-success {
-  border-color: #78ba3c;
-}
-
-  .popover-success .popover-body {
-    color: #78ba3c;
-  }
-
-  .popover-success .arrow:before {
-    border-top-color: #78ba3c;
-  }
-
-.popover-error-reversed {
-  border-color: #d9534f;
-  background-color: #d9534f;
-}
-
-  .popover-error-reversed .popover-body {
-    color: white;
-  }
-
-
-  .popover-error-reversed.bs-popover-top .arrow:before,
-  .popover-error-reversed.bs-popover-top .arrow:after {
-    border-top-color: #d9534f;
-  }
-
-  .popover-error-reversed.bs-popover-right .arrow:before,
-  .popover-error-reversed.bs-popover-right .arrow:after {
-    border-right-color: #d9534f;
-  }
-
-  .popover-error-reversed.bs-popover-bottom .arrow:before,
-  .popover-error-reversed.bs-popover-bottom .arrow:after {
-    border-bottom-color: #d9534f;
-  }
-
-.popover-success-reversed {
-  border-color: #78ba3c;
-  background-color: #78ba3c;
-}
-
-  .popover-success-reversed .popover-body {
-    color: white;
-  }
-
-  .popover-success-reversed.bs-popover-bottom .arrow:before,
-  .popover-success-reversed.bs-popover-bottom .arrow:after {
-    border-bottom-color: #78ba3c;
-  }
-
 .main-panel {
   transition: 0.25s padding ease;
   width: 100%;

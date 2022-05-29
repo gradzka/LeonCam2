@@ -3,6 +3,7 @@
   <div class="main-panel" style="padding-left: {{currentUser ? sidebarWidth: 0}}px">
     <div class="content-wrapper {{currentUser ? '' : 'p-0'}}">
       <router-outlet></router-outlet>
+      <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
     </div>
     <app-footer></app-footer>
   </div>

@@ -1,10 +1,10 @@
-import { Component, OnInit, Output, Input, ViewChild, EventEmitter } from '@angular/core';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/_services/authentication.service';
+import { ToastService } from '../toasts/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +18,12 @@ export class LoginComponent implements OnInit {
   @Input() onTop: boolean = true;
   @Output() registerOpen = new EventEmitter<void>();
 
-  @ViewChild(NgbPopover) public popover: NgbPopover;
-
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private toastService: ToastService) {
   }
 
   ngOnInit() {
@@ -41,8 +40,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     if (this.loginForm.invalid) {
-      this.popover.ngbPopover = "Type valid data";
-      this.popover.open();
+      this.toastService.showError("Type valid data");
       return;
     }
 
@@ -56,8 +54,7 @@ export class LoginComponent implements OnInit {
         },
         error: error => {
           this.loading = false;
-          this.popover.ngbPopover = error;
-          this.popover.open();
+          this.toastService.showError(error);
         }
       });
   }
