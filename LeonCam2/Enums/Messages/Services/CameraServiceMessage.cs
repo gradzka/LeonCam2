@@ -11,5 +11,7 @@ namespace LeonCam2.Enums.Messages.Services
         IpInvalidFormat,
         LoginCannotBeEmpty,
         PasswordCannotBeEmpty,
+        PasswordsMustBeTheSame,
+        WrongPassword,
     }
 }

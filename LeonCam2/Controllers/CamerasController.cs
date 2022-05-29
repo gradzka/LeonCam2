@@ -2,6 +2,7 @@
 
 namespace LeonCam2.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -56,6 +57,19 @@ namespace LeonCam2.Controllers
             IEnumerable<DiscoveryDevice> onvifDevices = await this.discoveryService.Discover(1);
 
             return this.Ok(onvifDevices.Select(x => x.Address));
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(CameraEditPasswordModel changePasswordModel)
+        {
+            if (changePasswordModel == null)
+            {
+                throw new ArgumentNullException(nameof(changePasswordModel));
+            }
+
+            await this.cameraService.ChangePasswordAsync(this.GetLoggedUserId(), changePasswordModel).ConfigureAwait(false);
+
+            return this.Ok();
         }
     }
 }

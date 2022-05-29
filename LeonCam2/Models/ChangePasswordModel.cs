@@ -1,6 +1,6 @@
 ﻿// ChangePasswordModel.cs by Gradzka & Kazimierczak
 
-namespace LeonCam2.Models.Users
+namespace LeonCam2.Models
 {
     using System.ComponentModel.DataAnnotations;
 

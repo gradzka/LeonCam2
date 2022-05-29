@@ -138,4 +138,10 @@
   <data name="Password" xml:space="preserve">
     <value>Password cannot be empty</value>
   </data>
+  <data name="PasswordsMustBeTheSame" xml:space="preserve">
+    <value>Passwords must be the same</value>
+  </data>
+  <data name="WrongPassword" xml:space="preserve">
+    <value>Wrong password</value>
+  </data>
 </root>

@@ -9,6 +9,7 @@ namespace LeonCam2.Controllers
     using LeonCam2.Enums;
     using LeonCam2.Extensions;
     using LeonCam2.Filters.AuthorizationFilters;
+    using LeonCam2.Models;
     using LeonCam2.Models.Users;
     using LeonCam2.Services.Users;
     using Microsoft.AspNetCore.Mvc;
